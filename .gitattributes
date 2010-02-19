@@ -1,0 +1,4 @@
+# treats Xcode project file as a binary
+*.pbxproj -crlf -diff -merge
+*.pbxproj binary
+*.xib binary
