@@ -18,9 +18,18 @@
 	return self;
 }
 
+- (void)draw{
+	//draw child nodes.
+	for (Node* node in children) {
+		[node draw];
+	}
+}
+
 - (Node*)addChild:(Node*)aNode{
 	aNode.parent = self;
 	[children addObject:aNode];
+	//all the children should shift by amount of the container's position.
+	aNode.pos = CGPointMake(aNode.pos.x + pos.x, aNode.pos.y + pos.y);
 	return [aNode retain];
 }
 
@@ -62,8 +71,8 @@
 	if ([self contains:aNode])
 		return YES;
 	
-	for (Node* child in children) {
-		if ([child hasDescendantNode:aNode]) {
+	for (Node* node in children) {
+		if ([node hasDescendantNode:aNode]) {
 			return YES;
 		}
 	}

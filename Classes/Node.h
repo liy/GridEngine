@@ -15,14 +15,34 @@
  *
  */
 @interface Node : NSObject {
+	CGPoint pos;
+	CGSize size;
+	float rotation;
+	CGAffineTransform transform;
+	float scaleX;
+	float scaleY;
 	uint numChildren;
 	Node* parent;
 	Camera* camera;
 }
-
+/**
+ * Position of the node. Default is (0,0) at the bottom left.
+ */
+@property (nonatomic, readwrite, assign)CGPoint pos;
+/**
+ * The size of the visual object, default is (0,0).
+ * After transform the size will be changed as well.
+ */
+@property (nonatomic, readwrite, assign)CGSize size;
 @property (nonatomic, readonly)uint numChildren;
 @property (nonatomic, assign)Node* parent;
 @property (nonatomic, assign)Camera* camera;
+@property (nonatomic)float rotation;
+@property (nonatomic, readwrite)float scaleX;
+@property (nonatomic, readwrite)float scaleY;
+@property (nonatomic, readwrite, assign)CGAffineTransform transform;
+
+- (void)draw;
 
 - (Node*)addChild:(Node*)aNode;
 

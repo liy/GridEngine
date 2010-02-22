@@ -13,14 +13,11 @@
 @class Texture2D;
 
 @interface Sprite : CollectionNode {
-	CGRect content;
-	Texture2D* texRef;
-	TextureManager* texManager;
 }
 
-@property (nonatomic, readwrite)CGRect content;
-@property (nonatomic, assign)Texture2D* texRef;
-
-- (id)initWithName:(NSString*)aName;
+/**
+ *Create a Graphic inside this Sprite automatically.
+ */
+- (id)initWithFile:(NSString*)aName;
 
 @end

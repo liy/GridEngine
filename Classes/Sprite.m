@@ -7,20 +7,27 @@
 //
 
 #import "Sprite.h"
-
+#import "Graphic.h"
 
 @implementation Sprite
 
-@synthesize content;
-@synthesize texRef;
-
-- (id)initWithName:(NSString *)aName{
+- (id)initWithFile:(NSString *)aName{
 	if (self = [super init]) {
-		texManager = [TextureManager sharedTextureManager];
-		texRef = [texManager getTexture2D:aName];
-		content = CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height);
+		Graphic* graphic = [[Graphic alloc] initWithFile:aName];
+		[self addChild:graphic];
 	}
 	return self;
 }
+
+/*
+- (void)setPos:(CGPoint)aPos{
+	pos = aPos;
+	
+	for (Node* node in children) {
+		//shift for every child
+		node.pos = CGPointMake(node.pos.x + pos.x, node.pos.y + pos.y);
+	}
+}
+*/
 
 @end

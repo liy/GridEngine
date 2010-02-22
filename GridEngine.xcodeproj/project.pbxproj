@@ -11,14 +11,18 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		2514C27210084DB100A42282 /* ES1Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 2514C26E10084DB100A42282 /* ES1Renderer.m */; };
 		2514C27B10084DCA00A42282 /* Shader.fsh in Resources */ = {isa = PBXBuildFile; fileRef = 2514C27910084DCA00A42282 /* Shader.fsh */; };
 		2514C27C10084DCA00A42282 /* Shader.vsh in Resources */ = {isa = PBXBuildFile; fileRef = 2514C27A10084DCA00A42282 /* Shader.vsh */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		6A57C26B1130473D00583D6C /* pink.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A57C26A1130473D00583D6C /* pink.jpg */; };
+		6A7AEAEB112F378900F6EBC9 /* grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A7AEAEA112F378900F6EBC9 /* grey.jpg */; };
+		6A7C6EF41131745300D4942F /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C6EF31131745300D4942F /* Renderer.m */; };
+		6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6A7C70741131CBC800D4942F /* spritesheet16.gif */; };
 		6AC18017112E28F300F95B7A /* Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC18016112E28F300F95B7A /* Frame.m */; };
+		6AEBBE561131ED1500312A6F /* walking.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AEBBE551131ED1500312A6F /* walking.png */; };
 		6AEEE77B112D73F5002ABFB0 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE77A112D73F5002ABFB0 /* Node.m */; };
 		6AEEE77E112D7402002ABFB0 /* CollectionNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE77D112D7402002ABFB0 /* CollectionNode.m */; };
 		6AEEE781112D740B002ABFB0 /* LeafNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE780112D740B002ABFB0 /* LeafNode.m */; };
@@ -26,7 +30,7 @@
 		6AEEE787112D7422002ABFB0 /* Sprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE786112D7422002ABFB0 /* Sprite.m */; };
 		6AEEE78A112D7434002ABFB0 /* Graphic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE789112D7434002ABFB0 /* Graphic.m */; };
 		6AEEE78E112D749A002ABFB0 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE78D112D749A002ABFB0 /* Tile.m */; };
-		6AEEE794112D74DB002ABFB0 /* Layer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE793112D74DB002ABFB0 /* Layer.m */; };
+		6AEEE794112D74DB002ABFB0 /* TileMapLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE793112D74DB002ABFB0 /* TileMapLayer.m */; };
 		6AEEE7A2112D7594002ABFB0 /* TileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A1112D7594002ABFB0 /* TileMap.m */; };
 		6AEEE7A5112D75BA002ABFB0 /* ParticleEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A4112D75BA002ABFB0 /* ParticleEmitter.m */; };
 		6AEEE7A8112D7658002ABFB0 /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A7112D7658002ABFB0 /* Texture2D.m */; };
@@ -44,9 +48,6 @@
 		1D3623250D0F684500981E51 /* GridEngineAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GridEngineAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* GridEngine.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GridEngine.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		2514C26D10084DB100A42282 /* ES1Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ES1Renderer.h; sourceTree = "<group>"; };
-		2514C26E10084DB100A42282 /* ES1Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ES1Renderer.m; sourceTree = "<group>"; };
-		2514C27110084DB100A42282 /* ESRenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ESRenderer.h; sourceTree = "<group>"; };
 		2514C27910084DCA00A42282 /* Shader.fsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.fsh; path = Shaders/Shader.fsh; sourceTree = "<group>"; };
 		2514C27A10084DCA00A42282 /* Shader.vsh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.glsl; name = Shader.vsh; path = Shaders/Shader.vsh; sourceTree = "<group>"; };
 		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -56,8 +57,15 @@
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* GridEngine_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridEngine_Prefix.pch; sourceTree = "<group>"; };
+		6A57C26A1130473D00583D6C /* pink.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pink.jpg; sourceTree = "<group>"; };
+		6A7AEA97112F109D00F6EBC9 /* Common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Common.h; sourceTree = "<group>"; };
+		6A7AEAEA112F378900F6EBC9 /* grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grey.jpg; sourceTree = "<group>"; };
+		6A7C6EF21131745300D4942F /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
+		6A7C6EF31131745300D4942F /* Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Renderer.m; sourceTree = "<group>"; };
+		6A7C70741131CBC800D4942F /* spritesheet16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spritesheet16.gif; sourceTree = "<group>"; };
 		6AC18015112E28F300F95B7A /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
 		6AC18016112E28F300F95B7A /* Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Frame.m; sourceTree = "<group>"; };
+		6AEBBE551131ED1500312A6F /* walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walking.png; sourceTree = "<group>"; };
 		6AEEE779112D73F5002ABFB0 /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
 		6AEEE77A112D73F5002ABFB0 /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
 		6AEEE77C112D7402002ABFB0 /* CollectionNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CollectionNode.h; sourceTree = "<group>"; };
@@ -72,8 +80,8 @@
 		6AEEE789112D7434002ABFB0 /* Graphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Graphic.m; sourceTree = "<group>"; };
 		6AEEE78C112D749A002ABFB0 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		6AEEE78D112D749A002ABFB0 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
-		6AEEE792112D74DB002ABFB0 /* Layer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Layer.h; sourceTree = "<group>"; };
-		6AEEE793112D74DB002ABFB0 /* Layer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Layer.m; sourceTree = "<group>"; };
+		6AEEE792112D74DB002ABFB0 /* TileMapLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMapLayer.h; sourceTree = "<group>"; };
+		6AEEE793112D74DB002ABFB0 /* TileMapLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMapLayer.m; sourceTree = "<group>"; };
 		6AEEE7A0112D7594002ABFB0 /* TileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMap.h; sourceTree = "<group>"; };
 		6AEEE7A1112D7594002ABFB0 /* TileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMap.m; sourceTree = "<group>"; };
 		6AEEE7A3112D75BA002ABFB0 /* ParticleEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleEmitter.h; sourceTree = "<group>"; };
@@ -114,9 +122,6 @@
 			isa = PBXGroup;
 			children = (
 				6AEEE742112D72B7002ABFB0 /* GridEngine */,
-				2514C26D10084DB100A42282 /* ES1Renderer.h */,
-				2514C26E10084DB100A42282 /* ES1Renderer.m */,
-				2514C27110084DB100A42282 /* ESRenderer.h */,
 				28FD14FC0DC6FC130079059D /* EAGLView.h */,
 				28FD14FD0DC6FC130079059D /* EAGLView.m */,
 				1D3623240D0F684500981E51 /* GridEngineAppDelegate.h */,
@@ -167,6 +172,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				6A7AEAE9112F370A00F6EBC9 /* Images */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* GridEngine-Info.plist */,
 			);
@@ -185,9 +191,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		6A7AEAE9112F370A00F6EBC9 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				6AEBBE551131ED1500312A6F /* walking.png */,
+				6A7C70741131CBC800D4942F /* spritesheet16.gif */,
+				6A57C26A1130473D00583D6C /* pink.jpg */,
+				6A7AEAEA112F378900F6EBC9 /* grey.jpg */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
 		6AEEE742112D72B7002ABFB0 /* GridEngine */ = {
 			isa = PBXGroup;
 			children = (
+				6A7C6EF21131745300D4942F /* Renderer.h */,
+				6A7C6EF31131745300D4942F /* Renderer.m */,
 				6AEEE90B112DBFFD002ABFB0 /* Camera.h */,
 				6AEEE90C112DBFFD002ABFB0 /* Camera.m */,
 				6AEEE819112D78C0002ABFB0 /* SpriteSheet.h */,
@@ -208,6 +227,7 @@
 		6AEEE76F112D7304002ABFB0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
+				6A7AEA97112F109D00F6EBC9 /* Common.h */,
 				6AEEE7A6112D7658002ABFB0 /* Texture2D.h */,
 				6AEEE7A7112D7658002ABFB0 /* Texture2D.m */,
 			);
@@ -249,8 +269,8 @@
 			children = (
 				6AEEE78C112D749A002ABFB0 /* Tile.h */,
 				6AEEE78D112D749A002ABFB0 /* Tile.m */,
-				6AEEE792112D74DB002ABFB0 /* Layer.h */,
-				6AEEE793112D74DB002ABFB0 /* Layer.m */,
+				6AEEE792112D74DB002ABFB0 /* TileMapLayer.h */,
+				6AEEE793112D74DB002ABFB0 /* TileMapLayer.m */,
 				6AEEE7A0112D7594002ABFB0 /* TileMap.h */,
 				6AEEE7A1112D7594002ABFB0 /* TileMap.m */,
 			);
@@ -311,6 +331,10 @@
 				2514C27B10084DCA00A42282 /* Shader.fsh in Resources */,
 				2514C27C10084DCA00A42282 /* Shader.vsh in Resources */,
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
+				6A7AEAEB112F378900F6EBC9 /* grey.jpg in Resources */,
+				6A57C26B1130473D00583D6C /* pink.jpg in Resources */,
+				6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */,
+				6AEBBE561131ED1500312A6F /* walking.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -324,7 +348,6 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* GridEngineAppDelegate.m in Sources */,
 				28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */,
-				2514C27210084DB100A42282 /* ES1Renderer.m in Sources */,
 				6AEEE77B112D73F5002ABFB0 /* Node.m in Sources */,
 				6AEEE77E112D7402002ABFB0 /* CollectionNode.m in Sources */,
 				6AEEE781112D740B002ABFB0 /* LeafNode.m in Sources */,
@@ -332,7 +355,7 @@
 				6AEEE787112D7422002ABFB0 /* Sprite.m in Sources */,
 				6AEEE78A112D7434002ABFB0 /* Graphic.m in Sources */,
 				6AEEE78E112D749A002ABFB0 /* Tile.m in Sources */,
-				6AEEE794112D74DB002ABFB0 /* Layer.m in Sources */,
+				6AEEE794112D74DB002ABFB0 /* TileMapLayer.m in Sources */,
 				6AEEE7A2112D7594002ABFB0 /* TileMap.m in Sources */,
 				6AEEE7A5112D75BA002ABFB0 /* ParticleEmitter.m in Sources */,
 				6AEEE7A8112D7658002ABFB0 /* Texture2D.m in Sources */,
@@ -342,6 +365,7 @@
 				6AEEE81B112D78C0002ABFB0 /* SpriteSheet.m in Sources */,
 				6AEEE90D112DBFFD002ABFB0 /* Camera.m in Sources */,
 				6AC18017112E28F300F95B7A /* Frame.m in Sources */,
+				6A7C6EF41131745300D4942F /* Renderer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -11,15 +11,15 @@
 @class Texture2D;
 
 @interface Frame : NSObject {
-	float duration;
-	CGRect content;
+	float delay;
+	CGRect rect;
 	Texture2D* texRef;
 }
 
-@property (nonatomic)float duration;
+@property (nonatomic)float delay;
 @property (nonatomic, assign)Texture2D* texRef;
-@property (nonatomic, readonly)CGRect content;
+@property (nonatomic, readonly)CGRect rect;
 
-- (id)initWithTex:(Texture2D*)aTexRef rect:(CGRect)rect withDuration:(float)aDuration;
+- (id)initWithTex:(Texture2D*)aTexRef rect:(CGRect)aRect withDelay:(float)aDelay;
 
 @end

@@ -7,10 +7,58 @@
 //
 
 #import <Foundation/Foundation.h>
-
+#import "Renderer.h"
 
 @interface Director : NSObject {
-
+	//contains all scenes
+	NSMutableDictionary* scenes;
+	
+	//renderer
+	Renderer* renderer;
+	
+	//scene currently being rendered
+	Scene* currentScene;
+	
+	//store the last time finished drawing the screen.
+	CFTimeInterval lastTime;
+	
+	//rendering timer
+	NSTimer* renderTimer;
+	
+	//one frame for how many second.
+	NSTimeInterval renderInterval;
+	
+	//is it rendering?
+	BOOL rendering;
+	
+	//delta time which means how many second has past since last screen draw.
+	float delta;
 }
+
+@property (nonatomic, readonly)Renderer* renderer;
+@property (nonatomic, assign)Scene* currentScene;
+@property (nonatomic, readonly)float delta;
+@property (nonatomic, readonly)BOOL rendering;
+
+
++ (Director*)sharedDirector;
+
+- (void)addScene:(Scene*)aScene;
+
+- (Scene*)removeScene:(NSString*)aSceneName;
+
+- (Scene*)getScene:(NSString*)aSceneName;
+
+- (void)startAnimation;
+
+- (void)stopAnimation;
+
+- (void)pause;
+
+- (void)resume;
+
+- (void)mainLoop;
+
+- (void)setFrameRate:(uint)frameRate;
 
 @end

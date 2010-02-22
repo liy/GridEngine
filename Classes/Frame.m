@@ -11,14 +11,14 @@
 
 @implementation Frame
 
-@synthesize duration;
+@synthesize delay;
 @synthesize texRef;
-@synthesize content;
+@synthesize rect;
 
-- (id)initWithTex:(Texture2D*)aTexRef rect:(CGRect)rect withDuration:(float)aDuration{
+- (id)initWithTex:(Texture2D*)aTexRef rect:(CGRect)aRect withDelay:(float)aDelay{
 	if (self = [super init]) {
-		duration = aDuration;
-		content = rect;
+		delay = aDelay;
+		rect = aRect;
 		texRef = aTexRef;
 	}
 	return self;
