@@ -13,27 +13,14 @@
 
 @implementation Animation
 
-@synthesize texRef;
 @synthesize pingpong;
 @synthesize repeat;
 @synthesize running;
 @synthesize direction;
 @synthesize defaultDelay;
-@synthesize rect;
 
 - (id)initWithFile:(NSString*)aName{
-	if (self = [super init]) {
-		texManager = [TextureManager sharedTextureManager];
-		texRef = [texManager getTexture2D:aName];
-		
-		//note the float casting.
-		texWidthRatio = 1.0f/(float)texRef.pixelsWide;
-		texHeightRatio = 1.0f/(float)texRef.pixelsHigh;
-		
-		[self setSize:CGSizeMake(texRef.contentSize.width, texRef.contentSize.height)];
-		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
-		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
-		
+	if (self = [super initWithFile:aName]) {
 		frames = [[NSMutableArray alloc] initWithCapacity:5];
 
 		currentFrameIndex = 0;
@@ -51,6 +38,9 @@
 		defaultDelay = 1.0/2.0;
 		
 		firstRound = YES;
+		
+		
+		NSLog(@"animation finished");
 	}
 	return self;
 }
@@ -130,6 +120,8 @@
 	//set the draw rect to the new frame rect
 	self.rect = [[frames objectAtIndex:currentFrameIndex] rect];
 	
+	NSLog(@"%@", [self description]);
+	
 	
 	//save the current matrix
 	glPushMatrix();
@@ -189,22 +181,6 @@
 	glPopMatrix();
 }
 
-- (void)setRect:(CGRect)aRect{
-	rect = aRect;
-	
-	GLfloat texWidth = texWidthRatio*rect.size.width;
-	GLfloat texHeight = texHeightRatio*rect.size.height;
-	GLfloat offsetX = texWidthRatio*rect.origin.x;
-	GLfloat offsetY = texHeightRatio*rect.origin.y;
-	
-	tvcQuad[0].tl.texCoords.u = offsetX;
-	tvcQuad[0].tl.texCoords.v = offsetY + texHeight;
-	tvcQuad[0].bl.texCoords.u = offsetX;
-	tvcQuad[0].bl.texCoords.v = offsetY;
-	tvcQuad[0].tr.texCoords.u = offsetX + texWidth;
-	tvcQuad[0].tr.texCoords.v = offsetY + texHeight;
-	tvcQuad[0].br.texCoords.u = offsetX + texWidth;
-	tvcQuad[0].br.texCoords.v = offsetY;
-}
+
 
 @end

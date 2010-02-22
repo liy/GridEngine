@@ -58,6 +58,25 @@ typedef struct _TVCQuad{
 	TVCPoint br; 
 }TVCQuad;
 
+typedef struct _VCPoint{
+	//vertices define where to draw the point to. 8 bytes
+	Vertex2f vertices;
+	
+	//the color tint of this point.  16 bytes
+	Color4f color;
+}VCPoint;
+
+typedef struct _VCQuad{
+	//top left
+	VCPoint tl;
+	//bottom left
+	VCPoint bl;
+	//top right
+	VCPoint tr;
+	//bottom right
+	VCPoint br;
+}VCQuad;
+
 static inline Color4f Color4fMake(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 {
 	return (Color4f){red, green, blue, alpha};

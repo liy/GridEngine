@@ -37,19 +37,29 @@
 		director.currentScene = scene;
 		
 		
+		//Graphic* graphic = [[Graphic alloc] initWithFile:@"walking.png"];
+		//[scene addChild:graphic];
+		
 		
 		Animation* animation = [[Animation alloc] initWithFile:@"walking.png"];
+		NSLog(@"animation created");
+		
 		animation.pos = CGPointMake(120.0f, 120.0f);
+		NSLog(@"animation position set");
 		animation.size = CGSizeMake(17.0f, 30.0f);
+		NSLog(@"animation size set");
 		float trackX = 0.0f;
 		for (int i=0; i<3; ++i) {
 			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 30.0f) withDelay:0.1];
 			trackX+=18.0f;
 		}
+		NSLog(@"animation frames added");
 		animation.running = YES;
 		animation.repeat = YES;
 		animation.pingpong = YES;
 		[scene addChild:animation];
+		NSLog(@"animation child added");
+		 
     }
 	
     return self;

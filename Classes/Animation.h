@@ -7,31 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Graphic.h"
-#import "TextureManager.h"
+#import "TextureNode.h"
 
 enum {
 	ani_forward = 1,
 	ani_backword = -1
 };
 
-@class Texture2D;
-
-@interface Animation:LeafNode {
-	//Specify the area and position to draw from the texture.
-	CGRect rect;
-	
-	Texture2D* texRef;
-	
-	TextureManager* texManager;
-	
-	//1 texel will represents how many actual pixels in the picture width. will be 1/textureWidth
-	//since texture u & v range from 0-1, so if we draw the texture use u v, we need to
-	//translate normal texture size and position into 0-1 range.
-	float texWidthRatio;
-	//1/textureHeight
-	float texHeightRatio;
-	
+@interface Animation:TextureNode {
 	NSMutableArray* frames;
 	
 	uint currentFrameIndex;
@@ -51,19 +34,12 @@ enum {
 	BOOL firstRound;
 }
 
-@property (nonatomic, assign)CGRect rect;
-@property (nonatomic, assign)Texture2D* texRef;
+
 @property (nonatomic)BOOL pingpong;
 @property (nonatomic)BOOL repeat;
 @property (nonatomic)BOOL running;
 @property (nonatomic)int direction;
 @property (nonatomic)float defaultDelay;
-
-/**
- * Create a Animation object using the image file name.
- * @param aName The image's file name.
- */
-- (id)initWithFile:(NSString*)aName;
 
 /**
  * Use default texture with default duration

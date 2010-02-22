@@ -21,6 +21,8 @@
 		6A7AEAEB112F378900F6EBC9 /* grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A7AEAEA112F378900F6EBC9 /* grey.jpg */; };
 		6A7C6EF41131745300D4942F /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C6EF31131745300D4942F /* Renderer.m */; };
 		6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6A7C70741131CBC800D4942F /* spritesheet16.gif */; };
+		6AA7B0BB1133254200DAE192 /* TextureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BA1133254200DAE192 /* TextureNode.m */; };
+		6AA7B0BE1133254D00DAE192 /* ColorNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BD1133254D00DAE192 /* ColorNode.m */; };
 		6AC18017112E28F300F95B7A /* Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC18016112E28F300F95B7A /* Frame.m */; };
 		6AEBBE561131ED1500312A6F /* walking.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AEBBE551131ED1500312A6F /* walking.png */; };
 		6AEEE77B112D73F5002ABFB0 /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE77A112D73F5002ABFB0 /* Node.m */; };
@@ -63,6 +65,10 @@
 		6A7C6EF21131745300D4942F /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		6A7C6EF31131745300D4942F /* Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Renderer.m; sourceTree = "<group>"; };
 		6A7C70741131CBC800D4942F /* spritesheet16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spritesheet16.gif; sourceTree = "<group>"; };
+		6AA7B0B91133254200DAE192 /* TextureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureNode.h; sourceTree = "<group>"; };
+		6AA7B0BA1133254200DAE192 /* TextureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureNode.m; sourceTree = "<group>"; };
+		6AA7B0BC1133254D00DAE192 /* ColorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorNode.h; sourceTree = "<group>"; };
+		6AA7B0BD1133254D00DAE192 /* ColorNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorNode.m; sourceTree = "<group>"; };
 		6AC18015112E28F300F95B7A /* Frame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Frame.h; sourceTree = "<group>"; };
 		6AC18016112E28F300F95B7A /* Frame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Frame.m; sourceTree = "<group>"; };
 		6AEBBE551131ED1500312A6F /* walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walking.png; sourceTree = "<group>"; };
@@ -243,6 +249,10 @@
 				6AEEE77D112D7402002ABFB0 /* CollectionNode.m */,
 				6AEEE77F112D740B002ABFB0 /* LeafNode.h */,
 				6AEEE780112D740B002ABFB0 /* LeafNode.m */,
+				6AA7B0B91133254200DAE192 /* TextureNode.h */,
+				6AA7B0BA1133254200DAE192 /* TextureNode.m */,
+				6AA7B0BC1133254D00DAE192 /* ColorNode.h */,
+				6AA7B0BD1133254D00DAE192 /* ColorNode.m */,
 			);
 			name = Node;
 			sourceTree = "<group>";
@@ -366,6 +376,8 @@
 				6AEEE90D112DBFFD002ABFB0 /* Camera.m in Sources */,
 				6AC18017112E28F300F95B7A /* Frame.m in Sources */,
 				6A7C6EF41131745300D4942F /* Renderer.m in Sources */,
+				6AA7B0BB1133254200DAE192 /* TextureNode.m in Sources */,
+				6AA7B0BE1133254D00DAE192 /* ColorNode.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
