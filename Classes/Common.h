@@ -10,8 +10,8 @@
 #define DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) / 180.0 * M_PI)
 
 //offset calculate function to get a memory offset of a member inside a struct type, in bytes
-//eg: offsetof(VCTPoint, texCoords) will be 0 bytes(There is no former member before texCoords in VCTPoint), 
-//offsetof(VCTPoint, vertices) will be 8 bytes.(The former member is texCoords has 2 GLfloat, each of them is 4 bytes)
+//eg: offsetof(TVCPoint, texCoords) will be 0 bytes(There is no former member before texCoords in TVCPoint), 
+//offsetof(TVCPoint, vertices) will be 8 bytes.(The former member is texCoords has 2 GLfloat, each of them is 4 bytes)
 #define offsetof(TYPE, MEMBER) __builtin_offsetof (TYPE, MEMBER)
 
 //A texture only has u and v property, note that the range is between 0.0f-1.0f
@@ -47,7 +47,9 @@ typedef struct _TVCPoint
 	Color4f color;
 } TVCPoint;
 
+//A rectangle struct contains 4 corners which contain all the texture, vertice and color information.
 typedef struct _TVCQuad{
+	
 	//top left
 	TVCPoint tl;
 	//bottom left

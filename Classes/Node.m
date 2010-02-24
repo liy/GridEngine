@@ -8,9 +8,9 @@
 
 #import "Node.h"
 
-
 @implementation Node
 
+@synthesize visible;
 @synthesize numChildren;
 @synthesize parent;
 @synthesize camera;
@@ -23,6 +23,7 @@
 
 - (id)init{
 	if (self = [super init]) {
+		visible = YES;
 		numChildren = 0;
 		parent = nil;
 		camera = [[Camera alloc] init];
@@ -37,8 +38,15 @@
 	return self;
 }
 
+- (void)visit{
+	//always draw current node
+	[self draw];
+}
+
 - (void)draw{
-	//do nothing
+	//if it is not visible then do not draw.
+	if (!visible)
+		return;
 }
 
 - (Node*)addChild:(Node*)aNode{
@@ -79,6 +87,12 @@
 			size.height];
 }
 
+
+/**
+ * =========================================================================================================================
+ * FIXME: Using a matrix to contain all the affine transformtion.
+ * =========================================================================================================================
+ */
 - (void)setPos:(CGPoint)aPos{
 	pos = aPos;
 	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);

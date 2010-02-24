@@ -14,6 +14,10 @@
 @synthesize rect;
 @synthesize texRef;
 @synthesize tintColor;
+@synthesize tlColor;
+@synthesize blColor;
+@synthesize trColor;
+@synthesize brColor;
 
 - (id)initWithFile:(NSString*)aName{
 	if (self = [super init]) {
@@ -22,8 +26,10 @@
 		texRef = [texManager getTexture2D:aName];
 		
 		//note the float casting.
-		texWidthRatio = 1.0f/(float)texRef.pixelsWide;
-		texHeightRatio = 1.0f/(float)texRef.pixelsHigh;
+		texWidthRatio = 1.0f/(GLfloat)texRef.pixelsWide;
+		texHeightRatio = 1.0f/(GLfloat)texRef.pixelsHigh;
+		
+		NSLog(@"texRef.pixelsHigh: %f",texRef.contentSize.height);
 		
 		[self setSize:CGSizeMake(texRef.contentSize.width, texRef.contentSize.height)];
 		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
@@ -107,9 +113,43 @@
 - (void)setTintColor:(Color4f)aColor{
 	tintColor = aColor;
 	
-	tvcQuad[0].tl.color = tintColor;
-	tvcQuad[0].bl.color = tintColor;
-	tvcQuad[0].tr.color = tintColor;
-	tvcQuad[0].br.color = tintColor;
+	self.tlColor = tintColor;
+	self.blColor = tintColor;
+	self.trColor = tintColor;
+	self.brColor = tintColor;
+}
+
+/**
+ * ============================================================================================================
+ * Note that there is upside down flip for the color setting.
+ * Not sure why, but if we try to use:
+ *		glOrthof(0.0f, screenBounds.size.width, screenBounds.size.height, 0.0f, -1.0f, 1.0f);
+ * follow the iPhone screen's coordinate to specify the projection, the texture is ok, but the color position is upside down.
+ * Same thing for this and do not flip color position:
+ *      glOrthof(0.0f, screenBounds.size.width, 0.0f, screenBounds.size.height, -1.0f, 1.0f);
+ * texture will be render upside down.
+ * 
+ * So we end up must flip either of them, texture or color.
+ *
+ * ============================================================================================================
+ */
+- (void)setTlColor:(Color4f)aColor{
+	blColor = aColor;
+	tvcQuad[0].bl.color = blColor;
+}
+
+- (void)setBlColor:(Color4f)aColor{
+	tlColor = aColor;
+	tvcQuad[0].tl.color = aColor;
+}
+
+- (void)setTrColor:(Color4f)aColor{
+	brColor = aColor;
+	tvcQuad[0].br.color = aColor;
+}
+
+- (void)setBrColor:(Color4f)aColor{
+	trColor = aColor;
+	tvcQuad[0].tr.color = aColor;
 }
 @end

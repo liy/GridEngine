@@ -42,24 +42,22 @@
 		
 		
 		Animation* animation = [[Animation alloc] initWithFile:@"walking.png"];
-		NSLog(@"animation created");
 		
-		animation.pos = CGPointMake(120.0f, 120.0f);
-		NSLog(@"animation position set");
-		animation.size = CGSizeMake(17.0f, 30.0f);
-		NSLog(@"animation size set");
+		animation.pos = CGPointMake(0.0f, 0.0f);
+		animation.size = CGSizeMake(17.0f, 31.0f);
 		float trackX = 0.0f;
 		for (int i=0; i<3; ++i) {
-			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 30.0f) withDelay:0.1];
+			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.2];
 			trackX+=18.0f;
 		}
-		NSLog(@"animation frames added");
-		animation.running = YES;
+		
 		animation.repeat = YES;
 		animation.pingpong = YES;
+		[animation play];
+		//[animation gotoAndPlay:1];
+		//animation.trColor = Color4fMake(0.0f, 1.0f, 0.0f, 1.0f);
+		//animation.brColor = Color4fMake(1.0f, 0.0f, 0.0f, 1.0f);
 		[scene addChild:animation];
-		NSLog(@"animation child added");
-		 
     }
 	
     return self;

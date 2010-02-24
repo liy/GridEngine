@@ -11,6 +11,9 @@
 #import "LeafNode.h"
 #import "Common.h"
 
+/**
+ * Color node purely having a color filling
+ */
 @interface ColorNode : LeafNode {
 	//Define an array of VCQuad contains vertices, color information
 	VCQuad* vcQuad;
@@ -18,7 +21,7 @@
 	//top-left
 	Color4f tlColor;
 	//bottom-left
-	Color4f rlColor;
+	Color4f blColor;
 	//top-right
 	Color4f trColor;
 	//bottom-right
@@ -27,7 +30,7 @@
 
 //apply tint color.
 @property (nonatomic, assign)Color4f tlColor;
-@property (nonatomic, assign)Color4f rlColor;
+@property (nonatomic, assign)Color4f blColor;
 @property (nonatomic, assign)Color4f trColor;
 @property (nonatomic, assign)Color4f brColor;
 

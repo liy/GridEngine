@@ -18,11 +18,18 @@
 	return self;
 }
 
-- (void)draw{
-	//draw child nodes.
+- (void)visit{
+	//draw this node
+	//[super visit];
+	
+	//visit child nodes.
 	for (Node* node in children) {
-		[node draw];
+		[node visit];
 	}
+}
+
+- (void)draw{
+	//do nothing
 }
 
 - (Node*)addChild:(Node*)aNode{

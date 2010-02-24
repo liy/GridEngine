@@ -11,6 +11,9 @@
 @implementation Graphic
 
 - (void)draw{
+	//decide whether to process draw function
+	[super draw];
+	
 	//save the current matrix
 	glPushMatrix();
 	

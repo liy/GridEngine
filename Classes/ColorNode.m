@@ -12,7 +12,7 @@
 @implementation ColorNode
 
 @synthesize tlColor;
-@synthesize rlColor;
+@synthesize blColor;
 @synthesize trColor;
 @synthesize brColor;
 
@@ -21,7 +21,7 @@
 		vcQuad = calloc(1, sizeof(VCQuad));
 		
 		tlColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
-		rlColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
+		blColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
 		trColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
 		brColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
 	}

@@ -24,7 +24,13 @@
 	uint numChildren;
 	Node* parent;
 	Camera* camera;
+	BOOL visible;
 }
+
+/**
+ * Whether the visual object will be rendred on the screen.
+ */
+@property (nonatomic, readwrite)BOOL visible;
 /**
  * Position of the node. Default is (0,0) at the bottom left.
  */
@@ -42,6 +48,17 @@
 @property (nonatomic, readwrite)float scaleY;
 @property (nonatomic, readwrite, assign)CGAffineTransform transform;
 
+/**
+ * Used for scan all the child nodes if there is any. Draw function is triggered here as well.
+ * The update code could be placed here as well. Since the visit function will always be triggered.
+ * We can update underlying data even the visual object is invisible.
+ */
+- (void)visit;
+
+/**
+ * Override this function and do all the drawing here. Remember to call [super draw] which decide whether to process
+ * draw function. If the node is invisible, this function will returned without further processing.
+ */
 - (void)draw;
 
 - (Node*)addChild:(Node*)aNode;

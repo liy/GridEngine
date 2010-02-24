@@ -44,6 +44,7 @@
 		//Since the OpenGL is using bottom left as 0,0 origin, iPhone, MacOSX is using top left as origin.
 		//we need to follow the iPhone screen's coordinate to specify the projection
 		glOrthof(0.0f, screenBounds.size.width, screenBounds.size.height, 0.0f, -1.0f, 1.0f);
+		//glOrthof(0.0f, screenBounds.size.width, 0.0f, screenBounds.size.height, -1.0f, 1.0f);
 	}
 	
 	return self;

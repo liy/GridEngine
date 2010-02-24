@@ -15,7 +15,7 @@
 
 @synthesize pingpong;
 @synthesize repeat;
-@synthesize running;
+@synthesize stopped;
 @synthesize direction;
 @synthesize defaultDelay;
 
@@ -29,7 +29,7 @@
 		
 		repeat = NO;
 		
-		running = NO;
+		stopped = YES;
 		
 		direction = ani_forward;
 		
@@ -38,9 +38,6 @@
 		defaultDelay = 1.0/2.0;
 		
 		firstRound = YES;
-		
-		
-		NSLog(@"animation finished");
 	}
 	return self;
 }
@@ -72,9 +69,64 @@
 	[frame release];
 }
 
-- (void)draw{
-	//update the frame rectangle according to the delta time.
-	if (running) {
+- (Frame*)getFrame:(uint)frameIndex{
+	return [frames objectAtIndex:frameIndex];
+}
+
+- (Frame*)getCurrentFrame{
+	return [frames objectAtIndex:currentFrameIndex];
+}
+
+- (void)reset{
+	//stop update frame.
+	stopped = YES;
+	frameTimer = 0.0;
+	firstRound = YES;
+	currentFrameIndex = 0;
+	//startFrameIndex = 0;
+}
+
+- (void)stop{
+	stopped = YES;
+	frameTimer = 0.0;
+}
+
+
+- (void)play{
+	stopped = NO;
+	//startFrameIndex = currentFrameIndex;
+}
+
+- (void)gotoAndPlay:(uint)index{
+	if (index < [frames count]) {
+		stopped = NO;
+		frameTimer = 0.0;
+		currentFrameIndex = index;
+		//startFrameIndex = index;
+	}
+}
+
+- (void)gotoAndStop:(uint)index{
+	if (index < [frames count]) {
+		stopped = YES;
+		frameTimer = 0.0;
+		currentFrameIndex = index;
+	}
+}
+
+- (void)setDirection:(int)aDir{
+	if (aDir>=0) {
+		direction = ani_forward;
+	}
+	else {
+		direction = ani_backword;
+	}
+
+}
+
+- (void)visit{
+	//update the frame according to the delta time.
+	if (!stopped) {
 		frameTimer += [[Director sharedDirector] delta];
 		
 		if (frameTimer > [[frames objectAtIndex:currentFrameIndex] delay]) {
@@ -87,41 +139,75 @@
 				//keep repeat and pingpong, never stop
 				if(pingpong && repeat){
 					direction*=-1;
-					currentFrameIndex+=direction;
+					//"direction*2" makes sure the last frame or the first frame do not render twice.
+					//See below pingpoing && !repeat case.
+					currentFrameIndex+=direction*2;
 				}
 				//only pingpong once.
 				else if(pingpong && !repeat){
-					direction*=-1;
+					//exceeded the index bound for the first time, still need pingpong once.
 					if (firstRound) {
+						direction*=-1;
 						firstRound = NO;
-						currentFrameIndex+=direction;
+						
+						//Reset the current frame to the previous frame immediately.
+						//For example, if animation started using ani_forward, at this point, direction will be -1, currentFrameIndex will be [frames count].
+						//However since frame index [frames count]-1 is already rendered for its delay time period. we need to jump to [frame count]-2,
+						//the new currentFrameIndex = [frame count] + -1*2.
+						//If animation started using ani_backward, at this point, direction will be 1, currentFrameIndex will be -1. Since frame 0 is 
+						//already rendered for it delay time period, we need to directly jump to frame 1 which is: currentFrameIndex = -1 + 1*2. Both cases
+						//are correct.
+						currentFrameIndex+=direction*2;
 					}
+					//exceeded frames index bounds again. stop the animation
 					else {
+						//next round start the animation, means a new round.
 						firstRound = YES;
-						running = NO;
-						currentFrameIndex = 0;
+						stopped = YES;
+						
+						//because at this point the currentFramIndex is out of bounds already.
+						//It can be -1 or [frames count], this further calculation makes sure the frame is not out of bounds.
+						//For example, if animation started using ani_forward, at this point, direction will be -1,
+						//currentFrameIndex will be -1, so the new currentFrameIndex = -1 - -1 which will be 0. 
+						//If animation started using ani_backward, at this point, direction will be 1, currentFrameIndex will be [frames count].
+						//So the new currentFrameIndex = [frames count]-1. Both casese are correct.
+						currentFrameIndex -= direction;
 					}
 				}
-				//go back to first frame
+				//go back to start frame
 				else if(!pingpong && repeat){
-					currentFrameIndex = 0;
+					if (direction == ani_forward) {
+						currentFrameIndex = 0;
+					}
+					else {
+						currentFrameIndex = [frames count]-1;
+					}
 				}
 				//stop
 				else {
-					running = NO;
-					currentFrameIndex = 0;
+					stopped = YES;
+					//stop at last valid frame.
+					currentFrameIndex -= direction;
 				}
 			}
-			//NSLog(@"next frame %u",currentFrameIndex);
 		}
 	}
 	
+	//Finished updating the animation
+	//super class will fire draw method
+	[super visit];
+}
+
+- (void)draw{
+	//super class will decide whether to draw this node.
+	[super draw];
 	
+	NSLog(@"currentFrameIndex: %i",currentFrameIndex);
+	//rendering
 	//set the draw rect to the new frame rect
-	self.rect = [[frames objectAtIndex:currentFrameIndex] rect];
-	
-	NSLog(@"%@", [self description]);
-	
+	Frame* frame = [frames objectAtIndex:currentFrameIndex];
+	self.rect = [frame rect];
+	//self.size = CGSizeMake([frame rect].size.width, [frame rect].size.height);
 	
 	//save the current matrix
 	glPushMatrix();
@@ -180,7 +266,5 @@
 	
 	glPopMatrix();
 }
-
-
 
 @end

@@ -92,7 +92,7 @@ static Director* instance;
 	 */
 	
 	[renderer begin];
-	[currentScene draw];
+	[currentScene visit];
 	[renderer end];
 	
 	//update last time
