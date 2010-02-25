@@ -74,6 +74,9 @@
 }
 
 - (Frame*)getCurrentFrame{
+	if ([frames count] == 0) {
+		return nil;
+	}
 	return [frames objectAtIndex:currentFrameIndex];
 }
 
@@ -202,7 +205,7 @@
 	//super class will decide whether to draw this node.
 	[super draw];
 	
-	NSLog(@"currentFrameIndex: %i",currentFrameIndex);
+	//NSLog(@"currentFrameIndex: %i",currentFrameIndex);
 	//rendering
 	//set the draw rect to the new frame rect
 	Frame* frame = [frames objectAtIndex:currentFrameIndex];
@@ -265,6 +268,23 @@
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
 	glPopMatrix();
+}
+
+- (CGSize)size{
+	NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
+	if ([self getCurrentFrame] == nil) {
+		return CGSizeMake(0.0f, 0.0f);
+	}
+	return CGSizeMake([self getCurrentFrame].rect.size.width*scaleX, [self getCurrentFrame].rect.size.height*scaleY);
+}
+
+- (void)size:(CGSize)aSize{
+	Frame* currentFrame = [self getCurrentFrame];
+	if (currentFrame == nil) {
+		return;
+	}
+	[self setScaleX:(aSize.width/currentFrame.rect.size.width)];
+	[self setScaleY:(aSize.height/currentFrame.rect.size.height)];
 }
 
 @end

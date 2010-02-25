@@ -16,7 +16,8 @@
  */
 @interface Node : NSObject {
 	CGPoint pos;
-	CGSize size;
+	//original content size. default is (0,0).
+	CGSize contentSize;
 	float rotation;
 	CGAffineTransform transform;
 	float scaleX;
@@ -30,23 +31,26 @@
 /**
  * Whether the visual object will be rendred on the screen.
  */
-@property (nonatomic, readwrite)BOOL visible;
+@property (nonatomic)BOOL visible;
 /**
  * Position of the node. Default is (0,0) at the bottom left.
  */
-@property (nonatomic, readwrite, assign)CGPoint pos;
+@property (nonatomic, assign)CGPoint pos;
 /**
- * The size of the visual object, default is (0,0).
- * After transform the size will be changed as well.
+ * The contentSize of the visual object, default is (0,0). The transform matrix will not apply to contentSize.
+ * If the node has a texture or video the contentSize will be the size of the video or texture image.
+ * For the Animation, the contentSize could be different from time to time depends on the Frame rect.
+ * But the Animation's contentSize is also not applied with tranformation matrix.
+ * After transform the contentSize will NOT be changed.
  */
-@property (nonatomic, readwrite, assign)CGSize size;
+@property (nonatomic, readonly)CGSize contentSize;
 @property (nonatomic, readonly)uint numChildren;
 @property (nonatomic, assign)Node* parent;
 @property (nonatomic, assign)Camera* camera;
 @property (nonatomic)float rotation;
-@property (nonatomic, readwrite)float scaleX;
-@property (nonatomic, readwrite)float scaleY;
-@property (nonatomic, readwrite, assign)CGAffineTransform transform;
+@property (nonatomic)float scaleX;
+@property (nonatomic)float scaleY;
+@property (nonatomic, assign)CGAffineTransform transform;
 
 /**
  * Used for scan all the child nodes if there is any. Draw function is triggered here as well.
@@ -72,5 +76,17 @@
 - (BOOL)contains:(Node*)aNode;
 
 - (BOOL)hasDescendantNode:(Node*)aNode;
+
+/**
+ * Set size. Node it does not set resize the contentSize property. It only update the transformation matrix.
+ * update the scale properties.
+ */
+- (void)size:(CGSize)aSize;
+
+/**
+ * Return the current size of the Node, will could be equal to contentSize if the scaleX and scaleY is 1.
+ * If the scaleX and scaleY are not 1, the returned CGSize will be different from the contentSize.
+ */
+- (CGSize)size;
 
 @end

@@ -34,6 +34,8 @@
 		//NSLog(@"Image already binded");
 	}
 	
+	
+	
 	glTranslatef(pos.x, pos.y, 0);
 	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
 	glTranslatef(-pos.x, -pos.y, 0);
@@ -62,7 +64,7 @@
 	
 	//draw the image
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	
+
 	//disable
 	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);

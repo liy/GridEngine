@@ -19,17 +19,17 @@
 }
 
 - (void)visit{
-	//draw this node
-	//[super visit];
+	//never draw the the collection node, collectionNode has nothing to draw.
+	
+	//if not visible, the sub node will not be draw.
+	if (!visible) {
+		return;
+	}
 	
 	//visit child nodes.
 	for (Node* node in children) {
 		[node visit];
 	}
-}
-
-- (void)draw{
-	//do nothing
 }
 
 - (Node*)addChild:(Node*)aNode{

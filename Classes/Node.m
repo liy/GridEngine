@@ -15,7 +15,7 @@
 @synthesize parent;
 @synthesize camera;
 @synthesize pos;
-@synthesize size;
+@synthesize contentSize;
 @synthesize rotation;
 @synthesize scaleX;
 @synthesize scaleY;
@@ -31,7 +31,7 @@
 		rotation = 0.0f;
 		scaleX = 1.0f;
 		scaleY = 1.0f;
-		size = CGSizeMake(0.0f, 0.0f);
+		contentSize = CGSizeMake(0.0f, 0.0f);
 		pos = CGPointMake(0.0f, 0.0f);
 		transform = CGAffineTransformIdentity;
 	}
@@ -83,8 +83,8 @@
 	return [NSString stringWithFormat:@"<%@ = %08X, pos=(%.2f,%.2f) size=(%.2f,%.2f)>", [self class], self,
 			pos.x,
 			pos.y,
-			size.width,
-			size.height];
+			[self size].width,
+			[self size].height];
 }
 
 
@@ -95,38 +95,46 @@
  */
 - (void)setPos:(CGPoint)aPos{
 	pos = aPos;
-	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
-}
-
-- (void)setSize:(CGSize)aSize{
-	[self setScaleX:aSize.width/size.width];
-	[self setScaleY:aSize.height/size.height];
-	size = aSize;
+	transform = CGAffineTransformTranslate(transform, pos.x, pos.y);
 }
 
 - (void)setScaleX:(float)aScaleX{
 	scaleX = aScaleX;
-	transform = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
 }
 
 - (void)setScaleY:(float)aScaleY{
 	scaleY = aScaleY;
-	transform = CGAffineTransformScale(CGAffineTransformIdentity, scaleX, scaleY);
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
 }
 
 - (void)setRotation:(float)aRotation{
 	rotation = aRotation;
-	transform = CGAffineTransformRotate(CGAffineTransformIdentity, rotation);
+	transform = CGAffineTransformRotate(transform, rotation);
 }
 
 - (void)setTransform:(CGAffineTransform)aTransform{
-	transform = aTransform;
-	NSLog(@"set tx:%f", aTransform.tx);
+	transform = CGAffineTransformIdentity;
 	[self setPos:CGPointMake(transform.tx, transform.ty)];
-	//[self setScaleX:transform.a];
-	//[self setScaleY:transform.d];
-	//[self setSize:CGSizeMake(size.width*scaleX, size.height*scaleY)];
-	//[self setRotation:acosf(rotation/(180.0*M_PI))*(180/M_PI)];
+	[self setRotation:acosf(rotation/(180.0*M_PI))*(180/M_PI)];
+	[self setScaleX:transform.a];
+	[self setScaleY:transform.d];
+	
+}
+
+
+- (CGSize)size{
+	//NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
+	return CGSizeMake(contentSize.width*scaleX, contentSize.height*scaleY);
+}
+
+- (void)size:(CGSize)aSize{
+	if (contentSize.width != 0) {
+		[self setScaleX:(aSize.width/contentSize.width)];
+	}
+	if (contentSize.height != 0) {
+		[self setScaleY:(aSize.height/contentSize.height)];
+	}
 }
 
 @end

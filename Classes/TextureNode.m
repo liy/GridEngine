@@ -25,13 +25,14 @@
 		texManager = [TextureManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
 		
+		//update contentSize
+		contentSize = CGSizeMake(texRef.contentSize.width, texRef.contentSize.height);
+		
 		//note the float casting.
 		texWidthRatio = 1.0f/(GLfloat)texRef.pixelsWide;
 		texHeightRatio = 1.0f/(GLfloat)texRef.pixelsHigh;
 		
-		NSLog(@"texRef.pixelsHigh: %f",texRef.contentSize.height);
 		
-		[self setSize:CGSizeMake(texRef.contentSize.width, texRef.contentSize.height)];
 		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
 		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
 	}
@@ -50,7 +51,7 @@
 		texHeightRatio = 1.0f/(float)texRef.pixelsHigh;
 		
 		[self setRect:aRect];
-		[self setSize:CGSizeMake(rect.size.width, rect.size.height)];
+		[self size:CGSizeMake(rect.size.width, rect.size.height)];
 		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
 	}
 	return self;
@@ -88,26 +89,43 @@
 	[super setPos:aPos];
 	
 	tvcQuad[0].tl.vertices.x = pos.x;
-	tvcQuad[0].tl.vertices.y = pos.y + size.height;
+	tvcQuad[0].tl.vertices.y = pos.y + [self size].height;
 	tvcQuad[0].bl.vertices.x = pos.x;
 	tvcQuad[0].bl.vertices.y = pos.y;
-	tvcQuad[0].tr.vertices.x = pos.x + size.width;
-	tvcQuad[0].tr.vertices.y = pos.y + size.height;
-	tvcQuad[0].br.vertices.x = pos.x + size.width;
+	tvcQuad[0].tr.vertices.x = pos.x + [self size].width;
+	tvcQuad[0].tr.vertices.y = pos.y + [self size].height;
+	tvcQuad[0].br.vertices.x = pos.x + [self size].width;
 	tvcQuad[0].br.vertices.y = pos.y;
 }
 
-- (void)setSize:(CGSize)aSize{
-	[super setSize:aSize];
+- (void)size:(CGSize)aSize{
+	[super size:aSize];
+	//NSLog(@"set size width: %f  height: %f",aSize.width, aSize.height);
 	
 	tvcQuad[0].tl.vertices.x = pos.x;
-	tvcQuad[0].tl.vertices.y = pos.y + size.height;
+	tvcQuad[0].tl.vertices.y = pos.y + [self size].height;
 	tvcQuad[0].bl.vertices.x = pos.x;
 	tvcQuad[0].bl.vertices.y = pos.y;
-	tvcQuad[0].tr.vertices.x = pos.x + size.width;
-	tvcQuad[0].tr.vertices.y = pos.y + size.height;
-	tvcQuad[0].br.vertices.x = pos.x + size.width;
+	tvcQuad[0].tr.vertices.x = pos.x + [self size].width;
+	tvcQuad[0].tr.vertices.y = pos.y + [self size].height;
+	tvcQuad[0].br.vertices.x = pos.x + [self size].width;
 	tvcQuad[0].br.vertices.y = pos.y;
+	
+	//NSLog(@"width: %f  height: %f",[self size].width, [self size].height);
+	
+	//NSLog(@"pos.x: %f  pos.y: %f", pos.x, pos.y);
+	
+	/*
+	NSLog(@"tl.x:%f tl.y:%f bl.x:%f bl.y:%f tr.x:%f tr.y:%f br.x:%f br.y:%f",
+		  tvcQuad[0].tl.vertices.x, tvcQuad[0].tl.vertices.y,
+		  tvcQuad[0].bl.vertices.x, tvcQuad[0].bl.vertices.y,
+		  tvcQuad[0].tr.vertices.x, tvcQuad[0].tr.vertices.y,
+		  tvcQuad[0].br.vertices.x, tvcQuad[0].br.vertices.y);
+	 */
+}
+
+- (void)draw{
+	//NSLog(@"width: %f  height: %f",[self size].width, [self size].height);
 }
 
 - (void)setTintColor:(Color4f)aColor{
