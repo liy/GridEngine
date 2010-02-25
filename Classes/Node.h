@@ -47,10 +47,12 @@
 @property (nonatomic, readonly)uint numChildren;
 @property (nonatomic, assign)Node* parent;
 @property (nonatomic, assign)Camera* camera;
-@property (nonatomic)float rotation;
+@property (nonatomic, readwrite)float rotation;
 @property (nonatomic)float scaleX;
 @property (nonatomic)float scaleY;
 @property (nonatomic, assign)CGAffineTransform transform;
+
+- (void)updateTransformation;
 
 /**
  * Used for scan all the child nodes if there is any. Draw function is triggered here as well.

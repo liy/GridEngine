@@ -268,10 +268,25 @@
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
 	glPopMatrix();
+	
+	//NSLog(@"%@", [self description]);
 }
 
+- (NSString*) description
+{
+	return [NSString stringWithFormat:@"<%@ = %08X | TextureName=%d, Rect = (%.2f,%.2f,%.2f,%.2f)>, Pos=<%.2f,%.2f>", [self class], self,
+			texRef.name,
+			rect.origin.x,
+			rect.origin.y,
+			rect.size.width,
+			rect.size.height,
+			pos.x,
+			pos.y];
+}
+
+/*
 - (CGSize)size{
-	NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
+	//NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
 	if ([self getCurrentFrame] == nil) {
 		return CGSizeMake(0.0f, 0.0f);
 	}
@@ -286,5 +301,5 @@
 	[self setScaleX:(aSize.width/currentFrame.rect.size.width)];
 	[self setScaleY:(aSize.height/currentFrame.rect.size.height)];
 }
-
+*/
 @end

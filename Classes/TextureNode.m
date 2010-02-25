@@ -32,7 +32,7 @@
 		texWidthRatio = 1.0f/(GLfloat)texRef.pixelsWide;
 		texHeightRatio = 1.0f/(GLfloat)texRef.pixelsHigh;
 		
-		
+		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
 		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
 	}
@@ -50,6 +50,7 @@
 		texWidthRatio = 1.0f/(float)texRef.pixelsWide;
 		texHeightRatio = 1.0f/(float)texRef.pixelsHigh;
 		
+		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:aRect];
 		[self size:CGSizeMake(rect.size.width, rect.size.height)];
 		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
@@ -67,6 +68,39 @@
 			rect.size.height];
 }
 
+
+- (void)updateTransformation{
+	[super updateTransformation];
+	
+	CGAffineTransform matrix = CGAffineTransformIdentity;
+	matrix = CGAffineTransformConcat(transform, matrix);
+	if (parent != nil) {
+		matrix = CGAffineTransformConcat(matrix, parent.transform);
+	}
+	
+	/*
+	 x' = x*a + y*c + tx;
+	 y' = x*b + y*d + ty;
+	 */
+	CGPoint anchorPoint = CGPointMake(0.0f, 0.0f);
+	float x1 = anchorPoint.x;
+	float y1 = anchorPoint.y;
+	//================================================================== size problem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! using content size is not proper
+	//but it work for static image.
+	float x2 = anchorPoint.x + [self contentSize].width;
+	float y2 = anchorPoint.y + [self contentSize].height; 
+	
+	tvcQuad[0].tl.vertices.x = x1*matrix.a + y2*matrix.c + matrix.tx;
+	tvcQuad[0].tl.vertices.y = x1*matrix.b + y2*matrix.d + matrix.ty;
+	tvcQuad[0].bl.vertices.x = x1*matrix.a + y1*matrix.c + matrix.tx;
+	tvcQuad[0].bl.vertices.y = x1*matrix.b + y1*matrix.d + matrix.ty;
+	tvcQuad[0].tr.vertices.x = x2*matrix.a + y2*matrix.c + matrix.tx;
+	tvcQuad[0].tr.vertices.y = x2*matrix.b + y2*matrix.d + matrix.ty;
+	tvcQuad[0].br.vertices.x = x2*matrix.a + y1*matrix.c + matrix.tx;
+	tvcQuad[0].br.vertices.y = x2*matrix.b + y1*matrix.d + matrix.ty;
+}
+
+
 - (void)setRect:(CGRect)aRect{
 	rect = aRect;
 	
@@ -74,6 +108,7 @@
 	GLfloat texHeight = texHeightRatio*rect.size.height;
 	GLfloat offsetX = texWidthRatio*rect.origin.x;
 	GLfloat offsetY = texHeightRatio*rect.origin.y;
+	
 	
 	tvcQuad[0].tl.texCoords.u = offsetX;
 	tvcQuad[0].tl.texCoords.v = offsetY + texHeight;
@@ -88,6 +123,7 @@
 - (void)setPos:(CGPoint)aPos{
 	[super setPos:aPos];
 	
+	/*
 	tvcQuad[0].tl.vertices.x = pos.x;
 	tvcQuad[0].tl.vertices.y = pos.y + [self size].height;
 	tvcQuad[0].bl.vertices.x = pos.x;
@@ -96,12 +132,14 @@
 	tvcQuad[0].tr.vertices.y = pos.y + [self size].height;
 	tvcQuad[0].br.vertices.x = pos.x + [self size].width;
 	tvcQuad[0].br.vertices.y = pos.y;
+	 */
 }
 
 - (void)size:(CGSize)aSize{
 	[super size:aSize];
 	//NSLog(@"set size width: %f  height: %f",aSize.width, aSize.height);
 	
+	/*
 	tvcQuad[0].tl.vertices.x = pos.x;
 	tvcQuad[0].tl.vertices.y = pos.y + [self size].height;
 	tvcQuad[0].bl.vertices.x = pos.x;
@@ -110,6 +148,7 @@
 	tvcQuad[0].tr.vertices.y = pos.y + [self size].height;
 	tvcQuad[0].br.vertices.x = pos.x + [self size].width;
 	tvcQuad[0].br.vertices.y = pos.y;
+	 */
 	
 	//NSLog(@"width: %f  height: %f",[self size].width, [self size].height);
 	

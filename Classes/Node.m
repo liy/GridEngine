@@ -27,18 +27,39 @@
 		numChildren = 0;
 		parent = nil;
 		camera = [[Camera alloc] init];
+		transform = CGAffineTransformIdentity;
 		
 		rotation = 0.0f;
 		scaleX = 1.0f;
 		scaleY = 1.0f;
 		contentSize = CGSizeMake(0.0f, 0.0f);
 		pos = CGPointMake(0.0f, 0.0f);
-		transform = CGAffineTransformIdentity;
+		
 	}
 	return self;
 }
 
+- (void)updateTransformation{
+	
+	transform = CGAffineTransformIdentity;
+	transform = CGAffineTransformRotate(transform, rotation);
+	transform = CGAffineTransformTranslate(transform, pos.x, pos.y);
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
+	
+	/*
+	 when draw, create a new transform matrix to concat with parent transform.
+	if (parent != nil) {
+		transform = CGAffineTransformConcat( parent.transform, transform);
+	}
+	 */
+	
+	
+	NSLog(@"%@ pos x:%f, y:%f", [self class], pos.x, pos.y);
+	NSLog(@"%@ tra x:%f, y:%f", [self class], transform.tx, transform.ty);
+}
+
 - (void)visit{
+	[self updateTransformation];
 	//always draw current node
 	[self draw];
 }
@@ -93,36 +114,6 @@
  * FIXME: Using a matrix to contain all the affine transformtion.
  * =========================================================================================================================
  */
-- (void)setPos:(CGPoint)aPos{
-	pos = aPos;
-	transform = CGAffineTransformTranslate(transform, pos.x, pos.y);
-}
-
-- (void)setScaleX:(float)aScaleX{
-	scaleX = aScaleX;
-	transform = CGAffineTransformScale(transform, scaleX, scaleY);
-}
-
-- (void)setScaleY:(float)aScaleY{
-	scaleY = aScaleY;
-	transform = CGAffineTransformScale(transform, scaleX, scaleY);
-}
-
-- (void)setRotation:(float)aRotation{
-	rotation = aRotation;
-	transform = CGAffineTransformRotate(transform, rotation);
-}
-
-- (void)setTransform:(CGAffineTransform)aTransform{
-	transform = CGAffineTransformIdentity;
-	[self setPos:CGPointMake(transform.tx, transform.ty)];
-	[self setRotation:acosf(rotation/(180.0*M_PI))*(180/M_PI)];
-	[self setScaleX:transform.a];
-	[self setScaleY:transform.d];
-	
-}
-
-
 - (CGSize)size{
 	//NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
 	return CGSizeMake(contentSize.width*scaleX, contentSize.height*scaleY);

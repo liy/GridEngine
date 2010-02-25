@@ -9,6 +9,8 @@
 #import "EAGLView.h"
 #import "Animation.h"
 #import "Director.h"
+#import "Sprite.h"
+#import "Common.h"
 
 @implementation EAGLView
 
@@ -36,34 +38,19 @@
 		[director addScene:scene];
 		director.currentScene = scene;
 		
-		Sprite* container = [[Sprite alloc] init];
-		[scene addChild:container];
+		//scene.pos = CGPointMake(10.0f, 10.0f);
+		//[scene setRotation:DEGREES_TO_RADIANS(45)];
 		
-		Graphic* graphic = [[Graphic alloc] initWithFile:@"grey.jpg"];
-		//[graphic size:CGSizeMake([graphic contentSize].width, [graphic contentSize].height)];
-		graphic.pos = CGPointMake(100.0f, 100.0f);
-		[container addChild:graphic];
+		Graphic* g1 = [[Graphic alloc] initWithFile:@"walking.png"];
+		g1.pos = CGPointMake(120.0f, 0.0f);
+		[scene addChild:g1];
 		
-		Graphic* g2 = [[Graphic alloc] initWithFile:@"walking.png"];
-		[container addChild:g2];
+		Graphic* g2 = [[Graphic alloc] initWithFile:@"grey.jpg"];
+		//g2.pos = CGPointMake(57.0f, 10.0f);
+		//[g2 setScaleX:2.0f];
+		[scene addChild:g2];
 		
-		
-		Animation* animation = [[Animation alloc] initWithFile:@"walking.png"];
-		
-		animation.pos = CGPointMake(0.0f, 0.0f);
-		[animation setScaleX:2.0f];
-		[animation setScaleY:2.0f];
-		float trackX = 0.0f;
-		for (int i=0; i<3; ++i) {
-			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.2];
-			trackX+=18.0f;
-		}
-		animation.pos = CGPointMake(200, 300);
-		animation.repeat = YES;
-		animation.pingpong = YES;
-		[animation play];
-		[container addChild:animation];
-		 
+		[scene setScaleY:2.0f];
     }
 	
     return self;

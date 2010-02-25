@@ -20,6 +20,8 @@
 
 - (void)visit{
 	//never draw the the collection node, collectionNode has nothing to draw.
+	//only update transformation
+	[super updateTransformation];
 	
 	//if not visible, the sub node will not be draw.
 	if (!visible) {
@@ -36,7 +38,8 @@
 	aNode.parent = self;
 	[children addObject:aNode];
 	//all the children should shift by amount of the container's position.
-	aNode.pos = CGPointMake(aNode.pos.x + pos.x, aNode.pos.y + pos.y);
+	//aNode.pos = CGPointMake(aNode.pos.x + pos.x, aNode.pos.y + pos.y);
+
 	return [aNode retain];
 }
 
