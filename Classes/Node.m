@@ -7,6 +7,7 @@
 //
 
 #import "Node.h"
+#import "Common.h"
 
 @implementation Node
 
@@ -16,50 +17,44 @@
 @synthesize camera;
 @synthesize pos;
 @synthesize contentSize;
+@synthesize size;
 @synthesize rotation;
 @synthesize scaleX;
 @synthesize scaleY;
 @synthesize transform;
+@synthesize anchor;
 
 - (id)init{
 	if (self = [super init]) {
 		visible = YES;
+		
 		numChildren = 0;
+		
 		parent = nil;
+		
 		camera = [[Camera alloc] init];
+		
 		transform = CGAffineTransformIdentity;
 		
 		rotation = 0.0f;
+		
 		scaleX = 1.0f;
+		
 		scaleY = 1.0f;
+		
 		contentSize = CGSizeMake(0.0f, 0.0f);
+		
+		size = contentSize;
+		
 		pos = CGPointMake(0.0f, 0.0f);
+		
+		anchor = CGPointMake(0.0f, 0.0f);
 		
 	}
 	return self;
 }
 
-- (void)updateTransformation{
-	
-	transform = CGAffineTransformIdentity;
-	transform = CGAffineTransformRotate(transform, rotation);
-	transform = CGAffineTransformTranslate(transform, pos.x, pos.y);
-	transform = CGAffineTransformScale(transform, scaleX, scaleY);
-	
-	/*
-	 when draw, create a new transform matrix to concat with parent transform.
-	if (parent != nil) {
-		transform = CGAffineTransformConcat( parent.transform, transform);
-	}
-	 */
-	
-	
-	NSLog(@"%@ pos x:%f, y:%f", [self class], pos.x, pos.y);
-	NSLog(@"%@ tra x:%f, y:%f", [self class], transform.tx, transform.ty);
-}
-
 - (void)visit{
-	[self updateTransformation];
 	//always draw current node
 	[self draw];
 }
@@ -108,24 +103,90 @@
 			[self size].height];
 }
 
+- (void)centreAnchor{
+	anchor = CGPointMake(contentSize.width/2, contentSize.height/2);
+}
 
 /**
  * =========================================================================================================================
  * FIXME: Using a matrix to contain all the affine transformtion.
  * =========================================================================================================================
  */
-- (CGSize)size{
-	//NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
-	return CGSizeMake(contentSize.width*scaleX, contentSize.height*scaleY);
+- (void)setSize:(CGSize)aSize{
+	if (contentSize.width != 0 && contentSize.height != 0) {
+		size = aSize;
+		[self setScaleX:(size.width/contentSize.width)];
+		[self setScaleY:(size.height/contentSize.height)];
+	}
 }
 
-- (void)size:(CGSize)aSize{
-	if (contentSize.width != 0) {
-		[self setScaleX:(aSize.width/contentSize.width)];
-	}
-	if (contentSize.height != 0) {
-		[self setScaleY:(aSize.height/contentSize.height)];
-	}
+- (void)setScaleX:(float)aScaleX{
+	scaleX = aScaleX;
+	//Since matrix's a and d are combined with scale and rotation.
+	//we need to create brand new matrix to update the transform matrix, we need to assign the existing translation as well.
+	//We alwasy apply translate first(it does not related to scale and rotation), then scale finally rotation.
+	//This is the people mostly wanted effect: scale the picture bigger then rotate.
+	//If you want to rotate first then rotate, you can directly set the transform matrix.
+	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
+	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
+}
+
+- (void)setScaleY:(float)aScaleY{
+	scaleY = aScaleY;
+	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
+	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
+}
+
+- (void)setRotation:(float)aRotation{
+	rotation = aRotation;
+	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
+	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
+}
+
+- (void)setPos:(CGPoint)aPos{
+	pos = aPos;
+	transform.tx = pos.x;
+	transform.ty = pos.y;
+}
+
+- (void)setTransform:(CGAffineTransform)matrix{
+	transform = matrix;
+	/**
+	 * Matrix:
+	 * |a   b   0|
+	 * |c   d   0|
+	 * |tx  ty  1|
+	 *
+	 * Equation 1:
+	 * x' = a*x + c*y + tx
+	 * y' = b*x + d*y + ty    
+	 *
+	 * Equation 2:
+	 * x' = scaleX*cos(theta)*x - skewX*cos(theta)*y + tx
+	 * y' = skewY*sin(theta)*x + scaleY*cos(theta)*y + ty
+	 *
+	 * Dquation 3:
+	 * a = scaleX * cos(theta)
+	 * c = skewX * (-sin(theta))
+	 * b = skewY * sin(theta)
+	 * d = scaleY * cos(theta)
+	 *
+	 * A union point at (1, 0). Without any transformation:
+	 * Since, x=1, y=0, tx=0, ty=0
+	 * then, x'=a, y'=b
+	 * So, theta = atan(b/a) ===> theta = atan2f(b, a)
+	 * 
+	 * After aquired theta rotation.
+	 * From Equation 3, we can easily calculate scaleX, scaleY.
+	 */
+	float radian = atan2f(transform.b, transform.a);
+	rotation = RADIANS_TO_DEGREES(radian);
+	scaleX = transform.a/cosf(radian);
+	scaleY = transform.d/cosf(radian);
+	pos = CGPointMake(transform.tx, transform.ty);
 }
 
 @end

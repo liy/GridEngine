@@ -6,8 +6,10 @@
  *  Copyright 2010 Bangboo. All rights reserved.
  *
  */
+#import <OpenGLES/ES1/gl.h>
 
-#define DEGREES_TO_RADIANS(__ANGLE__) ((__ANGLE__) / 180.0 * M_PI)
+#define DEGREES_TO_RADIANS(DEGREE) ((DEGREE) * M_PI / 180.0)
+#define RADIANS_TO_DEGREES(RADIAN) ((RADIAN) * 180.0 / M_PI)
 
 //offset calculate function to get a memory offset of a member inside a struct type, in bytes
 //eg: offsetof(TVCPoint, texCoords) will be 0 bytes(There is no former member before texCoords in TVCPoint), 

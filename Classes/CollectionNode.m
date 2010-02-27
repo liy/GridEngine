@@ -20,9 +20,8 @@
 
 - (void)visit{
 	//never draw the the collection node, collectionNode has nothing to draw.
-	//only update transformation
-	[super updateTransformation];
-	
+
+
 	//if not visible, the sub node will not be draw.
 	if (!visible) {
 		return;

@@ -38,6 +38,10 @@
 		defaultDelay = 1.0/2.0;
 		
 		firstRound = YES;
+		
+		contentSize = CGSizeMake(0.0f, 0.0f);
+		
+		size = contentSize;
 	}
 	return self;
 }
@@ -210,7 +214,8 @@
 	//set the draw rect to the new frame rect
 	Frame* frame = [frames objectAtIndex:currentFrameIndex];
 	self.rect = [frame rect];
-	//self.size = CGSizeMake([frame rect].size.width, [frame rect].size.height);
+	//==========================================================================================================================================================
+	size = [frame rect].size;
 	
 	//save the current matrix
 	glPushMatrix();
@@ -232,9 +237,9 @@
 		//NSLog(@"Image already binded");
 	}
 	
-	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-	glTranslatef(-pos.x, -pos.y, 0);
+	//glTranslatef(pos.x, pos.y, 0);
+	//glRotatef(rotation, 0.0f, 0.0f, 1.0f);
+	//glTranslatef(-pos.x, -pos.y, 0);
 	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
@@ -284,7 +289,6 @@
 			pos.y];
 }
 
-/*
 - (CGSize)size{
 	//NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
 	if ([self getCurrentFrame] == nil) {
@@ -301,5 +305,5 @@
 	[self setScaleX:(aSize.width/currentFrame.rect.size.width)];
 	[self setScaleY:(aSize.height/currentFrame.rect.size.height)];
 }
-*/
+
 @end

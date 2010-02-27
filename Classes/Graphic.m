@@ -34,12 +34,6 @@
 		//NSLog(@"Image already binded");
 	}
 	
-	
-	
-	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-	glTranslatef(-pos.x, -pos.y, 0);
-	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
 	int addr = (int)&tvcQuad[0];
