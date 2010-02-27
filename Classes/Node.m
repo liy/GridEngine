@@ -17,12 +17,12 @@
 @synthesize camera;
 @synthesize pos;
 @synthesize contentSize;
-@synthesize size;
 @synthesize rotation;
 @synthesize scaleX;
 @synthesize scaleY;
 @synthesize transform;
 @synthesize anchor;
+@synthesize size;
 
 - (id)init{
 	if (self = [super init]) {
@@ -54,15 +54,15 @@
 	return self;
 }
 
-- (void)visit{
-	//always draw current node
-	[self draw];
-}
-
 - (void)draw{
 	//if it is not visible then do not draw.
 	if (!visible)
 		return;
+}
+
+- (void)visit{
+	//always draw current node
+	[self draw];
 }
 
 - (Node*)addChild:(Node*)aNode{
@@ -99,12 +99,37 @@
 	return [NSString stringWithFormat:@"<%@ = %08X, pos=(%.2f,%.2f) size=(%.2f,%.2f)>", [self class], self,
 			pos.x,
 			pos.y,
-			[self size].width,
-			[self size].height];
+			contentSize.width,
+			contentSize.height];
 }
 
 - (void)centreAnchor{
 	anchor = CGPointMake(contentSize.width/2, contentSize.height/2);
+}
+
+- (CGAffineTransform)parentTransformation:(Node*)node{
+	CGAffineTransform matrix = CGAffineTransformIdentity;
+	if (node != nil) {
+		NSLog(@"a:%.2f b:%.2f c:%.2f d%.2f", matrix.a, matrix.b, matrix.c, matrix.d);
+		matrix = CGAffineTransformConcat(node.transform, [self parentTransformation:node.parent]);
+	}
+	else {
+		matrix = node.transform;
+	}
+
+	return matrix;
+}
+
+- (CGRect)boundingbox{
+	//The bounding box without transform is simply the contentSize rectangle.
+	CGRect box = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
+	//We need to find out the transformation matrix of current node and its parent node.
+	CGAffineTransform matrix = CGAffineTransformIdentity;
+	matrix = CGAffineTransformConcat(transform, matrix);
+	if (parent != nil) {
+		matrix = CGAffineTransformConcat(matrix, [self parentTransformation:parent]);
+	}
+	return CGRectApplyAffineTransform(box, matrix);
 }
 
 /**
@@ -112,14 +137,6 @@
  * FIXME: Using a matrix to contain all the affine transformtion.
  * =========================================================================================================================
  */
-- (void)setSize:(CGSize)aSize{
-	if (contentSize.width != 0 && contentSize.height != 0) {
-		size = aSize;
-		[self setScaleX:(size.width/contentSize.width)];
-		[self setScaleY:(size.height/contentSize.height)];
-	}
-}
-
 - (void)setScaleX:(float)aScaleX{
 	scaleX = aScaleX;
 	//Since matrix's a and d are combined with scale and rotation.
@@ -187,6 +204,24 @@
 	scaleX = transform.a/cosf(radian);
 	scaleY = transform.d/cosf(radian);
 	pos = CGPointMake(transform.tx, transform.ty);
+}
+
+/**
+ * Never set the size when the Node's contentSize is 0.
+ */
+- (void)setSize:(CGSize)aSize{
+	
+	//make sure the scale is valid.
+	if (!CGSizeEqualToSize(contentSize, CGSizeZero)) {
+		size = aSize;
+		self.scaleX = size.width/contentSize.width;
+		self.scaleY = size.height/contentSize.height;
+	}
+	else {
+		self.scaleX = 1.0f;
+		self.scaleY = 1.0f;
+	}
+
 }
 
 @end

@@ -28,9 +28,6 @@
 		//update contentSize
 		contentSize = CGSizeMake(texRef.contentSize.width, texRef.contentSize.height);
 		
-		//size will be the contentSize by default
-		size = contentSize;
-		
 		//note the float casting.
 		texWidthRatio = 1.0f/(GLfloat)texRef.pixelsWide;
 		texHeightRatio = 1.0f/(GLfloat)texRef.pixelsHigh;
@@ -48,6 +45,8 @@
 		texManager = [TextureManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
 		
+		//update contentSize
+		contentSize = CGSizeMake(rect.size.width, rect.size.height);
 		
 		//note the float casting.
 		texWidthRatio = 1.0f/(float)texRef.pixelsWide;
@@ -55,7 +54,6 @@
 		
 		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:aRect];
-		[self setSize:CGSizeMake(rect.size.width, rect.size.height)];
 		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
 	}
 	return self;
@@ -71,6 +69,26 @@
 			rect.size.height];
 }
 
+- (void)updateVertices:(CGAffineTransform)matrix{
+	/*
+	 x' = x*a + y*c + tx;
+	 y' = x*b + y*d + ty;
+	 */
+	float x1 = -anchor.x;
+	float y1 = -anchor.y;
+	
+	float x2 = -anchor.x + contentSize.width;
+	float y2 = -anchor.y + contentSize.height;
+	
+	tvcQuad[0].tl.vertices.x = x1*matrix.a + y2*matrix.c + matrix.tx;
+	tvcQuad[0].tl.vertices.y = x1*matrix.b + y2*matrix.d + matrix.ty;
+	tvcQuad[0].bl.vertices.x = x1*matrix.a + y1*matrix.c + matrix.tx;
+	tvcQuad[0].bl.vertices.y = x1*matrix.b + y1*matrix.d + matrix.ty;
+	tvcQuad[0].tr.vertices.x = x2*matrix.a + y2*matrix.c + matrix.tx;
+	tvcQuad[0].tr.vertices.y = x2*matrix.b + y2*matrix.d + matrix.ty;
+	tvcQuad[0].br.vertices.x = x2*matrix.a + y1*matrix.c + matrix.tx;
+	tvcQuad[0].br.vertices.y = x2*matrix.b + y1*matrix.d + matrix.ty;
+}
 
 - (void)concatParentTransformation{
 	CGAffineTransform matrix = CGAffineTransformIdentity;
@@ -83,26 +101,10 @@
 	[self updateVertices:matrix];
 }
 
-- (void)updateVertices:(CGAffineTransform)matrix{
-	/*
-	 x' = x*a + y*c + tx;
-	 y' = x*b + y*d + ty;
-	 */
-	float x1 = -anchor.x;
-	float y1 = -anchor.y;
-	//================================================================== size problem!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! using content size is not proper
-	//but it work for static image.
-	float x2 = -anchor.x + size.width;
-	float y2 = -anchor.y + size.height; 
-	
-	tvcQuad[0].tl.vertices.x = x1*matrix.a + y2*matrix.c + matrix.tx;
-	tvcQuad[0].tl.vertices.y = x1*matrix.b + y2*matrix.d + matrix.ty;
-	tvcQuad[0].bl.vertices.x = x1*matrix.a + y1*matrix.c + matrix.tx;
-	tvcQuad[0].bl.vertices.y = x1*matrix.b + y1*matrix.d + matrix.ty;
-	tvcQuad[0].tr.vertices.x = x2*matrix.a + y2*matrix.c + matrix.tx;
-	tvcQuad[0].tr.vertices.y = x2*matrix.b + y2*matrix.d + matrix.ty;
-	tvcQuad[0].br.vertices.x = x2*matrix.a + y1*matrix.c + matrix.tx;
-	tvcQuad[0].br.vertices.y = x2*matrix.b + y1*matrix.d + matrix.ty;
+- (void)visit{
+	//first we need to concatenate parent matrix.
+	[self concatParentTransformation];
+	[super visit];
 }
 
 
@@ -123,26 +125,6 @@
 	tvcQuad[0].tr.texCoords.v = offsetY + texHeight;
 	tvcQuad[0].br.texCoords.u = offsetX + texWidth;
 	tvcQuad[0].br.texCoords.v = offsetY;
-}
-
-- (void)setPos:(CGPoint)aPos{
-	[super setPos:aPos];
-	
-	/*
-	tvcQuad[0].tl.vertices.x = pos.x;
-	tvcQuad[0].tl.vertices.y = pos.y + [self size].height;
-	tvcQuad[0].bl.vertices.x = pos.x;
-	tvcQuad[0].bl.vertices.y = pos.y;
-	tvcQuad[0].tr.vertices.x = pos.x + [self size].width;
-	tvcQuad[0].tr.vertices.y = pos.y + [self size].height;
-	tvcQuad[0].br.vertices.x = pos.x + [self size].width;
-	tvcQuad[0].br.vertices.y = pos.y;
-	 */
-}
-
-- (void)draw{
-	[self concatParentTransformation];
-	//NSLog(@"width: %f  height: %f",[self size].width, [self size].height);
 }
 
 - (void)setTintColor:(Color4f)aColor{

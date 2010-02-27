@@ -81,6 +81,11 @@ enum {
 - (void)addFrame:(CGRect)aRect named:(NSString*)aName withDelay:(float)aDelay;
 
 /**
+ *
+ */
+- (void)addFrame:(CGRect)aRect texture:(Texture2D*)tex withDelay:(float)aDelay;
+
+/**
  * Get the Frame specified by frame index. 
  * @return Only return a reference, without increase retain count.
  */

@@ -40,34 +40,40 @@
 		firstRound = YES;
 		
 		contentSize = CGSizeMake(0.0f, 0.0f);
-		
-		size = contentSize;
 	}
 	return self;
 }
 
 - (void)addFrame:(CGRect)aRect{
-	Frame* frame = [[Frame alloc] initWithTex:texRef rect:aRect withDelay:defaultDelay];
-	[frames addObject:frame];
-	[frame release];
-	
+	[self addFrame:aRect texture:texRef withDelay:defaultDelay];
 }
 
 - (void)addFrame:(CGRect)aRect named:(NSString*)aName{
 	Texture2D* tex = [texManager getTexture2D:aName];
-	Frame* frame = [[Frame alloc] initWithTex:tex rect:aRect withDelay:defaultDelay];
-	[frames addObject:frame];
-	[frame release];
+	
+	[self addFrame:aRect texture:tex withDelay:defaultDelay];
 }
 
 - (void)addFrame:(CGRect)aRect withDelay:(float)aDelay{
-	Frame* frame = [[Frame alloc] initWithTex:texRef rect:aRect withDelay:aDelay];
-	[frames addObject:frame];
-	[frame release];
+	[self addFrame:aRect texture:texRef withDelay:aDelay];
 }
 
 - (void)addFrame:(CGRect)aRect named:(NSString*)aName withDelay:(float)aDelay{
 	Texture2D* tex = [texManager getTexture2D:aName];
+	
+	[self addFrame:aRect texture:tex withDelay:aDelay];
+}
+
+- (void)addFrame:(CGRect)aRect texture:(Texture2D*)tex withDelay:(float)aDelay{
+	//Since the contentSize will be zero at the beginning.
+	//If contentSize is zero, the scaleX and scaleY will not be able to correctly calculated.
+	//Since scaleX = size.width/contentSize.height, the result will be infinity.
+	//
+	if (CGSizeEqualToSize(contentSize, CGSizeZero)) {
+		contentSize = aRect.size;
+		self.size = CGSizeMake(contentSize.width*scaleX, contentSize.height*scaleY);
+	}
+	
 	Frame* frame = [[Frame alloc] initWithTex:tex rect:aRect withDelay:aDelay];
 	[frames addObject:frame];
 	[frame release];
@@ -90,7 +96,6 @@
 	frameTimer = 0.0;
 	firstRound = YES;
 	currentFrameIndex = 0;
-	//startFrameIndex = 0;
 }
 
 - (void)stop{
@@ -101,7 +106,6 @@
 
 - (void)play{
 	stopped = NO;
-	//startFrameIndex = currentFrameIndex;
 }
 
 - (void)gotoAndPlay:(uint)index{
@@ -109,7 +113,6 @@
 		stopped = NO;
 		frameTimer = 0.0;
 		currentFrameIndex = index;
-		//startFrameIndex = index;
 	}
 }
 
@@ -131,7 +134,7 @@
 
 }
 
-- (void)visit{
+- (void)updateAnimation{
 	//update the frame according to the delta time.
 	if (!stopped) {
 		frameTimer += [[Director sharedDirector] delta];
@@ -199,6 +202,15 @@
 			}
 		}
 	}
+}
+
+- (void)visit{
+	//first we need to update the frams in this animation.
+	[self updateAnimation];
+	
+	Frame* frame = [frames objectAtIndex:currentFrameIndex];
+	//change contentSize
+	contentSize = CGSizeMake(frame.rect.size.width, frame.rect.size.height);
 	
 	//Finished updating the animation
 	//super class will fire draw method
@@ -214,8 +226,6 @@
 	//set the draw rect to the new frame rect
 	Frame* frame = [frames objectAtIndex:currentFrameIndex];
 	self.rect = [frame rect];
-	//==========================================================================================================================================================
-	size = [frame rect].size;
 	
 	//save the current matrix
 	glPushMatrix();
@@ -236,10 +246,6 @@
 	else {
 		//NSLog(@"Image already binded");
 	}
-	
-	//glTranslatef(pos.x, pos.y, 0);
-	//glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-	//glTranslatef(-pos.x, -pos.y, 0);
 	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
@@ -287,23 +293,6 @@
 			rect.size.height,
 			pos.x,
 			pos.y];
-}
-
-- (CGSize)size{
-	//NSLog(@"return content size width:%f  height:%f", contentSize.width, contentSize.height);
-	if ([self getCurrentFrame] == nil) {
-		return CGSizeMake(0.0f, 0.0f);
-	}
-	return CGSizeMake([self getCurrentFrame].rect.size.width*scaleX, [self getCurrentFrame].rect.size.height*scaleY);
-}
-
-- (void)size:(CGSize)aSize{
-	Frame* currentFrame = [self getCurrentFrame];
-	if (currentFrame == nil) {
-		return;
-	}
-	[self setScaleX:(aSize.width/currentFrame.rect.size.width)];
-	[self setScaleY:(aSize.height/currentFrame.rect.size.height)];
 }
 
 @end

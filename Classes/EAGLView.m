@@ -38,46 +38,38 @@
 		[director addScene:scene];
 		director.currentScene = scene;
 		
-		Graphic* g1 = [[Graphic alloc] initWithFile:@"walking.png"];
-		g1.pos = CGPointMake(120.0f, 120.0f);
-		g1.scaleX = 2;
-		g1.scaleY = 2;
-		g1.rotation = 45;
-		//g1.anchor = CGPointMake(g1.contentSize.width/2, g1.contentSize.height/2);
-		[g1 centreAnchor];
 		
-		[scene addChild:g1];
 		
-		Graphic* g2 = [[Graphic alloc] initWithFile:@"grey.jpg"];
-		//[g2 centreAnchor];
-		//g2.pos = CGPointMake(60.0f, 60.0f);
-		//g2.scaleX = 0.5;
-		//g2.scaleY = 0.5;
-		//g2.pos = CGPointMake(0.0f, 0.0f);
-		[scene addChild:g2];
+		Graphic* walkSheet = [[Graphic alloc] initWithFile:@"walking.png"];
+		[scene addChild:walkSheet];
+		walkSheet.pos = CGPointMake(100.0f, 180.0f);
 		
-		Animation* animation = [[Animation alloc] initWithFile:@"walking.png"];
-		animation.pos = CGPointMake(100.0f, 140.0f);
-		animation.size = CGSizeMake(27.0f, 31.0f);
-		//animation.scaleX = 2;
-		//animation.scaleY = 2;
+		Sprite* container = [[Sprite alloc] init];
+		[container centreAnchor];
+		container.pos = CGPointMake(20.0f, 20.0f);
+		[scene addChild:container];
+		container.size = CGSizeMake(100.0f, 100.0f);
+		//container.rotation = 25;
+		
+		Graphic* square = [[Graphic alloc] initWithFile:@"grey.jpg"];
+		[container addChild:square];
+		
+		
+		Animation* walk = [[Animation alloc] initWithFile:@"walking.png"];
+		[container addChild:walk];
+		walk.pos = CGPointMake(120.0f, 120.0f);
 		float trackX = 0.0f;
 		for (int i=0; i<3; ++i) {
-			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.2];
+			[walk addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.2];
 			trackX+=18.0f;
 		}
-		[animation play];
-		animation.repeat = YES;
-		animation.pingpong = YES;
-		[scene addChild:animation];
+		[walk centreAnchor];
+		walk.size = CGSizeMake(17.0f, 31.0f);
+		walk.repeat = YES;
+		walk.pingpong = YES;
+		[walk play];
 		
-		//[scene setScaleX:2.0f];
-		
-		//scene.rotation = 20.0f;
-		//scene.pos = CGPointMake(10.0f, 10.0f);
-		
-		//[scene setScaleY:2.0f];
-		
+		scene.rotation = 20;
     }
 	
     return self;

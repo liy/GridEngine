@@ -18,8 +18,6 @@
 	CGPoint pos;
 	//original content size. default is (0,0).
 	CGSize contentSize;
-	//the varaible to tracking size, size can be changed.
-	CGSize size;
 	//The rotation of the node.
 	float rotation;
 	//The transformation matrix for this node.
@@ -50,6 +48,9 @@
 	//size of this node.
 	//Default achor position will be at (0,0)
 	CGPoint anchor;
+	
+	//The changed size of the Node, default is (0,0)
+	CGSize size;
 }
 
 /**
@@ -66,6 +67,8 @@
  * For the Animation, the contentSize could be different from time to time depends on the Frame rect.
  * But the Animation's contentSize is also not applied with tranformation matrix.
  * After transform the contentSize will NOT be changed.
+ *
+ * Only Animation will update contentSize depends on different frames.
  */
 @property (nonatomic, readonly)CGSize contentSize;
 @property (nonatomic, readonly)uint numChildren;
@@ -127,4 +130,13 @@
  */
 - (void)centreAnchor;
 
+/**
+ * Get all the parent transformations concat together.
+ */
+- (CGAffineTransform)parentTransformation:(Node*)node;
+
+/**
+ *
+ */
+- (CGRect)boundingbox;
 @end
