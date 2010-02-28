@@ -51,6 +51,8 @@
 	
 	//The changed size of the Node, default is (0,0)
 	CGSize size;
+	
+	CGAffineTransform concat;
 }
 
 /**
@@ -133,7 +135,7 @@
 /**
  * Get all the parent transformations concat together.
  */
-- (CGAffineTransform)parentTransformation:(Node*)node;
+- (CGAffineTransform)parentTransformation;
 
 /**
  *

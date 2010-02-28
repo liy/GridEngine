@@ -96,6 +96,8 @@
 
 - (NSString*) description
 {
+	
+	
 	return [NSString stringWithFormat:@"<%@ = %08X, pos=(%.2f,%.2f) size=(%.2f,%.2f)>", [self class], self,
 			pos.x,
 			pos.y,
@@ -107,28 +109,28 @@
 	anchor = CGPointMake(contentSize.width/2, contentSize.height/2);
 }
 
-- (CGAffineTransform)parentTransformation:(Node*)node{
-	CGAffineTransform matrix = CGAffineTransformIdentity;
-	if (node != nil) {
-		NSLog(@"a:%.2f b:%.2f c:%.2f d%.2f", matrix.a, matrix.b, matrix.c, matrix.d);
-		matrix = CGAffineTransformConcat(node.transform, [self parentTransformation:node.parent]);
+- (CGAffineTransform)parentTransformation{
+	if (parent == nil) {
+		return transform;
 	}
 	else {
-		matrix = node.transform;
+		//float radian = atan2f(transform.b, transform.a);
+		//NSLog(@"rotation: %f", RADIANS_TO_DEGREES(radian));
+		return CGAffineTransformConcat(transform, [parent parentTransformation]);
 	}
-
-	return matrix;
 }
 
 - (CGRect)boundingbox{
 	//The bounding box without transform is simply the contentSize rectangle.
 	CGRect box = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
 	//We need to find out the transformation matrix of current node and its parent node.
-	CGAffineTransform matrix = CGAffineTransformIdentity;
-	matrix = CGAffineTransformConcat(transform, matrix);
-	if (parent != nil) {
-		matrix = CGAffineTransformConcat(matrix, [self parentTransformation:parent]);
-	}
+	CGAffineTransform matrix = [self parentTransformation];
+	
+	float radian = atan2f(matrix.b, matrix.a);
+	NSLog(@"end rotation: %f", RADIANS_TO_DEGREES(radian));
+	
+	NSLog(@"tx:%.2f   ty:%.2f", matrix.tx, matrix.ty);
+	
 	return CGRectApplyAffineTransform(box, matrix);
 }
 

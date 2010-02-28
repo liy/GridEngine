@@ -69,7 +69,9 @@
 			rect.size.height];
 }
 
-- (void)updateVertices:(CGAffineTransform)matrix{
+- (void)updateVertices{
+	//concat all its parents' transformation matrix
+	CGAffineTransform matrix = [self parentTransformation];
 	/*
 	 x' = x*a + y*c + tx;
 	 y' = x*b + y*d + ty;
@@ -90,20 +92,9 @@
 	tvcQuad[0].br.vertices.y = x2*matrix.b + y1*matrix.d + matrix.ty;
 }
 
-- (void)concatParentTransformation{
-	CGAffineTransform matrix = CGAffineTransformIdentity;
-	matrix = CGAffineTransformConcat(transform, matrix);
-	if (parent != nil) {
-		matrix = CGAffineTransformConcat(matrix, parent.transform);
-	}
-	
-	//update vertice positions.
-	[self updateVertices:matrix];
-}
-
 - (void)visit{
 	//first we need to concatenate parent matrix.
-	[self concatParentTransformation];
+	[self updateVertices];
 	[super visit];
 }
 

@@ -38,38 +38,26 @@
 		[director addScene:scene];
 		director.currentScene = scene;
 		
+		Sprite* l1 = [[Sprite alloc] init];
+		l1.rotation = 15;
+		[scene addChild:l1];
 		
+		Sprite* l2 = [[Sprite alloc] init];
+		l2.rotation = -15;
+		[l1 addChild:l2];
 		
-		Graphic* walkSheet = [[Graphic alloc] initWithFile:@"walking.png"];
-		[scene addChild:walkSheet];
-		walkSheet.pos = CGPointMake(100.0f, 180.0f);
+		Sprite* l3 = [[Sprite alloc] init];
+		l3.rotation = 15;
+		[l2 addChild:l3];
 		
-		Sprite* container = [[Sprite alloc] init];
-		[container centreAnchor];
-		container.pos = CGPointMake(20.0f, 20.0f);
-		[scene addChild:container];
-		container.size = CGSizeMake(100.0f, 100.0f);
-		//container.rotation = 25;
+		Graphic* graphic = [[Graphic alloc] initWithFile:@"grey.jpg"];
 		
-		Graphic* square = [[Graphic alloc] initWithFile:@"grey.jpg"];
-		[container addChild:square];
+		[l3 addChild:graphic];
+		graphic.pos = CGPointMake(100.0f, 0.0f);
+		graphic.rotation = -15;
 		
-		
-		Animation* walk = [[Animation alloc] initWithFile:@"walking.png"];
-		[container addChild:walk];
-		walk.pos = CGPointMake(120.0f, 120.0f);
-		float trackX = 0.0f;
-		for (int i=0; i<3; ++i) {
-			[walk addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.2];
-			trackX+=18.0f;
-		}
-		[walk centreAnchor];
-		walk.size = CGSizeMake(17.0f, 31.0f);
-		walk.repeat = YES;
-		walk.pingpong = YES;
-		[walk play];
-		
-		scene.rotation = 20;
+		CGRect box = [graphic boundingbox];
+		NSLog(@"x:%.2f y:%.2f width:%.2f  height:%.2f", box.origin.x, box.origin.y, box.size.width, box.size.height);
     }
 	
     return self;
