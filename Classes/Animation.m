@@ -69,9 +69,9 @@
 	//If contentSize is zero, the scaleX and scaleY will not be able to correctly calculated.
 	//Since scaleX = size.width/contentSize.height, the result will be infinity.
 	//
-	if (CGSizeEqualToSize(contentSize, CGSizeZero)) {
+	if (CGSizeEqualToSize(self.contentSize, CGSizeZero)) {
 		contentSize = aRect.size;
-		self.size = CGSizeMake(contentSize.width*scaleX, contentSize.height*scaleY);
+		self.size = CGSizeMake(self.contentSize.width*scaleX, self.contentSize.height*scaleY);
 	}
 	
 	Frame* frame = [[Frame alloc] initWithTex:tex rect:aRect withDelay:aDelay];

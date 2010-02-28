@@ -70,17 +70,31 @@
 }
 
 - (void)updateVertices{
+	//====================================================== method 1 recursive call
 	//concat all its parents' transformation matrix
-	CGAffineTransform matrix = [self parentTransformation];
+	CGAffineTransform matrix = [self concatParentTransformations];
+	
+	
+	//======================================================method 2 parentConcatTransform, updated every display tree change and transformation change
+	//CGAffineTransform matrix = parentConcatTransforms;
+	
 	/*
 	 x' = x*a + y*c + tx;
 	 y' = x*b + y*d + ty;
 	 */
+	/*
 	float x1 = -anchor.x;
 	float y1 = -anchor.y;
 	
 	float x2 = -anchor.x + contentSize.width;
 	float y2 = -anchor.y + contentSize.height;
+	 */
+	
+	float x1 = 0.0f;
+	float y1 = 0.0f;
+	
+	float x2 = self.contentSize.width;
+	float y2 = self.contentSize.height;
 	
 	tvcQuad[0].tl.vertices.x = x1*matrix.a + y2*matrix.c + matrix.tx;
 	tvcQuad[0].tl.vertices.y = x1*matrix.b + y2*matrix.d + matrix.ty;

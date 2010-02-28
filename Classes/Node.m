@@ -23,6 +23,7 @@
 @synthesize transform;
 @synthesize anchor;
 @synthesize size;
+@synthesize parentConcatTransforms;
 
 - (id)init{
 	if (self = [super init]) {
@@ -35,6 +36,8 @@
 		camera = [[Camera alloc] init];
 		
 		transform = CGAffineTransformIdentity;
+		
+		parentConcatTransforms = transform;
 		
 		rotation = 0.0f;
 		
@@ -105,33 +108,33 @@
 			contentSize.height];
 }
 
-- (void)centreAnchor{
-	anchor = CGPointMake(contentSize.width/2, contentSize.height/2);
-}
-
-- (CGAffineTransform)parentTransformation{
-	if (parent == nil) {
-		return transform;
-	}
-	else {
+//======================================================================================================================================
+- (CGAffineTransform)concatParentTransformations{
+	//If we have a parent for this node, then we need to
+	//concat the transformation matrix to its parent node's concated transformation matrix
+	//The recursive call gather all transformation matrix of the parent nodes.
+	if (parent != nil) {
 		//float radian = atan2f(transform.b, transform.a);
 		//NSLog(@"rotation: %f", RADIANS_TO_DEGREES(radian));
-		return CGAffineTransformConcat(transform, [parent parentTransformation]);
+		return CGAffineTransformConcat(transform, [parent concatParentTransformations]);
+		
+	}
+	//if parent node is nil, means we reach the root of the display tree. Simply return
+	//the root node's transformation matrix. This matrix will be concat with all the children node matrix.
+	else {
+		return transform;
 	}
 }
 
-- (CGRect)boundingbox{
-	//The bounding box without transform is simply the contentSize rectangle.
-	CGRect box = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
-	//We need to find out the transformation matrix of current node and its parent node.
-	CGAffineTransform matrix = [self parentTransformation];
-	
-	float radian = atan2f(matrix.b, matrix.a);
-	NSLog(@"end rotation: %f", RADIANS_TO_DEGREES(radian));
-	
-	NSLog(@"tx:%.2f   ty:%.2f", matrix.tx, matrix.ty);
-	
-	return CGRectApplyAffineTransform(box, matrix);
+- (void)updateParentConcatTransform{
+	//update current node's parentConcatTransformation. This part is used by both LeafNode and CollectionNode
+	//Collection node will need to update all its descendant nodes' parentConcatTransform
+	if (parent!=nil) {
+		parentConcatTransforms = CGAffineTransformConcat(transform, [parent parentConcatTransforms]);
+	}
+	else {
+		parentConcatTransforms = transform;
+	}
 }
 
 /**
@@ -143,36 +146,83 @@
 	scaleX = aScaleX;
 	//Since matrix's a and d are combined with scale and rotation.
 	//we need to create brand new matrix to update the transform matrix, we need to assign the existing translation as well.
-	//We alwasy apply translate first(it does not related to scale and rotation), then scale finally rotation.
-	//This is the people mostly wanted effect: scale the picture bigger then rotate.
-	//If you want to rotate first then rotate, you can directly set the transform matrix.
+	//We normally do not want image to be skewed.
+	//So, we need to apply scale first, then we rotated (This ensure the target does not skew)
+	//Finally we translate the target to the desire position.
+	//However, CGAffineTransform is appplied in opposite direction. So we need to call translate first, then rotate, finally rotate.
 	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
-	transform = CGAffineTransformScale(transform, scaleX, scaleY);
 	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
+	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	
+	[self updateParentConcatTransform];
 }
 
 - (void)setScaleY:(float)aScaleY{
 	scaleY = aScaleY;
 	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
-	transform = CGAffineTransformScale(transform, scaleX, scaleY);
 	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
+	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	
+	[self updateParentConcatTransform];
 }
 
 - (void)setRotation:(float)aRotation{
 	rotation = aRotation;
 	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
-	transform = CGAffineTransformScale(transform, scaleX, scaleY);
 	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
+	transform = CGAffineTransformScale(transform, scaleX, scaleY);
+	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	
+	[self updateParentConcatTransform];
 }
 
 - (void)setPos:(CGPoint)aPos{
 	pos = aPos;
-	transform.tx = pos.x;
-	transform.ty = pos.y;
+	
+	//We need to retain the rotation, scale, and skew of the original transformation
+	//All we need to change is translation.
+	transform.tx = 0.0f;
+	transform.ty = 0.0f;
+	CGAffineTransform matrix = CGAffineTransformMakeTranslation(pos.x, pos.y);
+	transform = CGAffineTransformConcat(transform, matrix);
+	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	
+	[self updateParentConcatTransform];
 }
+
+- (void)setAnchor:(CGPoint)aPoint{
+	anchor = aPoint;
+	
+	transform.tx = 0.0f;
+	transform.ty = 0.0f;
+	
+	CGAffineTransform matrix = CGAffineTransformMakeTranslation(pos.x, pos.y);
+	transform = CGAffineTransformConcat(transform, matrix);
+	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	
+	[self updateParentConcatTransform];
+}
+
+- (CGRect)boundingbox{
+	//The bounding box without transform is simply the contentSize rectangle.
+	CGRect box = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
+	//We need to find out the transformation matrix of current node and its parent node.
+	CGAffineTransform matrix = [self concatParentTransformations];
+	
+	return CGRectApplyAffineTransform(box, matrix);
+}
+
+//======================================================================================================================================
 
 - (void)setTransform:(CGAffineTransform)matrix{
 	transform = matrix;
+	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	
+	//Update parentConcatTransformation
+	[self updateParentConcatTransform];
+	
 	/**
 	 * Matrix:
 	 * |a   b   0|
@@ -214,16 +264,16 @@
 - (void)setSize:(CGSize)aSize{
 	
 	//make sure the scale is valid.
-	if (!CGSizeEqualToSize(contentSize, CGSizeZero)) {
+	if (!CGSizeEqualToSize(self.contentSize, CGSizeZero)) {
 		size = aSize;
-		self.scaleX = size.width/contentSize.width;
-		self.scaleY = size.height/contentSize.height;
+		self.scaleX = size.width/self.contentSize.width;
+		self.scaleY = size.height/self.contentSize.height;
 	}
 	else {
+		NSLog(@"size is 0!!!!!");
 		self.scaleX = 1.0f;
 		self.scaleY = 1.0f;
 	}
-
 }
 
 @end

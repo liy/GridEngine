@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import "Camera.h"
 
+@class CollectionNode;
+
 /**
  * Abstract class for CollectionNode and LeafNode.
  *
@@ -20,18 +22,28 @@
 	CGSize contentSize;
 	//The rotation of the node.
 	float rotation;
+	
+	
 	//The transformation matrix for this node.
 	//Note that this transform matrix does not contains any of its parents' transform.
 	//The exact draw transform matrix is calculated when the node is draw to the screen
 	//Which will concatenate its parent transform matrix to produce correct transform result.
 	CGAffineTransform transform;
+	
+	//The matrix concat current node's matrix with paren's parentConcatTransforms.
+	//This means this matrix concat all its parents' transformation matrix. We can directly use this
+	//for rendering.
+	//YOUR SHOULD NEVER EVER OVERRIDE THIS VARIABLE OUTSIDE OF THE ENGINE BY YOURSELF, UNLESS YOU KNOW WHAT YOU ARE DOING.
+	CGAffineTransform parentConcatTransforms;
+	
+	
 	//scales
 	float scaleX;
 	float scaleY;
 	//number of children under this node. LeafNode will always have 0 child.
 	uint numChildren;
 	//The parent node of this node, root node will have a parent=nil
-	Node* parent;
+	CollectionNode* parent;
 	//The camera pointed to this node.
 	Camera* camera;
 	//whether this node is visible on the screen.
@@ -51,8 +63,6 @@
 	
 	//The changed size of the Node, default is (0,0)
 	CGSize size;
-	
-	CGAffineTransform concat;
 }
 
 /**
@@ -74,7 +84,7 @@
  */
 @property (nonatomic, readonly)CGSize contentSize;
 @property (nonatomic, readonly)uint numChildren;
-@property (nonatomic, assign)Node* parent;
+@property (nonatomic, assign)CollectionNode* parent;
 @property (nonatomic, assign)Camera* camera;
 @property (nonatomic, readwrite)float rotation;
 @property (nonatomic)float scaleX;
@@ -82,6 +92,7 @@
 @property (nonatomic, assign)CGAffineTransform transform;
 @property (nonatomic, assign)CGPoint anchor;
 @property (nonatomic, assign)CGSize size;
+@property (nonatomic, assign)CGAffineTransform parentConcatTransforms;
 
 /**
  * Used for scan all the child nodes if there is any. Draw function is triggered here as well.
@@ -128,14 +139,11 @@
 - (BOOL)hasDescendantNode:(Node*)aNode;
 
 /**
- * Make anchor point to the centre of the node.
- */
-- (void)centreAnchor;
-
-/**
  * Get all the parent transformations concat together.
  */
-- (CGAffineTransform)parentTransformation;
+- (CGAffineTransform)concatParentTransformations;
+
+- (void)updateParentConcatTransform;
 
 /**
  *
