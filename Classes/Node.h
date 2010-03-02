@@ -139,11 +139,15 @@
 - (BOOL)hasDescendantNode:(Node*)aNode;
 
 /**
+ * NOT USED Anymmore xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  * Get all the parent transformations concat together.
  */
 - (CGAffineTransform)concatParentTransformations;
 
-- (void)updateParentConcatTransform;
+/**
+ * Update the transformation matrix which contains all the parents transformation matrix.
+ */
+- (void)updateParentConcatTransforms;
 
 /**
  *

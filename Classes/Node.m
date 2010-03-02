@@ -107,6 +107,7 @@
 }
 
 //======================================================================================================================================
+//NOT USED Anymmore xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 - (CGAffineTransform)concatParentTransformations{
 	//If we have a parent for this node, then we need to
 	//concat the transformation matrix to its parent node's concated transformation matrix
@@ -122,7 +123,7 @@
 	}
 }
 
-- (void)updateParentConcatTransform{
+- (void)updateParentConcatTransforms{
 	//update current node's parentConcatTransformation. This part is used by both LeafNode and CollectionNode
 	//Collection node will need to update all its descendant nodes' parentConcatTransform
 	if (parent!=nil) {
@@ -131,6 +132,15 @@
 	else {
 		parentConcatTransforms = transform;
 	}
+}
+
+- (CGRect)boundingbox{
+	//The bounding box without transform is simply the contentSize rectangle.
+	CGRect box = CGRectMake(0.0f, 0.0f, self.contentSize.width, self.contentSize.height);
+	//The concat
+	CGAffineTransform matrix = [self concatParentTransformations];
+	
+	return CGRectApplyAffineTransform(box, matrix);
 }
 
 /**
@@ -155,7 +165,7 @@
 										   -anchor.x*self.contentSize.width, 
 										   -anchor.y*self.contentSize.height);
 	
-	[self updateParentConcatTransform];
+	[self updateParentConcatTransforms];
 }
 
 - (void)setScaleY:(float)aScaleY{
@@ -169,7 +179,7 @@
 										   -anchor.x*self.contentSize.width, 
 										   -anchor.y*self.contentSize.height);
 	
-	[self updateParentConcatTransform];
+	[self updateParentConcatTransforms];
 }
 
 - (void)setRotation:(float)aRotation{
@@ -183,7 +193,7 @@
 										   -anchor.x*self.contentSize.width, 
 										   -anchor.y*self.contentSize.height);
 	
-	[self updateParentConcatTransform];
+	[self updateParentConcatTransforms];
 }
 
 - (void)setPos:(CGPoint)aPos{
@@ -205,7 +215,7 @@
 										   -anchor.x*self.contentSize.width, 
 										   -anchor.y*self.contentSize.height);
 	
-	[self updateParentConcatTransform];
+	[self updateParentConcatTransforms];
 }
 
 - (void)setAnchor:(CGPoint)aPoint{
@@ -227,26 +237,18 @@
 										   -anchor.x*self.contentSize.width, 
 										   -anchor.y*self.contentSize.height);
 	
-	[self updateParentConcatTransform];
-}
-
-- (CGRect)boundingbox{
-	//The bounding box without transform is simply the contentSize rectangle.
-	CGRect box = CGRectMake(0.0f, 0.0f, contentSize.width, contentSize.height);
-	//We need to find out the transformation matrix of current node and its parent node.
-	CGAffineTransform matrix = [self concatParentTransformations];
-	
-	return CGRectApplyAffineTransform(box, matrix);
+	[self updateParentConcatTransforms];
 }
 
 //======================================================================================================================================
 
 - (void)setTransform:(CGAffineTransform)matrix{
 	transform = matrix;
+	//anchor translation * transform(contains scale * rotate * translate)
 	transform = CGAffineTransformTranslate(transform, -anchor.x*self.contentSize.width, -anchor.y*self.contentSize.height);
 	
 	//Update parentConcatTransformation
-	[self updateParentConcatTransform];
+	[self updateParentConcatTransforms];
 	
 	/**
 	 * Matrix:
@@ -291,14 +293,17 @@
 	//make sure the scale is valid.
 	if (!CGSizeEqualToSize(self.contentSize, CGSizeZero)) {
 		size = aSize;
-		self.scaleX = size.width/self.contentSize.width;
-		self.scaleY = size.height/self.contentSize.height;
+		self.scaleX = self.size.width/self.contentSize.width;
+		self.scaleY = self.size.height/self.contentSize.height;
 	}
 	else {
 		NSLog(@"size is 0!!!!!");
-		self.scaleX = 1.0f;
-		self.scaleY = 1.0f;
+		//Do nothing
+		//self.scaleX = 1.0f;
+		//self.scaleY = 1.0f;
 	}
 }
+
+
 
 @end

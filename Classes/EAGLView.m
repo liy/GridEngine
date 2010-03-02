@@ -38,43 +38,57 @@
 		[director addScene:scene];
 		director.currentScene = scene;
 		
-		Graphic* q2 = [[Graphic alloc] initWithFile:@"grey.jpg"];
-		[scene addChild:q2];
+		
+		Sprite* container = [[Sprite alloc] init];
+		[scene addChild:container];
 		
 		Graphic* q1 = [[Graphic alloc] initWithFile:@"grey.jpg"];
 		q1.pos = CGPointMake(120, 120);
-		q1.anchor = CGPointMake(1, 1);
-		CGAffineTransform matrix = CGAffineTransformTranslate(CGAffineTransformIdentity, 120, 120);
-		matrix = CGAffineTransformScale(matrix, 1, 0.5);
-		matrix = CGAffineTransformRotate(matrix, DEGREES_TO_RADIANS(0));
-		q1.transform = matrix;
+		q1.scaleX = 0.5;
+		q1.scaleY = 0.5;
+		q1.rotation = 45;
 		
-		[scene addChild:q1];
-		
-		CGAffineTransform testMatrix = CGAffineTransformMake(5.3, 5.2, 
-															 4.1, 7.4, 
-															 10, 23);
-		CGAffineTransform invertTrans = CGAffineTransformInvert(CGAffineTransformMakeTranslation(10.0, 23.0));
-		testMatrix = CGAffineTransformConcat(testMatrix, invertTrans);
-		q2.transform = testMatrix;
-		NSLog(@"| %.1f  %.1f  0.0 |", testMatrix.a, testMatrix.b);
-		NSLog(@"| %.1f  %.1f  0.0 |", testMatrix.c, testMatrix.d);
-		NSLog(@"| %.1f  %.1f  1.0 |", testMatrix.tx, testMatrix.ty);
+		//q1.transform = matrix;
+		[container addChild:q1];
 		
 		
-		/*
-		 Animation* animation = [[Animation alloc] initWithFile:@"walking.png"];
-		 animation.pos = CGPointMake(125.0f, 125.0f);
+		Graphic* q2 = [[Graphic alloc] initWithFile:@"grey.jpg"];
+		[container addChild:q2];
+		//container.scaleX = 0.5;
+		//container.scaleY = 0.5;
+		//container.size = CGSizeMake(90, 90);
+		
+		
+		NSLog(@"container contentSize width:%.2f height:%.2f", container.contentSize.width, container.contentSize.height);
+		
+		CGRect box = [container boundingbox];
+		NSLog(@"container bouding box width:%.2f height:%.2f", box.size.width, box.size.height);
+		Graphic* walk = [[Graphic alloc] initWithFile:@"walking.png"];
+		walk.pos = CGPointMake(box.origin.x+box.size.width, box.origin.y+box.size.height);
+		//walk.rect = CGRectMake(0.0, 0.0, 17, 31);
+		[scene addChild:walk];
+		
+		
+		
+		Graphic* indicator = [[Graphic alloc] initWithFile:@"grey.jpg"];
+		indicator.size = CGSizeMake(5, 5);
+		indicator.pos = CGPointMake(90, 90);
+		[scene addChild:indicator];
+		
+		
+		 animation = [[Animation alloc] initWithFile:@"walking.png"];
+		 animation.pos = CGPointMake(120.0f, 120.0f);
+		 animation.anchor = CGPointMake(0.5, 0.5);
 		 float trackX = 0.0f;
 		 for (int i=0; i<3; ++i) {
-		 [animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 30.0f) withDelay:0.1];
+		 [animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.1];
 		 trackX+=18.0f;
 		 }
 		 [animation play];
 		 animation.repeat = YES;
 		 animation.pingpong = YES;
 		 [scene addChild:animation];
-		 */
+		 
 		
 		
 		/*
@@ -123,9 +137,14 @@
 		 NSLog(@"| %.1f  %.1f  0.0 |", rt.c, rt.d);
 		 NSLog(@"| %.1f  %.1f  1.0 |", rt.tx, rt.ty);
 		 */
+		timer = [NSTimer scheduledTimerWithTimeInterval:1/60 target:self selector:@selector(intervalCall) userInfo:nil repeats:YES];
     }
 	
     return self;
+}
+
+- (void)intervalCall{
+	animation.rotation+=0.02;
 }
 
 - (void) layoutSubviews

@@ -47,7 +47,7 @@
 	[children addObject:aNode];
 	
 	//need to updated the added node's parentConcatTransformation
-	[aNode updateParentConcatTransform];
+	[aNode updateParentConcatTransforms];
 
 	return [aNode retain];
 }
@@ -70,7 +70,7 @@
 		aNode.parent = nil;
 		
 		//Since we removed the node from display tree, we need to updated the added node's parentConcatTransformation
-		[aNode updateParentConcatTransform];
+		[aNode updateParentConcatTransforms];
 		
 		//you may want to remove it from the screen
 		//but still keep it in the memory.
@@ -88,7 +88,7 @@
 		aNode.parent = nil;
 		
 		//Since we removed the node from display tree, we need to updated the added node's parentConcatTransformation
-		[aNode updateParentConcatTransform];
+		[aNode updateParentConcatTransforms];
 		
 		return [aNode autorelease];
 	}
@@ -113,10 +113,24 @@
 	return NO;
 }
 
+// Tell the children to update their parentConcatTransformation
+- (void)updateParentConcatTransform{
+	//update current node's parentConcatTransformation.
+	[super updateParentConcatTransforms];
+	
+	//update all its child parentConcatTransformation
+	for (Node* child in children) {
+		child.parentConcatTransforms = CGAffineTransformConcat(child.transform, parentConcatTransforms);
+		[child updateParentConcatTransforms];
+	}
+}
+
+//============================================================================================================
 - (CGRect)boundingbox{
 	CGPoint minPoint = CGPointZero;
 	CGPoint maxPoint = CGPointZero;
 	for (Node* node in children) {
+		//Get the child's bouding box.(A CollectionNode or LeafNode)
 		CGRect box = [node boundingbox];
 		
 		if (box.origin.x < minPoint.x) {
@@ -138,45 +152,9 @@
 	return CGRectMake(minPoint.x, minPoint.y, maxPoint.x-minPoint.x, maxPoint.y-minPoint.y);
 }
 
-- (void)updateParentConcatTransform{
-	//update current node's parentConcatTransformation.
-	[super updateParentConcatTransform];
-	
-	//update all its child parentConcatTransformation
-	for (Node* child in children) {
-		child.parentConcatTransforms = CGAffineTransformConcat(child.transform, parentConcatTransforms);
-		[child updateParentConcatTransform];
-	}
-}
-
-//============================================================================================================
 - (CGSize)contentSize{
-	CGPoint minPoint = CGPointZero;
-	CGPoint maxPoint = CGPointZero;
-	for (Node* node in children) {
-		CGSize nodeSize = [node contentSize];
-		
-		if (node.pos.x < minPoint.x) {
-			minPoint.x = node.pos.x;
-		}
-		if (node.pos.y < minPoint.y) {
-			minPoint.y = node.pos.y;
-		}
-		
-		float maxX = node.pos.x+nodeSize.width;
-		float maxY = node.pos.y+nodeSize.height;
-		if (maxX > maxPoint.x) {
-			maxPoint.x = maxX;
-		}
-		if (maxY > maxPoint.y) {
-			maxPoint.y = maxY;
-		}
-	}
-	return CGSizeMake(maxPoint.x-minPoint.x, maxPoint.y-minPoint.y);
-}
-
-- (CGSize)size{
-	return [self boundingbox].size;
+	//content size is the size of this node's bouding box without transformation applied to this node.
+	return CGSizeApplyAffineTransform([self boundingbox].size, CGAffineTransformInvert(transform));
 }
 
 - (void)dealloc{

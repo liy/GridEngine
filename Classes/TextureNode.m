@@ -25,9 +25,6 @@
 		texManager = [TextureManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
 		
-		//update contentSize
-		contentSize = CGSizeMake(texRef.contentSize.width, texRef.contentSize.height);
-		
 		//note the float casting.
 		texWidthRatio = 1.0f/(GLfloat)texRef.pixelsWide;
 		texHeightRatio = 1.0f/(GLfloat)texRef.pixelsHigh;
@@ -44,9 +41,6 @@
 		tvcQuad = calloc(1, sizeof(TVCQuad));
 		texManager = [TextureManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
-		
-		//update contentSize
-		contentSize = CGSizeMake(rect.size.width, rect.size.height);
 		
 		//note the float casting.
 		texWidthRatio = 1.0f/(float)texRef.pixelsWide;
@@ -72,11 +66,12 @@
 - (void)updateVertices{
 	//====================================================== method 1 recursive call
 	//concat all its parents' transformation matrix
-	CGAffineTransform matrix = [self concatParentTransformations];
+	//CGAffineTransform matrix = [self concatParentTransformations];
 	
 	
 	//======================================================method 2 parentConcatTransform, updated every display tree change and transformation change
-	//CGAffineTransform matrix = parentConcatTransforms;
+	//This way will be faster.
+	CGAffineTransform matrix = parentConcatTransforms;
 	
 	/*
 	 x' = x*a + y*c + tx;
@@ -115,6 +110,8 @@
 
 - (void)setRect:(CGRect)aRect{
 	rect = aRect;
+	
+	contentSize = CGSizeMake(rect.size.width, rect.size.height);
 	
 	GLfloat texWidth = texWidthRatio*rect.size.width;
 	GLfloat texHeight = texHeightRatio*rect.size.height;
