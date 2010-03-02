@@ -99,8 +99,6 @@
 
 - (NSString*) description
 {
-	
-	
 	return [NSString stringWithFormat:@"<%@ = %08X, pos=(%.2f,%.2f) size=(%.2f,%.2f)>", [self class], self,
 			pos.x,
 			pos.y,
@@ -114,8 +112,6 @@
 	//concat the transformation matrix to its parent node's concated transformation matrix
 	//The recursive call gather all transformation matrix of the parent nodes.
 	if (parent != nil) {
-		//float radian = atan2f(transform.b, transform.a);
-		//NSLog(@"rotation: %f", RADIANS_TO_DEGREES(radian));
 		return CGAffineTransformConcat(transform, [parent concatParentTransformations]);
 		
 	}
@@ -149,31 +145,43 @@
 	//We normally do not want image to be skewed.
 	//So, we need to apply scale first, then we rotated (This ensure the target does not skew)
 	//Finally we translate the target to the desire position.
-	//However, CGAffineTransform is appplied in opposite direction. So we need to call translate first, then rotate, finally rotate.
+	//However, CGAffineTransformXXX is appplied in opposite direction. So we need to call translate first, then rotate, scale, finally anchor translate.
+	
+	//anchorTrans * scale * rotate * translate
 	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
 	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
 	transform = CGAffineTransformScale(transform, scaleX, scaleY);
-	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	transform = CGAffineTransformTranslate(transform, 
+										   -anchor.x*self.contentSize.width, 
+										   -anchor.y*self.contentSize.height);
 	
 	[self updateParentConcatTransform];
 }
 
 - (void)setScaleY:(float)aScaleY{
 	scaleY = aScaleY;
+	
+	//anchorTrans * scale * rotate * translate
 	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
 	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
 	transform = CGAffineTransformScale(transform, scaleX, scaleY);
-	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	transform = CGAffineTransformTranslate(transform, 
+										   -anchor.x*self.contentSize.width, 
+										   -anchor.y*self.contentSize.height);
 	
 	[self updateParentConcatTransform];
 }
 
 - (void)setRotation:(float)aRotation{
 	rotation = aRotation;
+	
+	//anchorTrans * scale * rotate * translate
 	transform = CGAffineTransformTranslate(CGAffineTransformIdentity, pos.x, pos.y);
 	transform = CGAffineTransformRotate(transform, DEGREES_TO_RADIANS(rotation));
 	transform = CGAffineTransformScale(transform, scaleX, scaleY);
-	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	transform = CGAffineTransformTranslate(transform, 
+										   -anchor.x*self.contentSize.width, 
+										   -anchor.y*self.contentSize.height);
 	
 	[self updateParentConcatTransform];
 }
@@ -181,13 +189,21 @@
 - (void)setPos:(CGPoint)aPos{
 	pos = aPos;
 	
-	//We need to retain the rotation, scale, and skew of the original transformation
-	//All we need to change is translation.
+	//Set position only having effect on the tx and ty, so we need to retain other transformation
+	
+	//clear all the translation, both anchor translation and position translation
 	transform.tx = 0.0f;
 	transform.ty = 0.0f;
-	CGAffineTransform matrix = CGAffineTransformMakeTranslation(pos.x, pos.y);
-	transform = CGAffineTransformConcat(transform, matrix);
-	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	//Since normal transformation sequence is: anchorTrans * scale * rotate * translate
+	//Then only transformations left are: scale * rotate.
+	//We then apply new translation at the last sequence, result: scale * rotate * translate
+	CGAffineTransform newTranslation = CGAffineTransformMakeTranslation(pos.x, pos.y);
+	transform = CGAffineTransformConcat(transform, newTranslation);
+	//Since CGAffineTransformTranslate(T, x, y) is actually: [x y 1]*T, 
+	//we use this function to put the anchor translation in the first place of the transformation sequence.
+	transform = CGAffineTransformTranslate(transform, 
+										   -anchor.x*self.contentSize.width, 
+										   -anchor.y*self.contentSize.height);
 	
 	[self updateParentConcatTransform];
 }
@@ -195,12 +211,21 @@
 - (void)setAnchor:(CGPoint)aPoint{
 	anchor = aPoint;
 	
+	//Set anchor position is also a translation only having effect on the tx and ty, so we need to retain other transformation
+	
+	//clear all the translation, both anchor translation and position translation
 	transform.tx = 0.0f;
 	transform.ty = 0.0f;
-	
-	CGAffineTransform matrix = CGAffineTransformMakeTranslation(pos.x, pos.y);
-	transform = CGAffineTransformConcat(transform, matrix);
-	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	//Since normal transformation sequence is: anchorTrans * scale * rotate * translate
+	//Then only transformations left are: scale * rotate.
+	//We then apply new translation at the last sequence, result: scale * rotate * translate
+	CGAffineTransform newTranslation = CGAffineTransformMakeTranslation(pos.x, pos.y);
+	transform = CGAffineTransformConcat(transform, newTranslation);
+	//Since CGAffineTransformTranslate(T, x, y) isactually : [x y 1]*T, 
+	//we use this function to put the anchor translation in the first place of the transformation sequence.
+	transform = CGAffineTransformTranslate(transform, 
+										   -anchor.x*self.contentSize.width, 
+										   -anchor.y*self.contentSize.height);
 	
 	[self updateParentConcatTransform];
 }
@@ -218,7 +243,7 @@
 
 - (void)setTransform:(CGAffineTransform)matrix{
 	transform = matrix;
-	transform = CGAffineTransformTranslate(transform, -anchor.x, -anchor.y);
+	transform = CGAffineTransformTranslate(transform, -anchor.x*self.contentSize.width, -anchor.y*self.contentSize.height);
 	
 	//Update parentConcatTransformation
 	[self updateParentConcatTransform];
