@@ -28,12 +28,12 @@ typedef struct _Vertex2f {
 	GLfloat y;
 } Vertex2f;
 
-//TODO: change rgba type, reduce memory usage.
+//A color r g b a, value from 0-255, 1 byte for each channel.
 typedef struct _Color4f{
-	GLfloat r;
-	GLfloat g;
-	GLfloat b;
-	GLfloat a;
+	GLubyte r;
+	GLubyte g;
+	GLubyte b;
+	GLubyte a;
 }Color4f;
 
 //Short for texture vertices color point. means this struct contains all those informations.
@@ -45,7 +45,7 @@ typedef struct _TVCPoint
 	//vertices define where to draw the point to. 8 bytes
 	Vertex2f vertices;
 	
-	//the color tint of this point.  16 bytes
+	//the color tint of this point.  4 bytes
 	Color4f color;
 } TVCPoint;
 
@@ -81,7 +81,7 @@ typedef struct _VCQuad{
 	VCPoint br;
 }VCQuad;
 
-static inline Color4f Color4fMake(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
+static inline Color4f Color4fMake(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
 {
 	return (Color4f){red, green, blue, alpha};
 }

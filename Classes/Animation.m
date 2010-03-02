@@ -68,7 +68,6 @@
 	//Since the contentSize will be zero at the beginning.
 	//If contentSize is zero, the scaleX and scaleY will not be able to correctly calculated.
 	//Since scaleX = size.width/contentSize.height, the result will be infinity.
-	//
 	if (CGSizeEqualToSize(self.contentSize, CGSizeZero)) {
 		contentSize = aRect.size;
 		self.size = CGSizeMake(self.contentSize.width*scaleX, self.contentSize.height*scaleY);
@@ -264,7 +263,7 @@
 	//and vertices(x & y GLfloat) which are 16 bytes.
 	offset = offsetof(TVCPoint, color);
 	//set the color tint array for the texture.
-	glColorPointer(4, GL_FLOAT, sizeof(TVCPoint), (void*)(addr + offset));
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(TVCPoint), (void*)(addr + offset));
 	
 	//enable blend
 	glEnable(GL_BLEND);

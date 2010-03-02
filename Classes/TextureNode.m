@@ -31,7 +31,7 @@
 		
 		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
-		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
+		[self setTintColor:Color4fMake(255, 255, 255, 255)];
 	}
 	return self;
 }
@@ -48,7 +48,7 @@
 		
 		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:aRect];
-		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
+		[self setTintColor:Color4fMake(255, 255, 255, 255)];
 	}
 	return self;
 }
@@ -64,13 +64,8 @@
 }
 
 - (void)updateVertices{
-	//====================================================== method 1 recursive call
-	//concat all its parents' transformation matrix
-	//CGAffineTransform matrix = [self concatParentTransformations];
-	
-	
-	//======================================================method 2 parentConcatTransform, updated every display tree change and transformation change
-	//This way will be faster.
+	//Every node retains the node's transformation concatenated all its parents' transformations.
+	//we can directly use this matrix to transform the vertices.
 	CGAffineTransform matrix = parentConcatTransforms;
 	
 	/*
@@ -78,11 +73,11 @@
 	 y' = x*b + y*d + ty;
 	 */
 	/*
-	float x1 = -anchor.x;
-	float y1 = -anchor.y;
+	float x1 = 0.0;
+	float y1 = 0.0;
 	
-	float x2 = -anchor.x + contentSize.width;
-	float y2 = -anchor.y + contentSize.height;
+	float x2 = 0.0 + contentSize.width;
+	float y2 = 0.0 + contentSize.height;
 	 */
 	
 	float x1 = 0.0f;
@@ -91,26 +86,34 @@
 	float x2 = self.contentSize.width;
 	float y2 = self.contentSize.height;
 	
-	tvcQuad[0].tl.vertices.x = x1*matrix.a + y2*matrix.c + matrix.tx;
-	tvcQuad[0].tl.vertices.y = x1*matrix.b + y2*matrix.d + matrix.ty;
-	tvcQuad[0].bl.vertices.x = x1*matrix.a + y1*matrix.c + matrix.tx;
-	tvcQuad[0].bl.vertices.y = x1*matrix.b + y1*matrix.d + matrix.ty;
-	tvcQuad[0].tr.vertices.x = x2*matrix.a + y2*matrix.c + matrix.tx;
-	tvcQuad[0].tr.vertices.y = x2*matrix.b + y2*matrix.d + matrix.ty;
-	tvcQuad[0].br.vertices.x = x2*matrix.a + y1*matrix.c + matrix.tx;
-	tvcQuad[0].br.vertices.y = x2*matrix.b + y1*matrix.d + matrix.ty;
+	float a = matrix.a;
+	float b = matrix.b;
+	float c = matrix.c;
+	float d = matrix.d;
+	float tx = matrix.tx;
+	float ty = matrix.ty;
+	
+	tvcQuad[0].tl.vertices.x = x1*a + y2*c + tx;
+	tvcQuad[0].tl.vertices.y = x1*b + y2*d + ty;
+	tvcQuad[0].bl.vertices.x = x1*a + y1*c + tx;
+	tvcQuad[0].bl.vertices.y = x1*b + y1*d + ty;
+	tvcQuad[0].tr.vertices.x = x2*a + y2*c + tx;
+	tvcQuad[0].tr.vertices.y = x2*b + y2*d + ty;
+	tvcQuad[0].br.vertices.x = x2*a + y1*c + tx;
+	tvcQuad[0].br.vertices.y = x2*b + y1*d + ty;
 }
 
 - (void)visit{
 	//first we need to concatenate parent matrix.
 	[self updateVertices];
+	//check whether to draw.
 	[super visit];
 }
 
 
 - (void)setRect:(CGRect)aRect{
 	rect = aRect;
-	
+	//update the contentSize to the size of the rect.
 	contentSize = CGSizeMake(rect.size.width, rect.size.height);
 	
 	GLfloat texWidth = texWidthRatio*rect.size.width;

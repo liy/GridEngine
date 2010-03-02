@@ -108,6 +108,7 @@
 
 //======================================================================================================================================
 //NOT USED Anymmore xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+/*
 - (CGAffineTransform)concatParentTransformations{
 	//If we have a parent for this node, then we need to
 	//concat the transformation matrix to its parent node's concated transformation matrix
@@ -122,6 +123,7 @@
 		return transform;
 	}
 }
+*/
 
 - (void)updateParentConcatTransforms{
 	//update current node's parentConcatTransformation. This part is used by both LeafNode and CollectionNode
@@ -138,16 +140,32 @@
 	//The bounding box without transform is simply the contentSize rectangle.
 	CGRect box = CGRectMake(0.0f, 0.0f, self.contentSize.width, self.contentSize.height);
 	//The concat
-	CGAffineTransform matrix = [self concatParentTransformations];
+	CGAffineTransform matrix = parentConcatTransforms;
 	
 	return CGRectApplyAffineTransform(box, matrix);
 }
 
+//================================== Property setter and getter =====================================
+
 /**
- * =========================================================================================================================
- * FIXME: Using a matrix to contain all the affine transformtion.
- * =========================================================================================================================
+ * Never set the size when the Node's contentSize is 0.
  */
+- (void)setSize:(CGSize)aSize{
+	
+	//make sure the scale is valid.
+	if (!CGSizeEqualToSize(self.contentSize, CGSizeZero)) {
+		size = aSize;
+		self.scaleX = self.size.width/self.contentSize.width;
+		self.scaleY = self.size.height/self.contentSize.height;
+	}
+	else {
+		NSLog(@"size is 0!!!!!");
+		//Do nothing
+		//self.scaleX = 1.0f;
+		//self.scaleY = 1.0f;
+	}
+}
+
 - (void)setScaleX:(float)aScaleX{
 	scaleX = aScaleX;
 	//Since matrix's a and d are combined with scale and rotation.
@@ -218,30 +236,6 @@
 	[self updateParentConcatTransforms];
 }
 
-- (void)setAnchor:(CGPoint)aPoint{
-	anchor = aPoint;
-	
-	//Set anchor position is also a translation only having effect on the tx and ty, so we need to retain other transformation
-	
-	//clear all the translation, both anchor translation and position translation
-	transform.tx = 0.0f;
-	transform.ty = 0.0f;
-	//Since normal transformation sequence is: anchorTrans * scale * rotate * translate
-	//Then only transformations left are: scale * rotate.
-	//We then apply new translation at the last sequence, result: scale * rotate * translate
-	CGAffineTransform newTranslation = CGAffineTransformMakeTranslation(pos.x, pos.y);
-	transform = CGAffineTransformConcat(transform, newTranslation);
-	//Since CGAffineTransformTranslate(T, x, y) isactually : [x y 1]*T, 
-	//we use this function to put the anchor translation in the first place of the transformation sequence.
-	transform = CGAffineTransformTranslate(transform, 
-										   -anchor.x*self.contentSize.width, 
-										   -anchor.y*self.contentSize.height);
-	
-	[self updateParentConcatTransforms];
-}
-
-//======================================================================================================================================
-
 - (void)setTransform:(CGAffineTransform)matrix{
 	transform = matrix;
 	//anchor translation * transform(contains scale * rotate * translate)
@@ -285,25 +279,26 @@
 	pos = CGPointMake(transform.tx, transform.ty);
 }
 
-/**
- * Never set the size when the Node's contentSize is 0.
- */
-- (void)setSize:(CGSize)aSize{
+- (void)setAnchor:(CGPoint)aPoint{
+	anchor = aPoint;
 	
-	//make sure the scale is valid.
-	if (!CGSizeEqualToSize(self.contentSize, CGSizeZero)) {
-		size = aSize;
-		self.scaleX = self.size.width/self.contentSize.width;
-		self.scaleY = self.size.height/self.contentSize.height;
-	}
-	else {
-		NSLog(@"size is 0!!!!!");
-		//Do nothing
-		//self.scaleX = 1.0f;
-		//self.scaleY = 1.0f;
-	}
+	//Set anchor position is also a translation only having effect on the tx and ty, so we need to retain other transformation
+	
+	//clear all the translation, both anchor translation and position translation
+	transform.tx = 0.0f;
+	transform.ty = 0.0f;
+	//Since normal transformation sequence is: anchorTrans * scale * rotate * translate
+	//Then only transformations left are: scale * rotate.
+	//We then apply new translation at the last sequence, result: scale * rotate * translate
+	CGAffineTransform newTranslation = CGAffineTransformMakeTranslation(pos.x, pos.y);
+	transform = CGAffineTransformConcat(transform, newTranslation);
+	//Since CGAffineTransformTranslate(T, x, y) isactually : [x y 1]*T, 
+	//we use this function to put the anchor translation in the first place of the transformation sequence.
+	transform = CGAffineTransformTranslate(transform, 
+										   -anchor.x*self.contentSize.width, 
+										   -anchor.y*self.contentSize.height);
+	
+	[self updateParentConcatTransforms];
 }
-
-
 
 @end

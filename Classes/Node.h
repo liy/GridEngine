@@ -18,11 +18,13 @@
  */
 @interface Node : NSObject {
 	CGPoint pos;
-	//original content size. default is (0,0).
+	//original content size. default is (0,0). CollectionNode's contentSize can change depends on the children's transformations.
+	//The Animation's contentSize can also change depends on the different frame's rect.
+	//Note, contentSize can be different to the texRef's contentSize(The whole image size loaded)
 	CGSize contentSize;
+	
 	//The rotation of the node.
 	float rotation;
-	
 	
 	//The transformation matrix for this node.
 	//Note that this transform matrix does not contains any of its parents' transform.
@@ -35,7 +37,6 @@
 	//for rendering.
 	//YOUR SHOULD NEVER EVER OVERRIDE THIS VARIABLE OUTSIDE OF THE ENGINE BY YOURSELF, UNLESS YOU KNOW WHAT YOU ARE DOING.
 	CGAffineTransform parentConcatTransforms;
-	
 	
 	//scales
 	float scaleX;
@@ -51,17 +52,18 @@
 	//data update could be updated.
 	BOOL visible;
 	
-	//An abstract point to identify the exact position of the Node.
+	//An abstract ratio point to identify the exact position of the Node.
 	//Since some display object can be any shape, we need a generic and simple way to discirbe its position
-	//This point's x and y will use the local coordinate system of this Node, eg:
-	//If this Node width and height is 100*100, if we put the anchor point at its centre,
-	//the anchor point position will be (50, 50), top-right:(0, 100), top-left:(0,0), bottom-right(100,100)
-	//It can go over the size of the Node as well: (-50, -30) will be somewhere towards top-left but outside of the 
-	//size of this node.
-	//Default achor position will be at (0,0)
+	//This point's x and y will use the ratio of the node's contentSize, so we do not need to care about the size of the Node. eg:
+	//If we put the anchor point at its centre, the anchor point position will be (0.5, 0.5), top-right:(0.0, 1.0), top-left:(0.0,0.0), 
+	//bottom-right(1.0,1.0)
+	//It can go over the contentSize of the Node as well: (-5.0, -3.0) will be somewhere towards top-left but outside of the 
+	//contentSize of this node.
+	//Default achor position will be at (0.0,0.0)
+	//It is also used during rotation, for example: if we centre the anchor then rotate, the object will spinning around the anchor point. 
 	CGPoint anchor;
 	
-	//The changed size of the Node, default is (0,0)
+	//The changed size of the Node, default is (0,0).
 	CGSize size;
 }
 
@@ -79,8 +81,8 @@
  * For the Animation, the contentSize could be different from time to time depends on the Frame rect.
  * But the Animation's contentSize is also not applied with tranformation matrix.
  * After transform the contentSize will NOT be changed.
- *
- * Only Animation will update contentSize depends on different frames.
+ * CollectionNode's contentSize is calculated by checking its children's contentSize. It can be changed depends on the
+ * transformation of the children nodes.
  */
 @property (nonatomic, readonly)CGSize contentSize;
 @property (nonatomic, readonly)uint numChildren;
@@ -142,7 +144,7 @@
  * NOT USED Anymmore xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
  * Get all the parent transformations concat together.
  */
-- (CGAffineTransform)concatParentTransformations;
+//- (CGAffineTransform)concatParentTransformations;
 
 /**
  * Update the transformation matrix which contains all the parents transformation matrix.
@@ -150,7 +152,9 @@
 - (void)updateParentConcatTransforms;
 
 /**
- *
+ * Calculate the rectangle bounding box for the node. All the transformations are taken into account as well.
+ * Defined the area and position covered by the node.
  */
 - (CGRect)boundingbox;
+
 @end

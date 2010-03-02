@@ -7,9 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "CollectionNode.h"
 
 
-@interface ParticleEmitter : NSObject {
+@interface ParticleEmitter : CollectionNode {
 
 }
 

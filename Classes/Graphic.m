@@ -51,7 +51,7 @@
 	//and vertices(x & y GLfloat) which are 16 bytes.
 	offset = offsetof(TVCPoint, color);
 	//set the color tint array for the texture.
-	glColorPointer(4, GL_FLOAT, sizeof(TVCPoint), (void*)(addr + offset));
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(TVCPoint), (void*)(addr + offset));
 	
 	//enable blend
 	glEnable(GL_BLEND);

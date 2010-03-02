@@ -54,9 +54,9 @@
 		
 		Graphic* q2 = [[Graphic alloc] initWithFile:@"grey.jpg"];
 		[container addChild:q2];
-		//container.scaleX = 0.5;
-		//container.scaleY = 0.5;
-		//container.size = CGSizeMake(90, 90);
+		container.scaleX = 0.5;
+		container.scaleY = 0.5;
+		container.size = CGSizeMake(90, 90);
 		
 		
 		NSLog(@"container contentSize width:%.2f height:%.2f", container.contentSize.width, container.contentSize.height);
@@ -76,19 +76,21 @@
 		[scene addChild:indicator];
 		
 		
-		 animation = [[Animation alloc] initWithFile:@"walking.png"];
-		 animation.pos = CGPointMake(120.0f, 120.0f);
-		 animation.anchor = CGPointMake(0.5, 0.5);
-		 float trackX = 0.0f;
-		 for (int i=0; i<3; ++i) {
-		 [animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.1];
-		 trackX+=18.0f;
-		 }
-		 [animation play];
-		 animation.repeat = YES;
-		 animation.pingpong = YES;
-		 [scene addChild:animation];
-		 
+		animation = [[Animation alloc] initWithFile:@"walking.png"];
+		animation.pos = CGPointMake(121.0f, 121.0f);
+		animation.anchor = CGPointMake(0.5, 0.5);
+		animation.scaleX = -1.0;
+		float trackX = 0.0f;
+		for (int i=0; i<3; ++i) {
+			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.1];
+			trackX+=18.0f;
+		}
+		[animation play];
+		animation.repeat = YES;
+		animation.pingpong = YES;
+		animation.tlColor = Color4fMake(255, 0, 0, 255);
+		[scene addChild:animation];
+		
 		
 		
 		/*

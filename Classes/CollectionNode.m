@@ -20,6 +20,11 @@
 	return self;
 }
 
+- (void)dealloc{
+	[children release];
+	[super dealloc];
+}
+
 - (void)visit{
 	//never draw the the collection node, collectionNode has nothing to draw.
 
@@ -114,18 +119,19 @@
 }
 
 // Tell the children to update their parentConcatTransformation
-- (void)updateParentConcatTransform{
+- (void)updateParentConcatTransforms{
 	//update current node's parentConcatTransformation.
 	[super updateParentConcatTransforms];
 	
 	//update all its child parentConcatTransformation
+	
 	for (Node* child in children) {
 		child.parentConcatTransforms = CGAffineTransformConcat(child.transform, parentConcatTransforms);
 		[child updateParentConcatTransforms];
 	}
 }
 
-//============================================================================================================
+//================================================ setter and getter =============================================
 - (CGRect)boundingbox{
 	CGPoint minPoint = CGPointZero;
 	CGPoint maxPoint = CGPointZero;
@@ -155,11 +161,6 @@
 - (CGSize)contentSize{
 	//content size is the size of this node's bouding box without transformation applied to this node.
 	return CGSizeApplyAffineTransform([self boundingbox].size, CGAffineTransformInvert(transform));
-}
-
-- (void)dealloc{
-	[children release];
-	[super dealloc];
 }
 
 @end
