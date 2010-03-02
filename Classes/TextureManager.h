@@ -16,7 +16,7 @@
 }
 
 //The currently bounded texture in the OpenGL.
-@property (nonatomic, assign) GLuint boundedTex;
+@property (nonatomic) GLuint boundedTex;
 
 /**
  *Get the ResroucesManager for this game.

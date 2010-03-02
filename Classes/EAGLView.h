@@ -10,6 +10,7 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "Director.h"
+#import "Animation.h"
 
 // This class wraps the CAEAGLLayer from CoreAnimation into a convenient UIView subclass.
 // The view content is basically an EAGL surface you render your OpenGL scene into.
@@ -17,6 +18,8 @@
 @interface EAGLView : UIView
 {	
 	Director* director;
+	NSTimer* timer;
+	Animation* animation;
 }
 
 - (void)layoutSubviews;

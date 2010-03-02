@@ -39,7 +39,10 @@ static TextureManager* instance;
 		tex = [[Texture2D alloc] initWithImage:[UIImage imageNamed:fileName]];
 		[texCache setObject:tex forKey:fileName];
 	}
-	return [tex autorelease];
+	//never auto release here.... I don't know why I did it before.
+	//Since if you do not retain the tex in other method, you will get nil texture, which will result
+	//unexpect error or crash
+	return tex;
 }
 
 - (Texture2D*)removeTexture2D:(NSString*)fileName{

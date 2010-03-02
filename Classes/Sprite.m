@@ -19,15 +19,4 @@
 	return self;
 }
 
-/*
-- (void)setPos:(CGPoint)aPos{
-	pos = aPos;
-	
-	for (Node* node in children) {
-		//shift for every child
-		node.pos = CGPointMake(node.pos.x + pos.x, node.pos.y + pos.y);
-	}
-}
-*/
-
 @end

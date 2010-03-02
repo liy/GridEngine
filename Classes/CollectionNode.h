@@ -14,4 +14,6 @@
 	NSMutableArray* children;
 }
 
+@property (nonatomic, assign)NSMutableArray* children;
+
 @end

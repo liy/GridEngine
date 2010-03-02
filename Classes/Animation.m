@@ -13,27 +13,14 @@
 
 @implementation Animation
 
-@synthesize texRef;
 @synthesize pingpong;
 @synthesize repeat;
-@synthesize running;
+@synthesize stopped;
 @synthesize direction;
 @synthesize defaultDelay;
-@synthesize rect;
 
 - (id)initWithFile:(NSString*)aName{
-	if (self = [super init]) {
-		texManager = [TextureManager sharedTextureManager];
-		texRef = [texManager getTexture2D:aName];
-		
-		//note the float casting.
-		texWidthRatio = 1.0f/(float)texRef.pixelsWide;
-		texHeightRatio = 1.0f/(float)texRef.pixelsHigh;
-		
-		[self setSize:CGSizeMake(texRef.contentSize.width, texRef.contentSize.height)];
-		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
-		[self setTintColor:Color4fMake(1.0f, 1.0f, 1.0f, 1.0f)];
-		
+	if (self = [super initWithFile:aName]) {
 		frames = [[NSMutableArray alloc] initWithCapacity:5];
 
 		currentFrameIndex = 0;
@@ -42,7 +29,7 @@
 		
 		repeat = NO;
 		
-		running = NO;
+		stopped = YES;
 		
 		direction = ani_forward;
 		
@@ -51,40 +38,104 @@
 		defaultDelay = 1.0/2.0;
 		
 		firstRound = YES;
+		
+		contentSize = CGSizeMake(0.0f, 0.0f);
 	}
 	return self;
 }
 
 - (void)addFrame:(CGRect)aRect{
-	Frame* frame = [[Frame alloc] initWithTex:texRef rect:aRect withDelay:defaultDelay];
-	[frames addObject:frame];
-	[frame release];
-	
+	[self addFrame:aRect texture:texRef withDelay:defaultDelay];
 }
 
 - (void)addFrame:(CGRect)aRect named:(NSString*)aName{
 	Texture2D* tex = [texManager getTexture2D:aName];
-	Frame* frame = [[Frame alloc] initWithTex:tex rect:aRect withDelay:defaultDelay];
-	[frames addObject:frame];
-	[frame release];
+	
+	[self addFrame:aRect texture:tex withDelay:defaultDelay];
 }
 
 - (void)addFrame:(CGRect)aRect withDelay:(float)aDelay{
-	Frame* frame = [[Frame alloc] initWithTex:texRef rect:aRect withDelay:aDelay];
-	[frames addObject:frame];
-	[frame release];
+	[self addFrame:aRect texture:texRef withDelay:aDelay];
 }
 
 - (void)addFrame:(CGRect)aRect named:(NSString*)aName withDelay:(float)aDelay{
 	Texture2D* tex = [texManager getTexture2D:aName];
+	
+	[self addFrame:aRect texture:tex withDelay:aDelay];
+}
+
+- (void)addFrame:(CGRect)aRect texture:(Texture2D*)tex withDelay:(float)aDelay{
+	//Since the contentSize will be zero at the beginning.
+	//If contentSize is zero, the scaleX and scaleY will not be able to correctly calculated.
+	//Since scaleX = size.width/contentSize.height, the result will be infinity.
+	if (CGSizeEqualToSize(self.contentSize, CGSizeZero)) {
+		contentSize = aRect.size;
+		self.size = CGSizeMake(self.contentSize.width*scaleX, self.contentSize.height*scaleY);
+	}
+	
 	Frame* frame = [[Frame alloc] initWithTex:tex rect:aRect withDelay:aDelay];
 	[frames addObject:frame];
 	[frame release];
 }
 
-- (void)draw{
-	//update the frame rectangle according to the delta time.
-	if (running) {
+- (Frame*)getFrame:(uint)frameIndex{
+	return [frames objectAtIndex:frameIndex];
+}
+
+- (Frame*)getCurrentFrame{
+	if ([frames count] == 0) {
+		return nil;
+	}
+	return [frames objectAtIndex:currentFrameIndex];
+}
+
+- (void)reset{
+	//stop update frame.
+	stopped = YES;
+	frameTimer = 0.0;
+	firstRound = YES;
+	currentFrameIndex = 0;
+}
+
+- (void)stop{
+	stopped = YES;
+	frameTimer = 0.0;
+}
+
+
+- (void)play{
+	stopped = NO;
+}
+
+- (void)gotoAndPlay:(uint)index{
+	if (index < [frames count]) {
+		stopped = NO;
+		frameTimer = 0.0;
+		currentFrameIndex = index;
+	}
+}
+
+- (void)gotoAndStop:(uint)index{
+	if (index < [frames count]) {
+		stopped = YES;
+		frameTimer = 0.0;
+		currentFrameIndex = index;
+	}
+}
+
+- (void)setDirection:(int)aDir{
+	if (aDir>=0) {
+		direction = ani_forward;
+	}
+	else {
+		direction = ani_backword;
+	}
+
+}
+
+- (void)updateAnimation{
+	//update the frame according to the delta time.
+	if (!stopped) {
 		frameTimer += [[Director sharedDirector] delta];
 		
 		if (frameTimer > [[frames objectAtIndex:currentFrameIndex] delay]) {
@@ -97,39 +148,83 @@
 				//keep repeat and pingpong, never stop
 				if(pingpong && repeat){
 					direction*=-1;
-					currentFrameIndex+=direction;
+					//"direction*2" makes sure the last frame or the first frame do not render twice.
+					//See below pingpoing && !repeat case.
+					currentFrameIndex+=direction*2;
 				}
 				//only pingpong once.
 				else if(pingpong && !repeat){
-					direction*=-1;
+					//exceeded the index bound for the first time, still need pingpong once.
 					if (firstRound) {
+						direction*=-1;
 						firstRound = NO;
-						currentFrameIndex+=direction;
+						
+						//Reset the current frame to the previous frame immediately.
+						//For example, if animation started using ani_forward, at this point, direction will be -1, currentFrameIndex will be [frames count].
+						//However since frame index [frames count]-1 is already rendered for its delay time period. we need to jump to [frame count]-2,
+						//the new currentFrameIndex = [frame count] + -1*2.
+						//If animation started using ani_backward, at this point, direction will be 1, currentFrameIndex will be -1. Since frame 0 is 
+						//already rendered for it delay time period, we need to directly jump to frame 1 which is: currentFrameIndex = -1 + 1*2. Both cases
+						//are correct.
+						currentFrameIndex+=direction*2;
 					}
+					//exceeded frames index bounds again. stop the animation
 					else {
+						//next round start the animation, means a new round.
 						firstRound = YES;
-						running = NO;
-						currentFrameIndex = 0;
+						stopped = YES;
+						
+						//because at this point the currentFramIndex is out of bounds already.
+						//It can be -1 or [frames count], this further calculation makes sure the frame is not out of bounds.
+						//For example, if animation started using ani_forward, at this point, direction will be -1,
+						//currentFrameIndex will be -1, so the new currentFrameIndex = -1 - -1 which will be 0. 
+						//If animation started using ani_backward, at this point, direction will be 1, currentFrameIndex will be [frames count].
+						//So the new currentFrameIndex = [frames count]-1. Both casese are correct.
+						currentFrameIndex -= direction;
 					}
 				}
-				//go back to first frame
+				//go back to start frame
 				else if(!pingpong && repeat){
-					currentFrameIndex = 0;
+					if (direction == ani_forward) {
+						currentFrameIndex = 0;
+					}
+					else {
+						currentFrameIndex = [frames count]-1;
+					}
 				}
 				//stop
 				else {
-					running = NO;
-					currentFrameIndex = 0;
+					stopped = YES;
+					//stop at last valid frame.
+					currentFrameIndex -= direction;
 				}
 			}
-			//NSLog(@"next frame %u",currentFrameIndex);
 		}
 	}
+}
+
+- (void)visit{
+	//first we need to update the frams in this animation.
+	[self updateAnimation];
 	
+	Frame* frame = [frames objectAtIndex:currentFrameIndex];
+	//change contentSize
+	contentSize = CGSizeMake(frame.rect.size.width, frame.rect.size.height);
 	
+	//Finished updating the animation
+	//super class will fire draw method
+	[super visit];
+}
+
+- (void)draw{
+	//super class will decide whether to draw this node.
+	[super draw];
+	
+	//NSLog(@"currentFrameIndex: %i",currentFrameIndex);
+	//rendering
 	//set the draw rect to the new frame rect
-	self.rect = [[frames objectAtIndex:currentFrameIndex] rect];
-	
+	Frame* frame = [frames objectAtIndex:currentFrameIndex];
+	self.rect = [frame rect];
 	
 	//save the current matrix
 	glPushMatrix();
@@ -151,10 +246,6 @@
 		//NSLog(@"Image already binded");
 	}
 	
-	glTranslatef(pos.x, pos.y, 0);
-	glRotatef(rotation, 0.0f, 0.0f, 1.0f);
-	glTranslatef(-pos.x, -pos.y, 0);
-	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
 	int addr = (int)&tvcQuad[0];
@@ -172,7 +263,7 @@
 	//and vertices(x & y GLfloat) which are 16 bytes.
 	offset = offsetof(TVCPoint, color);
 	//set the color tint array for the texture.
-	glColorPointer(4, GL_FLOAT, sizeof(TVCPoint), (void*)(addr + offset));
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(TVCPoint), (void*)(addr + offset));
 	
 	//enable blend
 	glEnable(GL_BLEND);
@@ -187,24 +278,20 @@
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
 	glPopMatrix();
+	
+	//NSLog(@"%@", [self description]);
 }
 
-- (void)setRect:(CGRect)aRect{
-	rect = aRect;
-	
-	GLfloat texWidth = texWidthRatio*rect.size.width;
-	GLfloat texHeight = texHeightRatio*rect.size.height;
-	GLfloat offsetX = texWidthRatio*rect.origin.x;
-	GLfloat offsetY = texHeightRatio*rect.origin.y;
-	
-	tvcQuad[0].tl.texCoords.u = offsetX;
-	tvcQuad[0].tl.texCoords.v = offsetY + texHeight;
-	tvcQuad[0].bl.texCoords.u = offsetX;
-	tvcQuad[0].bl.texCoords.v = offsetY;
-	tvcQuad[0].tr.texCoords.u = offsetX + texWidth;
-	tvcQuad[0].tr.texCoords.v = offsetY + texHeight;
-	tvcQuad[0].br.texCoords.u = offsetX + texWidth;
-	tvcQuad[0].br.texCoords.v = offsetY;
+- (NSString*) description
+{
+	return [NSString stringWithFormat:@"<%@ = %08X | TextureName=%d, Rect = (%.2f,%.2f,%.2f,%.2f)>, Pos=<%.2f,%.2f>", [self class], self,
+			texRef.name,
+			rect.origin.x,
+			rect.origin.y,
+			rect.size.width,
+			rect.size.height,
+			pos.x,
+			pos.y];
 }
 
 @end

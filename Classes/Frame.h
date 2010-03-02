@@ -10,9 +10,16 @@
 
 @class Texture2D;
 
+/**
+ * Describe an Animation frame.
+ */
 @interface Frame : NSObject {
+	//How many seconds should this frame be on the screen. 
 	float delay;
+	//Define the draw region on the texture 
 	CGRect rect;
+	//The texture2D reference. It might be different to the Animation's texRef.
+	//Frame can have a different texRef.
 	Texture2D* texRef;
 }
 
