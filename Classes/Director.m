@@ -31,6 +31,8 @@ static Director* instance;
 
 - (id)init{
 	if (self = [super init]) {
+		scheduler = [[GEScheduler sharedScheduler] init];
+		
 		renderInterval = 1.0/60.0;
 		
 		delta = 0.0;
@@ -64,12 +66,12 @@ static Director* instance;
 - (void)startAnimation{
 	lastTime = CFAbsoluteTimeGetCurrent();
 	rendering = YES;
-	renderTimer = [NSTimer scheduledTimerWithTimeInterval:renderInterval target:self selector:@selector(mainLoop) userInfo:nil repeats:YES];
+	mainTimer = [NSTimer scheduledTimerWithTimeInterval:renderInterval target:self selector:@selector(mainLoop) userInfo:nil repeats:YES];
 }
 
 - (void)stopAnimation{
-	[renderTimer invalidate];
-	renderTimer = nil;
+	[mainTimer invalidate];
+	mainTimer = nil;
 	rendering = NO;
 }
 
@@ -81,22 +83,25 @@ static Director* instance;
 	[self startAnimation];
 }
 
+- (void)calculateDeltaTime{
+	CFTimeInterval now = CFAbsoluteTimeGetCurrent();
+	delta = now - lastTime;
+	//update last time
+	lastTime = now;
+}
+
 - (void)mainLoop{
 	while(CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.002, TRUE) == kCFRunLoopRunHandledSource);
 	
-	CFTimeInterval now = CFAbsoluteTimeGetCurrent();
-	delta = now - lastTime;
+	[self calculateDeltaTime];
 	
-	//fire update selector
-	/*
-	 */
+	//FIXME: fire scheduled selector
+	[scheduler tick:delta];
+	
 	
 	[renderer begin];
 	[currentScene visit];
 	[renderer end];
-	
-	//update last time
-	lastTime = now;
 }
 
 - (void)setFrameRate:(uint)frameRate{

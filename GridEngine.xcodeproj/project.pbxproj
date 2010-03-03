@@ -21,6 +21,7 @@
 		6A7AEAEB112F378900F6EBC9 /* grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A7AEAEA112F378900F6EBC9 /* grey.jpg */; };
 		6A7C6EF41131745300D4942F /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C6EF31131745300D4942F /* Renderer.m */; };
 		6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6A7C70741131CBC800D4942F /* spritesheet16.gif */; };
+		6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A942C5A113F0C4300326DCB /* GEScheduler.m */; };
 		6AA7B0BB1133254200DAE192 /* TextureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BA1133254200DAE192 /* TextureNode.m */; };
 		6AA7B0BE1133254D00DAE192 /* ColorNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BD1133254D00DAE192 /* ColorNode.m */; };
 		6AC18017112E28F300F95B7A /* Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC18016112E28F300F95B7A /* Frame.m */; };
@@ -66,6 +67,8 @@
 		6A7C6EF21131745300D4942F /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		6A7C6EF31131745300D4942F /* Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Renderer.m; sourceTree = "<group>"; };
 		6A7C70741131CBC800D4942F /* spritesheet16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spritesheet16.gif; sourceTree = "<group>"; };
+		6A942C59113F0C4300326DCB /* GEScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEScheduler.h; sourceTree = "<group>"; };
+		6A942C5A113F0C4300326DCB /* GEScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEScheduler.m; sourceTree = "<group>"; };
 		6AA7B0B91133254200DAE192 /* TextureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureNode.h; sourceTree = "<group>"; };
 		6AA7B0BA1133254200DAE192 /* TextureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureNode.m; sourceTree = "<group>"; };
 		6AA7B0BC1133254D00DAE192 /* ColorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorNode.h; sourceTree = "<group>"; };
@@ -214,6 +217,8 @@
 		6AEEE742112D72B7002ABFB0 /* GridEngine */ = {
 			isa = PBXGroup;
 			children = (
+				6A942C59113F0C4300326DCB /* GEScheduler.h */,
+				6A942C5A113F0C4300326DCB /* GEScheduler.m */,
 				6A7C6EF21131745300D4942F /* Renderer.h */,
 				6A7C6EF31131745300D4942F /* Renderer.m */,
 				6AEEE90B112DBFFD002ABFB0 /* Camera.h */,
@@ -384,6 +389,7 @@
 				6AA7B0BB1133254200DAE192 /* TextureNode.m in Sources */,
 				6AA7B0BE1133254D00DAE192 /* ColorNode.m in Sources */,
 				6ADF9D381134678F00B0E1BE /* VideoNode.m in Sources */,
+				6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
