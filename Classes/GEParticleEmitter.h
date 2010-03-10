@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "CollectionNode.h"
+#import "Common.h"
 
 
-@interface ParticleEmitter : CollectionNode {
+@interface GEParticleEmitter : CollectionNode {
 
 }
 

@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Renderer.h"
+#import "GEScheduler.h"
+#import "Common.h"
 
 @interface Director : NSObject {
 	//contains all scenes
@@ -22,8 +24,8 @@
 	//store the last time finished drawing the screen.
 	CFTimeInterval lastTime;
 	
-	//rendering timer
-	NSTimer* renderTimer;
+	//main rendering and other selector triger timer
+	NSTimer* mainTimer;
 	
 	//one frame for how many second.
 	NSTimeInterval renderInterval;
@@ -33,12 +35,18 @@
 	
 	//delta time which means how many second has past since last screen draw.
 	float delta;
+	
+	//Manage all the selectors ready to trigger
+	GEScheduler* scheduler;
+	
+	Color4b bgColor;
 }
 
 @property (nonatomic, readonly)Renderer* renderer;
 @property (nonatomic, assign)Scene* currentScene;
 @property (nonatomic, readonly)float delta;
 @property (nonatomic, readonly)BOOL rendering;
+@property (nonatomic, assign)Color4b bgColor;
 
 
 + (Director*)sharedDirector;

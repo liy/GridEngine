@@ -63,7 +63,11 @@
 		return;
 }
 
-- (void)visit{
+- (void)directDraw{
+	[self traverse];
+}
+
+- (void)traverse{
 	//always draw current node
 	[self draw];
 }

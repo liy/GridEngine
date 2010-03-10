@@ -21,6 +21,8 @@
 		6A7AEAEB112F378900F6EBC9 /* grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A7AEAEA112F378900F6EBC9 /* grey.jpg */; };
 		6A7C6EF41131745300D4942F /* Renderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C6EF31131745300D4942F /* Renderer.m */; };
 		6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6A7C70741131CBC800D4942F /* spritesheet16.gif */; };
+		6A8072A111440742004C9C8F /* DirectDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8072A011440742004C9C8F /* DirectDraw.m */; };
+		6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A942C5A113F0C4300326DCB /* GEScheduler.m */; };
 		6AA7B0BB1133254200DAE192 /* TextureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BA1133254200DAE192 /* TextureNode.m */; };
 		6AA7B0BE1133254D00DAE192 /* ColorNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BD1133254D00DAE192 /* ColorNode.m */; };
 		6AC18017112E28F300F95B7A /* Frame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC18016112E28F300F95B7A /* Frame.m */; };
@@ -35,7 +37,7 @@
 		6AEEE78E112D749A002ABFB0 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE78D112D749A002ABFB0 /* Tile.m */; };
 		6AEEE794112D74DB002ABFB0 /* TileMapLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE793112D74DB002ABFB0 /* TileMapLayer.m */; };
 		6AEEE7A2112D7594002ABFB0 /* TileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A1112D7594002ABFB0 /* TileMap.m */; };
-		6AEEE7A5112D75BA002ABFB0 /* ParticleEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A4112D75BA002ABFB0 /* ParticleEmitter.m */; };
+		6AEEE7A5112D75BA002ABFB0 /* GEParticleEmitter.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A4112D75BA002ABFB0 /* GEParticleEmitter.m */; };
 		6AEEE7A8112D7658002ABFB0 /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A7112D7658002ABFB0 /* Texture2D.m */; };
 		6AEEE7E3112D76AA002ABFB0 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6AEEE7E2112D76AA002ABFB0 /* CoreGraphics.framework */; };
 		6AEEE806112D77D7002ABFB0 /* TextureManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE805112D77D7002ABFB0 /* TextureManager.m */; };
@@ -66,6 +68,10 @@
 		6A7C6EF21131745300D4942F /* Renderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Renderer.h; sourceTree = "<group>"; };
 		6A7C6EF31131745300D4942F /* Renderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Renderer.m; sourceTree = "<group>"; };
 		6A7C70741131CBC800D4942F /* spritesheet16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spritesheet16.gif; sourceTree = "<group>"; };
+		6A80729F11440742004C9C8F /* DirectDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectDraw.h; sourceTree = "<group>"; };
+		6A8072A011440742004C9C8F /* DirectDraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DirectDraw.m; sourceTree = "<group>"; };
+		6A942C59113F0C4300326DCB /* GEScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEScheduler.h; sourceTree = "<group>"; };
+		6A942C5A113F0C4300326DCB /* GEScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEScheduler.m; sourceTree = "<group>"; };
 		6AA7B0B91133254200DAE192 /* TextureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextureNode.h; sourceTree = "<group>"; };
 		6AA7B0BA1133254200DAE192 /* TextureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextureNode.m; sourceTree = "<group>"; };
 		6AA7B0BC1133254D00DAE192 /* ColorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorNode.h; sourceTree = "<group>"; };
@@ -93,8 +99,8 @@
 		6AEEE793112D74DB002ABFB0 /* TileMapLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMapLayer.m; sourceTree = "<group>"; };
 		6AEEE7A0112D7594002ABFB0 /* TileMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TileMap.h; sourceTree = "<group>"; };
 		6AEEE7A1112D7594002ABFB0 /* TileMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TileMap.m; sourceTree = "<group>"; };
-		6AEEE7A3112D75BA002ABFB0 /* ParticleEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleEmitter.h; sourceTree = "<group>"; };
-		6AEEE7A4112D75BA002ABFB0 /* ParticleEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticleEmitter.m; sourceTree = "<group>"; };
+		6AEEE7A3112D75BA002ABFB0 /* GEParticleEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEParticleEmitter.h; sourceTree = "<group>"; };
+		6AEEE7A4112D75BA002ABFB0 /* GEParticleEmitter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEParticleEmitter.m; sourceTree = "<group>"; };
 		6AEEE7A6112D7658002ABFB0 /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Texture2D.h; sourceTree = "<group>"; };
 		6AEEE7A7112D7658002ABFB0 /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Texture2D.m; sourceTree = "<group>"; };
 		6AEEE7E2112D76AA002ABFB0 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -214,6 +220,10 @@
 		6AEEE742112D72B7002ABFB0 /* GridEngine */ = {
 			isa = PBXGroup;
 			children = (
+				6A80729F11440742004C9C8F /* DirectDraw.h */,
+				6A8072A011440742004C9C8F /* DirectDraw.m */,
+				6A942C59113F0C4300326DCB /* GEScheduler.h */,
+				6A942C5A113F0C4300326DCB /* GEScheduler.m */,
 				6A7C6EF21131745300D4942F /* Renderer.h */,
 				6A7C6EF31131745300D4942F /* Renderer.m */,
 				6AEEE90B112DBFFD002ABFB0 /* Camera.h */,
@@ -295,8 +305,8 @@
 		6AEEE795112D7548002ABFB0 /* Particle */ = {
 			isa = PBXGroup;
 			children = (
-				6AEEE7A3112D75BA002ABFB0 /* ParticleEmitter.h */,
-				6AEEE7A4112D75BA002ABFB0 /* ParticleEmitter.m */,
+				6AEEE7A3112D75BA002ABFB0 /* GEParticleEmitter.h */,
+				6AEEE7A4112D75BA002ABFB0 /* GEParticleEmitter.m */,
 			);
 			name = Particle;
 			sourceTree = "<group>";
@@ -372,7 +382,7 @@
 				6AEEE78E112D749A002ABFB0 /* Tile.m in Sources */,
 				6AEEE794112D74DB002ABFB0 /* TileMapLayer.m in Sources */,
 				6AEEE7A2112D7594002ABFB0 /* TileMap.m in Sources */,
-				6AEEE7A5112D75BA002ABFB0 /* ParticleEmitter.m in Sources */,
+				6AEEE7A5112D75BA002ABFB0 /* GEParticleEmitter.m in Sources */,
 				6AEEE7A8112D7658002ABFB0 /* Texture2D.m in Sources */,
 				6AEEE806112D77D7002ABFB0 /* TextureManager.m in Sources */,
 				6AEEE809112D77E4002ABFB0 /* Director.m in Sources */,
@@ -384,6 +394,8 @@
 				6AA7B0BB1133254200DAE192 /* TextureNode.m in Sources */,
 				6AA7B0BE1133254D00DAE192 /* ColorNode.m in Sources */,
 				6ADF9D381134678F00B0E1BE /* VideoNode.m in Sources */,
+				6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */,
+				6A8072A111440742004C9C8F /* DirectDraw.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

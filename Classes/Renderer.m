@@ -11,6 +11,8 @@
 
 @implementation Renderer
 
+@synthesize clearColor;
+
 - (id) init
 {
 	if (self = [super init])
@@ -32,8 +34,11 @@
 		
 		screenBounds = [[UIScreen mainScreen] bounds];
 		
+		//the clear color.
+		clearColor = Color4fMake(0.0f, 0.0f, 0.0f, 1.0f);
+		
 		//clear colour
-		glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 		//disable depth test, 2D only
 		glDisable(GL_DEPTH_TEST);
 		glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND_SRC);
@@ -70,6 +75,9 @@
 	// Setup how the images are to be blended when rendered.  This could be changed at different points during your
 	// render process if you wanted to apply different effects
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	
+	//After clear the screen this function will fill the screen with the new colour.
+	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
 }
 
 - (void)render{

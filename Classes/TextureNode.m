@@ -22,6 +22,10 @@
 - (id)initWithFile:(NSString*)aName{
 	if (self = [super init]) {
 		tvcQuad = calloc(1, sizeof(TVCQuad));
+		
+		//int numOfQuads = sizeof(*tvcQuad)/sizeof(TVCQuad);
+		//NSLog(@"numOfQuads: %i", numOfQuads);
+		
 		texManager = [TextureManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
 		
@@ -31,7 +35,7 @@
 		
 		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
-		[self setTintColor:Color4fMake(255, 255, 255, 255)];
+		[self setTintColor:Color4bMake(255, 255, 255, 255)];
 	}
 	return self;
 }
@@ -48,7 +52,7 @@
 		
 		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:aRect];
-		[self setTintColor:Color4fMake(255, 255, 255, 255)];
+		[self setTintColor:Color4bMake(255, 255, 255, 255)];
 	}
 	return self;
 }
@@ -101,13 +105,15 @@
 	tvcQuad[0].tr.vertices.y = x2*b + y2*d + ty;
 	tvcQuad[0].br.vertices.x = x2*a + y1*c + tx;
 	tvcQuad[0].br.vertices.y = x2*b + y1*d + ty;
+	
+	
 }
 
-- (void)visit{
+- (void)traverse{
 	//first we need to concatenate parent matrix.
 	[self updateVertices];
 	//check whether to draw.
-	[super visit];
+	[super traverse];
 }
 
 
@@ -132,7 +138,7 @@
 	tvcQuad[0].br.texCoords.v = offsetY;
 }
 
-- (void)setTintColor:(Color4f)aColor{
+- (void)setTintColor:(Color4b)aColor{
 	tintColor = aColor;
 	
 	self.tlColor = tintColor;
@@ -155,22 +161,22 @@
  *
  * ============================================================================================================
  */
-- (void)setTlColor:(Color4f)aColor{
+- (void)setTlColor:(Color4b)aColor{
 	blColor = aColor;
 	tvcQuad[0].bl.color = blColor;
 }
 
-- (void)setBlColor:(Color4f)aColor{
+- (void)setBlColor:(Color4b)aColor{
 	tlColor = aColor;
 	tvcQuad[0].tl.color = aColor;
 }
 
-- (void)setTrColor:(Color4f)aColor{
+- (void)setTrColor:(Color4b)aColor{
 	brColor = aColor;
 	tvcQuad[0].br.color = aColor;
 }
 
-- (void)setBrColor:(Color4f)aColor{
+- (void)setBrColor:(Color4b)aColor{
 	trColor = aColor;
 	tvcQuad[0].tr.color = aColor;
 }

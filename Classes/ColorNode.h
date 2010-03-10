@@ -19,19 +19,19 @@
 	VCQuad* vcQuad;
 	
 	//top-left
-	Color4f tlColor;
+	Color4b tlColor;
 	//bottom-left
-	Color4f blColor;
+	Color4b blColor;
 	//top-right
-	Color4f trColor;
+	Color4b trColor;
 	//bottom-right
-	Color4f brColor;
+	Color4b brColor;
 }
 
 //apply tint color.
-@property (nonatomic, assign)Color4f tlColor;
-@property (nonatomic, assign)Color4f blColor;
-@property (nonatomic, assign)Color4f trColor;
-@property (nonatomic, assign)Color4f brColor;
+@property (nonatomic, assign)Color4b tlColor;
+@property (nonatomic, assign)Color4b blColor;
+@property (nonatomic, assign)Color4b trColor;
+@property (nonatomic, assign)Color4b brColor;
 
 @end

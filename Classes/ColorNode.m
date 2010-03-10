@@ -20,10 +20,10 @@
 	if (self = [super init]) {
 		vcQuad = calloc(1, sizeof(VCQuad));
 		
-		tlColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
-		blColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
-		trColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
-		brColor = Color4fMake(1.0f, 1.0f, 1.0f, 1.0f);
+		tlColor = Color4bMake(255, 255, 255, 255);
+		blColor = Color4bMake(255, 255, 255, 255);
+		trColor = Color4bMake(255, 255, 255, 255);
+		brColor = Color4bMake(255, 255, 255, 255);
 	}
 	return self;
 }

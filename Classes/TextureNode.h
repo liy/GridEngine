@@ -31,16 +31,16 @@
 	
 	//rgba, simple property to set a solid color for all 4 points in the quad.
 	//If you want a gradient color tint, you can specify the color individually for the 4 points.
-	Color4f tintColor;
+	Color4b tintColor;
 	
 	//top-left
-	Color4f tlColor;
+	Color4b tlColor;
 	//bottom-left
-	Color4f blColor;
+	Color4b blColor;
 	//top-right
-	Color4f trColor;
+	Color4b trColor;
 	//bottom-right
-	Color4f brColor;
+	Color4b brColor;
 }
 
 /**
@@ -58,12 +58,12 @@
 - (id)initWithFile:(NSString *)aName rect:(CGRect)aRect;
 
 //apply tint color for individual vertices.
-@property (nonatomic, assign)Color4f tlColor;
-@property (nonatomic, assign)Color4f blColor;
-@property (nonatomic, assign)Color4f trColor;
-@property (nonatomic, assign)Color4f brColor;
+@property (nonatomic, assign)Color4b tlColor;
+@property (nonatomic, assign)Color4b blColor;
+@property (nonatomic, assign)Color4b trColor;
+@property (nonatomic, assign)Color4b brColor;
 //Apply tint color.
-@property (nonatomic, assign)Color4f tintColor;
+@property (nonatomic, assign)Color4b tintColor;
 //Specify the area and position to draw from the texture.
 @property (nonatomic, assign)CGRect rect;
 //can manually change texture. But remember to update the rect as well.

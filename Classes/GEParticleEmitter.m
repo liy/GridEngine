@@ -6,9 +6,9 @@
 //  Copyright 2010 Bangboo. All rights reserved.
 //
 
-#import "ParticleEmitter.h"
+#import "GEParticleEmitter.h"
 
 
-@implementation ParticleEmitter
+@implementation GEParticleEmitter
 
 @end
