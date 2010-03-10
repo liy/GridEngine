@@ -69,7 +69,6 @@
 		[scene addChild:walk];
 		
 		
-		
 		Graphic* indicator = [[Graphic alloc] initWithFile:@"grey.jpg"];
 		indicator.size = CGSizeMake(5, 5);
 		indicator.pos = CGPointMake(90, 90);
@@ -78,11 +77,18 @@
 		
 		animation = [[Animation alloc] initWithFile:@"walking.png"];
 		animation.pos = CGPointMake(121.0f, 121.0f);
-		animation.anchor = CGPointMake(0.5, 0.5);
+		animation.anchor = CGPointMake(0.0, 1.0);
 		animation.scaleX = -1.0;
 		float trackX = 0.0f;
 		for (int i=0; i<3; ++i) {
-			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.1];
+			if (i == 2) {
+				[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 21.0f) withDelay:0.5];
+			}
+			else {
+				[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.5];
+			}
+
+			
 			trackX+=18.0f;
 		}
 		[animation play];
@@ -90,7 +96,6 @@
 		animation.pingpong = YES;
 		animation.tlColor = Color4fMake(255, 0, 0, 255);
 		[scene addChild:animation];
-		
 		
 		
 		/*
@@ -139,14 +144,17 @@
 		 NSLog(@"| %.1f  %.1f  0.0 |", rt.c, rt.d);
 		 NSLog(@"| %.1f  %.1f  1.0 |", rt.tx, rt.ty);
 		 */
-		timer = [NSTimer scheduledTimerWithTimeInterval:1/60 target:self selector:@selector(intervalCall) userInfo:nil repeats:YES];
+		//[[GEScheduler sharedScheduler] addTarget:self sel:@selector(intervalCall:) interval:0.001];
     }
 	
     return self;
 }
 
-- (void)intervalCall{
-	animation.rotation+=0.02;
+- (void)intervalCall:(float)delta{
+	animation.rotation+=0.5;
+	if (animation.rotation > 360.0) {
+		[[GEScheduler sharedScheduler] remove:@selector(intervalCall:)];
+	}
 }
 
 - (void) layoutSubviews

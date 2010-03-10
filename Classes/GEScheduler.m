@@ -24,7 +24,7 @@
 		timeScale = 1.0;
 		elapsed = 0.0;
 		
-		impMethod = (GEIMP)[target methodForSelector:selector];
+		impMethod = (GE_IMP)[target methodForSelector:selector];
 	}
 	return self;
 }
@@ -32,7 +32,7 @@
 - (void)fire:(float)delta{
 	elapsed+=delta;
 	if (elapsed>=interval) {
-		NSLog(@"fire elapsed: %f", elapsed);
+		//NSLog(@"fire elapsed: %f", elapsed);
 		impMethod(target, selector, elapsed);
 		elapsed = 0.0;
 	}

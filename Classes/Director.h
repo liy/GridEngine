@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Renderer.h"
 #import "GEScheduler.h"
+#import "Common.h"
 
 @interface Director : NSObject {
 	//contains all scenes
@@ -37,12 +38,15 @@
 	
 	//Manage all the selectors ready to trigger
 	GEScheduler* scheduler;
+	
+	Color4b bgColor;
 }
 
 @property (nonatomic, readonly)Renderer* renderer;
 @property (nonatomic, assign)Scene* currentScene;
 @property (nonatomic, readonly)float delta;
 @property (nonatomic, readonly)BOOL rendering;
+@property (nonatomic, assign)Color4b bgColor;
 
 
 + (Director*)sharedDirector;

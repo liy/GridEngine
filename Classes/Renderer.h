@@ -11,9 +11,8 @@
 #import <OpenGLES/ES1/gl.h>
 #import <OpenGLES/ES1/glext.h>
 #import "TextureManager.h"
-#import "Graphic.h"
-#import "Sprite.h"
 #import "Scene.h"
+#import "Common.h"
 
 @interface Renderer : NSObject
 {
@@ -28,10 +27,13 @@
 	GLuint defaultFramebuffer, colorRenderbuffer;
 	
 	CGRect screenBounds;
+	
+	Color4f clearColor;
 }
 
+@property (nonatomic, assign)Color4f clearColor;
+
 - (void)begin;
-- (void)render;
 - (void)end;
 - (BOOL)resizeFromLayer:(CAEAGLLayer *)layer;
 

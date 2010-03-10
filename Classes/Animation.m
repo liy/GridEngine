@@ -203,17 +203,20 @@
 	}
 }
 
-- (void)visit{
+- (void)traverse{
 	//first we need to update the frams in this animation.
 	[self updateAnimation];
 	
 	Frame* frame = [frames objectAtIndex:currentFrameIndex];
 	//change contentSize
 	contentSize = CGSizeMake(frame.rect.size.width, frame.rect.size.height);
+	//since we updated the contentSize, the anchor point is calculated based on the contentSize.
+	//we need to simply set the anchor point again.
+	self.anchor = CGPointMake(anchor.x, anchor.y);
 	
 	//Finished updating the animation
 	//super class will fire draw method
-	[super visit];
+	[super traverse];
 }
 
 - (void)draw{

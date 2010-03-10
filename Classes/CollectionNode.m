@@ -25,19 +25,22 @@
 	[super dealloc];
 }
 
-- (void)visit{
-	//never draw the the collection node, collectionNode has nothing to draw.
-
-
+- (void)traverse{
 	//if not visible, the sub node will not be draw.
 	if (!visible) {
 		return;
 	}
 	
+	[self draw];
+	
 	//visit child nodes.
 	for (Node* node in children) {
-		[node visit];
+		[node traverse];
 	}
+}
+
+- (void)draw{
+	//manage its children LeafNode draw.
 }
 
 - (Node*)addChild:(Node*)aNode{

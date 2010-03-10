@@ -15,6 +15,7 @@
 @synthesize currentScene;
 @synthesize delta;
 @synthesize rendering;
+@synthesize bgColor;
 
 static Director* instance;
 
@@ -31,6 +32,9 @@ static Director* instance;
 
 - (id)init{
 	if (self = [super init]) {
+		//The default background colour will be black.
+		bgColor = Color4bMake(0, 0, 0, 255);
+		
 		scheduler = [[GEScheduler sharedScheduler] init];
 		
 		renderInterval = 1.0/60.0;
@@ -95,12 +99,12 @@ static Director* instance;
 	
 	[self calculateDeltaTime];
 	
-	//FIXME: fire scheduled selector
+	//Fire upate method before drawing.
 	[scheduler tick:delta];
 	
 	
 	[renderer begin];
-	[currentScene visit];
+	[currentScene traverse];
 	[renderer end];
 }
 
@@ -114,6 +118,11 @@ static Director* instance;
 		renderInterval = 1/frameRate;
 	}
 
+}
+
+- (void)setBgColor:(Color4b)aColor{
+	bgColor = aColor;
+	renderer.clearColor = Color4fMake((GLfloat)bgColor.r/255.0f, (GLfloat)bgColor.g/255.0f, (GLfloat)bgColor.b/255.0f, (GLfloat)bgColor.a/255.0f);
 }
 
 - (void)dealloc{

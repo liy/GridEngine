@@ -29,13 +29,21 @@ typedef struct _Vertex2f {
 } Vertex2f;
 
 //A color r g b a, value from 0-255, 1 byte for each channel.
-typedef struct _Color4f{
+typedef struct _Color4b{
 	GLubyte r;
 	GLubyte g;
 	GLubyte b;
 	GLubyte a;
-}Color4f;
+}Color4b;
 
+
+typedef struct _Color4f{
+	GLfloat r;
+	GLfloat g;
+	GLfloat b;
+	GLfloat a;
+}Color4f;
+ 
 //Short for texture vertices color point. means this struct contains all those informations.
 typedef struct _TVCPoint
 {
@@ -46,7 +54,7 @@ typedef struct _TVCPoint
 	Vertex2f vertices;
 	
 	//the color tint of this point.  4 bytes
-	Color4f color;
+	Color4b color;
 } TVCPoint;
 
 //A rectangle struct contains 4 corners which contain all the texture, vertice and color information.
@@ -67,7 +75,7 @@ typedef struct _VCPoint{
 	Vertex2f vertices;
 	
 	//the color tint of this point.  16 bytes
-	Color4f color;
+	Color4b color;
 }VCPoint;
 
 typedef struct _VCQuad{
@@ -81,7 +89,12 @@ typedef struct _VCQuad{
 	VCPoint br;
 }VCQuad;
 
-static inline Color4f Color4fMake(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
+static inline Color4b Color4bMake(GLubyte red, GLubyte green, GLubyte blue, GLubyte alpha)
+{
+	return (Color4b){red, green, blue, alpha};
+}
+
+static inline Color4f Color4fMake(GLfloat red, GLfloat green, GLfloat blue, GLfloat alpha)
 {
 	return (Color4f){red, green, blue, alpha};
 }
