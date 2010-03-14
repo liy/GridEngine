@@ -55,6 +55,31 @@
 	return self;
 }
 
+- (void) dealloc
+{
+	// Tear down GL
+	if (defaultFramebuffer)
+	{
+		glDeleteFramebuffersOES(1, &defaultFramebuffer);
+		defaultFramebuffer = 0;
+	}
+	
+	if (colorRenderbuffer)
+	{
+		glDeleteRenderbuffersOES(1, &colorRenderbuffer);
+		colorRenderbuffer = 0;
+	}
+	
+	// Tear down context
+	if ([EAGLContext currentContext] == context)
+        [EAGLContext setCurrentContext:nil];
+	
+	[context release];
+	context = nil;
+	
+	[super dealloc];
+}
+
 - (void)begin{
 	// This application only creates a single context which is already set current at this point.
 	// This call is redundant, but needed if dealing with multiple contexts.
@@ -106,31 +131,6 @@
     }
     
     return YES;
-}
-
-- (void) dealloc
-{
-	// Tear down GL
-	if (defaultFramebuffer)
-	{
-		glDeleteFramebuffersOES(1, &defaultFramebuffer);
-		defaultFramebuffer = 0;
-	}
-	
-	if (colorRenderbuffer)
-	{
-		glDeleteRenderbuffersOES(1, &colorRenderbuffer);
-		colorRenderbuffer = 0;
-	}
-	
-	// Tear down context
-	if ([EAGLContext currentContext] == context)
-        [EAGLContext setCurrentContext:nil];
-	
-	[context release];
-	context = nil;
-	
-	[super dealloc];
 }
 
 @end

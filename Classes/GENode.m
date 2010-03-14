@@ -7,7 +7,7 @@
 //
 
 #import "GENode.h"
-#import "Common.h"
+#import "GECommon.h"
 
 @implementation GENode
 
@@ -55,6 +55,11 @@
 		
 	}
 	return self;
+}
+
+- (void)dealloc{
+	[camera release];
+	[super dealloc];
 }
 
 - (void)draw{

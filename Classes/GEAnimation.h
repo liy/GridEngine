@@ -9,7 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "GETextureNode.h"
 
-@class GEFrame;
+/**
+ * Describe an Animation frame.
+ */
+@interface GEFrame : NSObject {
+	//How many seconds should this frame be on the screen. 
+	float delay;
+	//Define the draw region on the texture 
+	CGRect rect;
+	//Since the frame can have different texture.
+	GLuint texName;
+}
+
+@property (nonatomic)float delay;
+@property (nonatomic, assign)GLuint texName;
+@property (nonatomic, readonly)CGRect rect;
+
+- (id)initWithTexName:(GLuint)aName rect:(CGRect)aRect withDelay:(float)aDelay;
+
+@end
 
 enum {
 	//indicate animation is playing forward

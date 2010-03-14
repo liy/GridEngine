@@ -64,6 +64,12 @@ static GEScheduler* instance;
 	return self;
 }
 
+- (void)dealloc{
+	[timers release];
+	[timersDic release];
+	[super dealloc];
+}
+
 - (void)addTarget:(id)aTarget sel:(SEL)aSelector interval:(float)aInterval{
 	//create timer
 	GETimer* timer = [[GETimer alloc] initTarget:aTarget sel:aSelector interval:aInterval];

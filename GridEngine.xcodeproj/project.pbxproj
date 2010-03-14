@@ -25,7 +25,6 @@
 		6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A942C5A113F0C4300326DCB /* GEScheduler.m */; };
 		6AA7B0BB1133254200DAE192 /* GETextureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BA1133254200DAE192 /* GETextureNode.m */; };
 		6AA7B0BE1133254D00DAE192 /* GEColorNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BD1133254D00DAE192 /* GEColorNode.m */; };
-		6AC18017112E28F300F95B7A /* GEFrame.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AC18016112E28F300F95B7A /* GEFrame.m */; };
 		6ADF9D381134678F00B0E1BE /* GEVideoNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF9D371134678F00B0E1BE /* GEVideoNode.m */; };
 		6AEBBE561131ED1500312A6F /* walking.png in Resources */ = {isa = PBXBuildFile; fileRef = 6AEBBE551131ED1500312A6F /* walking.png */; };
 		6AEEE77B112D73F5002ABFB0 /* GENode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE77A112D73F5002ABFB0 /* GENode.m */; };
@@ -75,8 +74,6 @@
 		6AA7B0BA1133254200DAE192 /* GETextureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GETextureNode.m; sourceTree = "<group>"; };
 		6AA7B0BC1133254D00DAE192 /* GEColorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEColorNode.h; sourceTree = "<group>"; };
 		6AA7B0BD1133254D00DAE192 /* GEColorNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEColorNode.m; sourceTree = "<group>"; };
-		6AC18015112E28F300F95B7A /* GEFrame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEFrame.h; sourceTree = "<group>"; };
-		6AC18016112E28F300F95B7A /* GEFrame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEFrame.m; sourceTree = "<group>"; };
 		6ADF9D361134678F00B0E1BE /* GEVideoNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEVideoNode.h; sourceTree = "<group>"; };
 		6ADF9D371134678F00B0E1BE /* GEVideoNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEVideoNode.m; sourceTree = "<group>"; };
 		6AEBBE551131ED1500312A6F /* walking.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = walking.png; sourceTree = "<group>"; };
@@ -270,8 +267,6 @@
 		6AEEE778112D73E2002ABFB0 /* DisplayObject */ = {
 			isa = PBXGroup;
 			children = (
-				6AC18015112E28F300F95B7A /* GEFrame.h */,
-				6AC18016112E28F300F95B7A /* GEFrame.m */,
 				6AEEE782112D7419002ABFB0 /* GEAnimation.h */,
 				6AEEE783112D7419002ABFB0 /* GEAnimation.m */,
 				6AEEE785112D7422002ABFB0 /* GESprite.h */,
@@ -383,7 +378,6 @@
 				6AEEE80C112D77F3002ABFB0 /* GEScene.m in Sources */,
 				6AEEE81B112D78C0002ABFB0 /* GESpriteSheet.m in Sources */,
 				6AEEE90D112DBFFD002ABFB0 /* GECamera.m in Sources */,
-				6AC18017112E28F300F95B7A /* GEFrame.m in Sources */,
 				6A7C6EF41131745300D4942F /* GERenderer.m in Sources */,
 				6AA7B0BB1133254200DAE192 /* GETextureNode.m in Sources */,
 				6AA7B0BE1133254D00DAE192 /* GEColorNode.m in Sources */,

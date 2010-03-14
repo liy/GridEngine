@@ -20,4 +20,9 @@
 	return self;
 }
 
+- (void)dealloc{
+	[name release];
+	[super dealloc];
+}
+
 @end

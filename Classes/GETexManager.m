@@ -33,6 +33,11 @@ static GETexManager* instance;
 	return self;
 }
 
+- (void)dealloc{
+	[texCache release];
+	[super dealloc];
+}
+
 - (Texture2D*)getTexture2D:(NSString *)fileName{
 	Texture2D* tex = [texCache objectForKey:fileName];
 	if (tex == nil) {

@@ -7,8 +7,25 @@
 //
 
 #import "GEAnimation.h"
-#import "GEFrame.h"
 #import "GEDirector.h"
+
+// This GEFrame class is for GEAnimation only.
+@implementation GEFrame
+
+@synthesize delay;
+@synthesize texName;
+@synthesize rect;
+
+- (id)initWithTexName:(GLuint)aName rect:(CGRect)aRect withDelay:(float)aDelay{
+	if (self = [super init]) {
+		delay = aDelay;
+		rect = aRect;
+		texName = aName;
+	}
+	return self;
+}
+
+@end
 
 
 @implementation GEAnimation
@@ -44,6 +61,11 @@
 	return self;
 }
 
+- (void)dealloc{
+	[frames release];
+	[super dealloc];
+}
+
 - (void)addFrame:(CGRect)aRect{
 	[self addFrame:aRect texture:texRef withDelay:defaultDelay];
 }
@@ -73,7 +95,7 @@
 		self.size = CGSizeMake(self.contentSize.width*scaleX, self.contentSize.height*scaleY);
 	}
 	
-	GEFrame* frame = [[GEFrame alloc] initWithTex:tex rect:aRect withDelay:aDelay];
+	GEFrame* frame = [[GEFrame alloc] initWithTexName:tex.name rect:aRect withDelay:aDelay];
 	[frames addObject:frame];
 	[frame release];
 }
@@ -241,9 +263,9 @@
 	
 	//bind the texture.
 	//The texture we are using here is loaded using Texture2D, which is texture size always be n^2.
-	if (texManager.boundedTex != [texRef name]) {
-		glBindTexture(GL_TEXTURE_2D, [texRef name]);
-		texManager.boundedTex = [texRef name];
+	if (texManager.boundedTex != frame.texName) {
+		glBindTexture(GL_TEXTURE_2D, frame.texName);
+		texManager.boundedTex = frame.texName;
 	}
 	else {
 		//NSLog(@"Image already binded");

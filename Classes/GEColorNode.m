@@ -28,4 +28,9 @@
 	return self;
 }
 
+- (void) dealloc{
+	free(vcQuad);
+	[super dealloc];
+}
+
 @end

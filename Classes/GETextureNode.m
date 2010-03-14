@@ -57,6 +57,11 @@
 	return self;
 }
 
+- (void)dealloc{
+	free(tvcQuad);
+	[super dealloc];
+}
+
 - (NSString*) description
 {
 	return [NSString stringWithFormat:@"<%@ = %08X | TextureName=%d, Rect = (%.2f,%.2f,%.2f,%.2f)>", [self class], self,

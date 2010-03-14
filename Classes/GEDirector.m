@@ -52,6 +52,17 @@ static GEDirector* instance;
 	return self;
 }
 
+- (void)dealloc{
+	[mainTimer invalidate];
+	[mainTimer release];
+	
+	[renderer release];
+	[currentScene release];
+	[scenes release];
+	
+	[super dealloc];
+}
+
 - (void)addScene:(GEScene*)aScene{
 	[scenes setObject:aScene forKey:aScene.name];
 }
@@ -123,15 +134,6 @@ static GEDirector* instance;
 - (void)setBgColor:(Color4b)aColor{
 	bgColor = aColor;
 	renderer.clearColor = Color4fMake((GLfloat)bgColor.r/255.0f, (GLfloat)bgColor.g/255.0f, (GLfloat)bgColor.b/255.0f, (GLfloat)bgColor.a/255.0f);
-}
-
-- (void)dealloc{
-	[instance release];
-	[renderer release];
-	[currentScene release];
-	[scenes release];
-	
-	[super dealloc];
 }
 
 @end

@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <OpenGLES/ES1/gl.h>
 #import "GENode.h"
-#import "Common.h"
+#import "GECommon.h"
 
 /**
  * Color node purely having a color filling
