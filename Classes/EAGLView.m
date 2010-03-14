@@ -7,10 +7,11 @@
 //
 
 #import "EAGLView.h"
-#import "Animation.h"
-#import "Director.h"
-#import "Sprite.h"
-#import "Common.h"
+#import "GEAnimation.h"
+#import "GEDirector.h"
+#import "GESprite.h"
+#import "GECommon.h"
+#import "GEGraphic.h"
 
 @implementation EAGLView
 
@@ -32,17 +33,17 @@
         eaglLayer.drawableProperties = [NSDictionary dictionaryWithObjectsAndKeys:
                                         [NSNumber numberWithBool:FALSE], kEAGLDrawablePropertyRetainedBacking, kEAGLColorFormatRGBA8, kEAGLDrawablePropertyColorFormat, nil];
 		
-        director = [[Director sharedDirector] init];
+        director = [[GEDirector sharedDirector] init];
 		//create a scene immediately as the current scene;
-		Scene* scene = [[Scene alloc] initWithName:@"Main Scene"];
+		GEScene* scene = [[GEScene alloc] initWithName:@"Main Scene"];
 		[director addScene:scene];
 		director.currentScene = scene;
 		
 		
-		Sprite* container = [[Sprite alloc] init];
+		GESprite* container = [[GESprite alloc] init];
 		[scene addChild:container];
 		
-		Graphic* q1 = [[Graphic alloc] initWithFile:@"grey.jpg"];
+		GEGraphic* q1 = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
 		q1.pos = CGPointMake(120, 120);
 		q1.scaleX = 0.5;
 		q1.scaleY = 0.5;
@@ -52,7 +53,7 @@
 		[container addChild:q1];
 		
 		
-		Graphic* q2 = [[Graphic alloc] initWithFile:@"grey.jpg"];
+		GEGraphic* q2 = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
 		[container addChild:q2];
 		container.scaleX = 0.5;
 		container.scaleY = 0.5;
@@ -63,19 +64,19 @@
 		
 		CGRect box = [container boundingbox];
 		NSLog(@"container bouding box width:%.2f height:%.2f", box.size.width, box.size.height);
-		Graphic* walk = [[Graphic alloc] initWithFile:@"walking.png"];
+		GEGraphic* walk = [[GEGraphic alloc] initWithFile:@"walking.png"];
 		walk.pos = CGPointMake(box.origin.x+box.size.width, box.origin.y+box.size.height);
 		//walk.rect = CGRectMake(0.0, 0.0, 17, 31);
 		[scene addChild:walk];
 		
 		
-		Graphic* indicator = [[Graphic alloc] initWithFile:@"grey.jpg"];
+		GEGraphic* indicator = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
 		indicator.size = CGSizeMake(5, 5);
 		indicator.pos = CGPointMake(90, 90);
 		[scene addChild:indicator];
 		
 		
-		animation = [[Animation alloc] initWithFile:@"walking.png"];
+		animation = [[GEAnimation alloc] initWithFile:@"walking.png"];
 		animation.pos = CGPointMake(121.0f, 121.0f);
 		animation.anchor = CGPointMake(0.0, 1.0);
 		animation.scaleX = -1.0;
@@ -94,7 +95,7 @@
 		[animation play];
 		animation.repeat = YES;
 		animation.pingpong = YES;
-		animation.tlColor = Color4fMake(255, 0, 0, 255);
+		animation.tlColor = Color4bMake(255, 0, 0, 255);
 		[scene addChild:animation];
 		
 		
