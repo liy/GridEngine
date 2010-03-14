@@ -1,5 +1,5 @@
 //
-//  ParticleEmitter.h
+//  TileMap.h
 //  GridEngine
 //
 //  Created by Liy on 10-2-18.
@@ -7,11 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GECollectionNode.h"
-#import "Common.h"
 
 
-@interface GEParticleEmitter : GECollectionNode {
+@interface GETileMap : NSObject {
 
 }
 
