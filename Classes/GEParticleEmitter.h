@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GECollectionNode.h"
-#import "Common.h"
+#import "GECommon.h"
 
 
 @interface GEParticleEmitter : GECollectionNode {

@@ -7,7 +7,7 @@
 //
 
 #import "GECollectionNode.h"
-#import "Common.h"
+#import "GECommon.h"
 
 @implementation GECollectionNode
 
