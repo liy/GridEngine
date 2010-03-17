@@ -18,10 +18,12 @@
 @synthesize blColor;
 @synthesize trColor;
 @synthesize brColor;
+@synthesize tvcQuad;
 
 - (id)initWithFile:(NSString*)aName{
 	if (self = [super init]) {
-		tvcQuad = calloc(1, sizeof(TVCQuad));
+		//tvcQuad = calloc(1, sizeof(TVCQuad));
+		bzero(&tvcQuad, sizeof(TVCQuad));
 		
 		//int numOfQuads = sizeof(*tvcQuad)/sizeof(TVCQuad);
 		//NSLog(@"numOfQuads: %i", numOfQuads);
@@ -42,7 +44,9 @@
 
 - (id)initWithFile:(NSString *)aName rect:(CGRect)aRect{
 	if (self = [super init]) {
-		tvcQuad = calloc(1, sizeof(TVCQuad));
+		//tvcQuad = calloc(1, sizeof(TVCQuad));
+		bzero(&tvcQuad, sizeof(TVCQuad));
+		
 		texManager = [GETexManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
 		
@@ -58,7 +62,8 @@
 }
 
 - (void)dealloc{
-	free(tvcQuad);
+	//free(tvcQuad);
+	free(&tvcQuad);
 	[super dealloc];
 }
 
@@ -102,6 +107,7 @@
 	float tx = matrix.tx;
 	float ty = matrix.ty;
 	
+	/*
 	tvcQuad[0].tl.vertices.x = x1*a + y2*c + tx;
 	tvcQuad[0].tl.vertices.y = x1*b + y2*d + ty;
 	tvcQuad[0].bl.vertices.x = x1*a + y1*c + tx;
@@ -110,6 +116,15 @@
 	tvcQuad[0].tr.vertices.y = x2*b + y2*d + ty;
 	tvcQuad[0].br.vertices.x = x2*a + y1*c + tx;
 	tvcQuad[0].br.vertices.y = x2*b + y1*d + ty;
+	 */
+	tvcQuad.tl.vertices.x = x1*a + y2*c + tx;
+	tvcQuad.tl.vertices.y = x1*b + y2*d + ty;
+	tvcQuad.bl.vertices.x = x1*a + y1*c + tx;
+	tvcQuad.bl.vertices.y = x1*b + y1*d + ty;
+	tvcQuad.tr.vertices.x = x2*a + y2*c + tx;
+	tvcQuad.tr.vertices.y = x2*b + y2*d + ty;
+	tvcQuad.br.vertices.x = x2*a + y1*c + tx;
+	tvcQuad.br.vertices.y = x2*b + y1*d + ty;
 	
 	
 }
@@ -132,7 +147,7 @@
 	GLfloat offsetX = texWidthRatio*rect.origin.x;
 	GLfloat offsetY = texHeightRatio*rect.origin.y;
 	
-	
+	/*
 	tvcQuad[0].tl.texCoords.u = offsetX;
 	tvcQuad[0].tl.texCoords.v = offsetY + texHeight;
 	tvcQuad[0].bl.texCoords.u = offsetX;
@@ -141,6 +156,15 @@
 	tvcQuad[0].tr.texCoords.v = offsetY + texHeight;
 	tvcQuad[0].br.texCoords.u = offsetX + texWidth;
 	tvcQuad[0].br.texCoords.v = offsetY;
+	 */
+	tvcQuad.tl.texCoords.u = offsetX;
+	tvcQuad.tl.texCoords.v = offsetY + texHeight;
+	tvcQuad.bl.texCoords.u = offsetX;
+	tvcQuad.bl.texCoords.v = offsetY;
+	tvcQuad.tr.texCoords.u = offsetX + texWidth;
+	tvcQuad.tr.texCoords.v = offsetY + texHeight;
+	tvcQuad.br.texCoords.u = offsetX + texWidth;
+	tvcQuad.br.texCoords.v = offsetY;
 }
 
 - (void)setTintColor:(Color4b)aColor{
@@ -168,21 +192,25 @@
  */
 - (void)setTlColor:(Color4b)aColor{
 	blColor = aColor;
-	tvcQuad[0].bl.color = blColor;
+	//tvcQuad[0].bl.color = blColor;
+	tvcQuad.bl.color = blColor;
 }
 
 - (void)setBlColor:(Color4b)aColor{
 	tlColor = aColor;
-	tvcQuad[0].tl.color = tlColor;
+	//tvcQuad[0].tl.color = tlColor;
+	tvcQuad.tl.color = tlColor;
 }
 
 - (void)setTrColor:(Color4b)aColor{
 	brColor = aColor;
-	tvcQuad[0].br.color = brColor;
+	//tvcQuad[0].br.color = brColor;
+	tvcQuad.br.color = brColor;
 }
 
 - (void)setBrColor:(Color4b)aColor{
 	trColor = aColor;
-	tvcQuad[0].tr.color = trColor;
+	//tvcQuad[0].tr.color = trColor;
+	tvcQuad.tr.color = trColor;
 }
 @end

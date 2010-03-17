@@ -12,7 +12,7 @@
 @class GECollectionNode;
 
 /**
- * Abstract class for CollectionNode and LeafNode.
+ * Abstract class as a base class for all the other visual nodes, contains basic transformation code.
  *
  *
  */

@@ -9,9 +9,9 @@
 #import "EAGLView.h"
 #import "GEAnimation.h"
 #import "GEDirector.h"
-#import "GESprite.h"
+#import "GEContainer.h"
 #import "GECommon.h"
-#import "GEGraphic.h"
+#import "GESprite.h"
 
 @implementation EAGLView
 
@@ -40,56 +40,41 @@
 		director.currentScene = scene;
 		
 		
-		GESprite* container = [[GESprite alloc] init];
+		GEContainer* container = [[GEContainer alloc] init];
 		[scene addChild:container];
+		//container.rotation = 10;
 		
-		GEGraphic* q1 = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
-		q1.pos = CGPointMake(120, 120);
-		q1.scaleX = 0.5;
-		q1.scaleY = 0.5;
-		q1.rotation = 45;
+		GESprite* q1 = [[GESprite alloc] initWithFile:@"grey.jpg"];
+		q1.pos = CGPointMake(10, 10);
+		//q1.rotation = 45;
 		
 		//q1.transform = matrix;
 		[container addChild:q1];
 		
 		
-		GEGraphic* q2 = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
+		GESprite* q2 = [[GESprite alloc] initWithFile:@"grey.jpg"];
+		q2.pos = CGPointMake(20, 20);
 		[container addChild:q2];
-		container.scaleX = 0.5;
-		container.scaleY = 0.5;
-		container.size = CGSizeMake(90, 90);
 		
 		
-		NSLog(@"container contentSize width:%.2f height:%.2f", container.contentSize.width, container.contentSize.height);
-		
-		CGRect box = [container boundingbox];
-		NSLog(@"container bouding box width:%.2f height:%.2f", box.size.width, box.size.height);
-		GEGraphic* walk = [[GEGraphic alloc] initWithFile:@"walking.png"];
-		walk.pos = CGPointMake(box.origin.x+box.size.width, box.origin.y+box.size.height);
-		//walk.rect = CGRectMake(0.0, 0.0, 17, 31);
+		//CGRect box = [container boundingbox];
+		GESprite* walk = [[GESprite alloc] initWithFile:@"walking.png"];
+		walk.pos = CGPointMake(30.0f, 30.0f);
 		[scene addChild:walk];
 		
 		
-		GEGraphic* indicator = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
-		indicator.size = CGSizeMake(5, 5);
-		indicator.pos = CGPointMake(90, 90);
+		GESprite* indicator = [[GESprite alloc] initWithFile:@"grey.jpg"];
+		indicator.pos = CGPointMake(40, 40);
 		[scene addChild:indicator];
 		
 		
 		animation = [[GEAnimation alloc] initWithFile:@"walking.png"];
-		animation.pos = CGPointMake(121.0f, 121.0f);
-		animation.anchor = CGPointMake(0.0, 1.0);
-		animation.scaleX = -1.0;
+		animation.pos = CGPointMake(40.0f, 40.0f);
+		animation.anchor = CGPointMake(0.0, 0.0);
+		//animation.scaleX = -1.0;
 		float trackX = 0.0f;
 		for (int i=0; i<3; ++i) {
-			if (i == 2) {
-				[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 21.0f) withDelay:0.5];
-			}
-			else {
-				[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.5];
-			}
-
-			
+			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.5];
 			trackX+=18.0f;
 		}
 		[animation play];

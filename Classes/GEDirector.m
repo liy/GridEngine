@@ -47,6 +47,9 @@ static GEDirector* instance;
 		//renderer to render the whole sence.
 		renderer = [[GERenderer alloc] init];
 		
+		//sprite batch
+		spriteBatch = [[GESpriteBatch sharedSpriteBatch] init];
+		
 		scenes = [[NSMutableDictionary alloc] initWithCapacity:2];
 	}
 	return self;
@@ -116,6 +119,7 @@ static GEDirector* instance;
 	
 	[renderer begin];
 	[currentScene traverse];
+	[spriteBatch flush];
 	[renderer end];
 }
 

@@ -20,7 +20,8 @@
 	Texture2D* texRef;
 	
 	//Define an array of TVCQuad contains texture, vertices, color information
-	TVCQuad* tvcQuad;
+	//TVCQuad* tvcQuad;
+	TVCQuad tvcQuad;
 	
 	//1 texel will represents how many actual pixels in the picture width. will be 1/textureWidth
 	//since texture u & v range from 0-1, so if we draw the texture use u v, we need to
@@ -68,5 +69,7 @@
 @property (nonatomic, assign)CGRect rect;
 //can manually change texture. But remember to update the rect as well.
 @property (nonatomic, assign)Texture2D* texRef;
+
+@property (nonatomic, readonly)TVCQuad tvcQuad;
 
 @end

@@ -251,6 +251,11 @@
 	GEFrame* frame = [frames objectAtIndex:currentFrameIndex];
 	self.rect = [frame rect];
 	
+	if (YES) {
+		[[GESpriteBatch sharedSpriteBatch] batchNode:self];
+		return;
+	}
+	
 	//save the current matrix
 	glPushMatrix();
 	
@@ -273,7 +278,8 @@
 	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
-	int addr = (int)&tvcQuad[0];
+	//int addr = (int)&tvcQuad[0];
+	int addr = (int)&tvcQuad;
 	//calculate the memory location offset, should be 0. Since there is nothing before texCoords property of TVCQuad.
 	int offset = offsetof(TVCPoint, texCoords);
 	//set the texture coordinates we what to render from. (positions on the Texture2D generated image)
