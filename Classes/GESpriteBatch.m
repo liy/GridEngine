@@ -28,7 +28,10 @@ static GESpriteBatch* instance;
 
 - (id)init{
 	if (self = [super init]) {
-		tvcQuads = calloc(MAX_NUM_QUADS, sizeof(TVCQuad));
+		blendFunc.dst = DEFAULT_BLEND_DST;
+		blendFunc.src = DEFAULT_BLEND_SRC;
+		
+		batchedQuads = calloc(MAX_NUM_QUADS, sizeof(TVCQuad));
 		indices = calloc(MAX_NUM_QUADS*6, sizeof(GLubyte));
 		texManager = [GETexManager sharedTextureManager];
 		numOfQuads = 0;
@@ -38,28 +41,38 @@ static GESpriteBatch* instance;
 
 - (void)batchNode:(GETextureNode*)aTexNode {
 	
-	//If this is not the start of the 
 	if (texManager.boundedTex != aTexNode.texRef.name) {
 		[self flush];
+		blendFunc = aTexNode.blendFunc;
 		texManager.boundedTex = aTexNode.texRef.name;
 	}
+	else if( blendFunc.src != aTexNode.blendFunc.src || blendFunc.dst != aTexNode.blendFunc.dst ) {
+		[self flush];
+		//NSLog(@"blend function not the same");
+		blendFunc = aTexNode.blendFunc;
+	}
 	
-	//update indices
-	indices[numOfQuads*6+0] = numOfQuads*4+0;
-	indices[numOfQuads*6+1] = numOfQuads*4+1;
-	indices[numOfQuads*6+2] = numOfQuads*4+2;
-	indices[numOfQuads*6+3] = numOfQuads*4+1;
-	indices[numOfQuads*6+4] = numOfQuads*4+2;
-	indices[numOfQuads*6+5] = numOfQuads*4+3;
-
-	tvcQuads[numOfQuads] = aTexNode.tvcQuad;
-	++numOfQuads;
+	//scan through all the quads in the texture node and create indices, and assign render information
+	for (uint i=0; i<aTexNode.numOfQuads; ++i) {
+		//update indices
+		indices[numOfQuads*6+0] = numOfQuads*4+0;
+		indices[numOfQuads*6+1] = numOfQuads*4+1;
+		indices[numOfQuads*6+2] = numOfQuads*4+2;
+		indices[numOfQuads*6+3] = numOfQuads*4+1;
+		indices[numOfQuads*6+4] = numOfQuads*4+2;
+		indices[numOfQuads*6+5] = numOfQuads*4+3;
+		
+		batchedQuads[numOfQuads] = aTexNode.tvcQuads[i];
+		++numOfQuads;
+	}
+	
 }
 
 - (void)flush{
-	NSLog(@"numOfQuads: %i", numOfQuads);
-	
-	glPushMatrix();
+	//it is possible that there is nothing for draw.
+	if (numOfQuads == 0) {
+		return;
+	}
 	
 	//enable to use coords array as a source texture
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -68,13 +81,14 @@ static GESpriteBatch* instance;
 	//enable texture 2d
 	glEnable(GL_TEXTURE_2D);
 	
+	//NSLog(@"texManager.boundedTex: %i", texManager.boundedTex);
 	//bind the texture.
 	//The texture we are using here is loaded using Texture2D, which is texture size always be n^2.
 	glBindTexture(GL_TEXTURE_2D, texManager.boundedTex);
 	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
-	int addr = (int)&tvcQuads[0];
+	int addr = (int)&batchedQuads[0];
 	//calculate the memory location offset, should be 0. Since there is nothing before texCoords property of TVCQuad.
 	int offset = offsetof(TVCPoint, texCoords);
 	//set the texture coordinates we what to render from. (positions on the Texture2D generated image)
@@ -94,10 +108,15 @@ static GESpriteBatch* instance;
 	//enable blend
 	glEnable(GL_BLEND);
 	
+	//blend
+	glBlendFunc(blendFunc.src, blendFunc.dst);
+	
 	//draw the image
 	//glDrawArrays(GL_TRIANGLE_STRIP, 0, numOfQuads*4);
 	glDrawElements(GL_TRIANGLES, numOfQuads*6, GL_UNSIGNED_BYTE, indices);
 	
+	//default
+	glBlendFunc(DEFAULT_BLEND_SRC, DEFAULT_BLEND_DST);
 	
 	//disable
 	glDisable(GL_BLEND);
@@ -105,11 +124,11 @@ static GESpriteBatch* instance;
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	glPopMatrix();
+	NSLog(@"numOfQuads: %i", numOfQuads);
 	
 	//reset numer of quads to 0, clear memory
 	numOfQuads = 0;
-	bzero(tvcQuads, sizeof(TVCQuad)*MAX_NUM_QUADS);
+	bzero(batchedQuads, sizeof(TVCQuad)*MAX_NUM_QUADS);
 	bzero(indices, sizeof(GLubyte)*MAX_NUM_QUADS);
 }
 

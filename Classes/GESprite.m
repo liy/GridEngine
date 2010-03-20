@@ -15,7 +15,7 @@
 	//decide whether to process draw function
 	[super draw];
 	
-	if (YES) {
+	if (immediateMode) {
 		[[GESpriteBatch sharedSpriteBatch] batchNode:self];
 		return;
 	}
@@ -42,8 +42,8 @@
 	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
-	//int addr = (int)&tvcQuad[0];
-	int addr = (int)&tvcQuad;
+	int addr = (int)&tvcQuads[0];
+	//int addr = (int)&tvcQuad;
 	//calculate the memory location offset, should be 0. Since there is nothing before texCoords property of TVCQuad.
 	int offset = offsetof(TVCPoint, texCoords);
 	//set the texture coordinates we what to render from. (positions on the Texture2D generated image)
@@ -62,13 +62,17 @@
 	
 	//enable blend
 	//.....why should I enable the blend state here? Only one quad is drew, nothing to blend.... commented it out.
-	//glEnable(GL_BLEND);
+	glEnable(GL_BLEND);
+	
+	glBlendFunc(blendFunc.src, blendFunc.dst);
 	
 	//draw the image
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	
+	glBlendFunc(DEFAULT_BLEND_SRC, DEFAULT_BLEND_DST);
 
 	//disable
-	//glDisable(GL_BLEND);
+	glDisable(GL_BLEND);
 	glDisable(GL_TEXTURE_2D);
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);

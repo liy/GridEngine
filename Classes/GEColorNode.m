@@ -18,7 +18,7 @@
 
 - (id)init{
 	if (self = [super init]) {
-		vcQuad = calloc(1, sizeof(VCQuad));
+		tvcQuads = calloc(1, sizeof(VCQuad));
 		
 		tlColor = Color4bMake(255, 255, 255, 255);
 		blColor = Color4bMake(255, 255, 255, 255);
@@ -29,7 +29,7 @@
 }
 
 - (void) dealloc{
-	free(vcQuad);
+	free(tvcQuads);
 	[super dealloc];
 }
 

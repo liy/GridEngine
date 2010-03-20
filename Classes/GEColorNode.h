@@ -9,14 +9,14 @@
 #import <Foundation/Foundation.h>
 #import <OpenGLES/ES1/gl.h>
 #import "GENode.h"
-#import "GECommon.h"
+#import "geTypes.h"
 
 /**
  * Color node purely having a color filling
  */
 @interface GEColorNode : GENode {
 	//Define an array of VCQuad contains vertices, color information
-	VCQuad* vcQuad;
+	TVCQuad* tvcQuads;
 	
 	//top-left
 	Color4b tlColor;

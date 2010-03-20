@@ -35,7 +35,7 @@
 		screenBounds = [[UIScreen mainScreen] bounds];
 		
 		//the clear color.
-		clearColor = Color4fMake(0.0f, 0.0f, 0.0f, 1.0f);
+		clearColor = Color4fMake(0.3f, 0.1f, 0.6f, 1.0f);
 		
 		//clear colour
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
@@ -97,9 +97,8 @@
 	// as drawing the background image will destroy the previous image
 	glClear(GL_COLOR_BUFFER_BIT);
 	
-	// Setup how the images are to be blended when rendered.  This could be changed at different points during your
-	// render process if you wanted to apply different effects
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	//using default alpha blending.
+	glBlendFunc(DEFAULT_BLEND_SRC, DEFAULT_BLEND_DST);
 	
 	//After clear the screen this function will fill the screen with the new colour.
 	glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);

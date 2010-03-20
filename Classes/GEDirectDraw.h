@@ -12,10 +12,6 @@
 #import "GECommon.h"
 
 @interface GEDirectDraw : GETextureNode {
-
-	TVCQuad* quads;
-	
-	int numOfQuads;
 }
 
 @end

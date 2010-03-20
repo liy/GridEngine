@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "GECamera.h"
+#import "GECommon.h"
 
 @class GECollectionNode;
 

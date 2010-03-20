@@ -14,11 +14,11 @@
 - (id)initWithFile:(NSString *)aName{
 	if (self = [super initWithFile:aName]) {
 		numOfQuads = 4;
-		quads = calloc(numOfQuads, sizeof(TVCQuad));
+		tvcQuads = calloc(numOfQuads, sizeof(TVCQuad));
 		
 		[self setPos:CGPointMake(0.0f, 0.0f)];
 		[self setRect:CGRectMake(0.0f, 0.0f, texRef.contentSize.width, texRef.contentSize.height)];
-		[self setTintColor:Color4bMake(255, 255, 255, 255)];
+		[self setTintColor:Color4bMake(1, 1, 1, 1)];
 	}
 	return self;
 }
@@ -35,14 +35,14 @@
 	
 	
 	for (int i=0; i<numOfQuads; ++i) {
-		quads[i].tl.texCoords.u = offsetX;
-		quads[i].tl.texCoords.v = offsetY + texHeight;
-		quads[i].bl.texCoords.u = offsetX;
-		quads[i].bl.texCoords.v = offsetY;
-		quads[i].tr.texCoords.u = offsetX + texWidth;
-		quads[i].tr.texCoords.v = offsetY + texHeight;
-		quads[i].br.texCoords.u = offsetX + texWidth;
-		quads[i].br.texCoords.v = offsetY;
+		tvcQuads[i].tl.texCoords.u = offsetX;
+		tvcQuads[i].tl.texCoords.v = offsetY + texHeight;
+		tvcQuads[i].bl.texCoords.u = offsetX;
+		tvcQuads[i].bl.texCoords.v = offsetY;
+		tvcQuads[i].tr.texCoords.u = offsetX + texWidth;
+		tvcQuads[i].tr.texCoords.v = offsetY + texHeight;
+		tvcQuads[i].br.texCoords.u = offsetX + texWidth;
+		tvcQuads[i].br.texCoords.v = offsetY;
 	}
 	
 }
@@ -50,41 +50,41 @@
 - (void)setTlColor:(Color4b)aColor{
 	blColor = aColor;
 	for (int i=0; i<numOfQuads; ++i) {
-		quads[i].bl.color = blColor;
+		tvcQuads[i].bl.color = blColor;
 	}
 }
 
 - (void)setBlColor:(Color4b)aColor{
 	tlColor = aColor;
 	for (int i=0; i<numOfQuads; ++i) {
-		quads[i].tl.color = aColor;
+		tvcQuads[i].tl.color = aColor;
 	}
 }
 
 - (void)setTrColor:(Color4b)aColor{
 	brColor = aColor;
 	for (int i=0; i<numOfQuads; ++i) {
-		quads[i].br.color = aColor;
+		tvcQuads[i].br.color = aColor;
 	}
 }
 
 - (void)setBrColor:(Color4b)aColor{
 	trColor = aColor;
 	for (int i=0; i<numOfQuads; ++i) {
-		quads[i].tr.color = aColor;
+		tvcQuads[i].tr.color = aColor;
 	}
 }
 
 - (void)updateTVCQuads{
 	for (int i=0; i<numOfQuads; ++i) {
-		quads[i].tl.vertices.x = 0.0f + i*20.0f;
-		quads[i].tl.vertices.y = 0.0f + i*20.0f;
-		quads[i].bl.vertices.x = 0.0f + i*20.0f;
-		quads[i].bl.vertices.y = 20.0f + i*20.0f;
-		quads[i].tr.vertices.x = 20.0f + i*20.0f;
-		quads[i].tr.vertices.y = 0.0f + i*20.0f;
-		quads[i].br.vertices.x = 20.0f + i*20.0f;
-		quads[i].br.vertices.y = 20.0f + i*20.0f;
+		tvcQuads[i].tl.vertices.x = 0.0f + i*20.0f;
+		tvcQuads[i].tl.vertices.y = 0.0f + i*20.0f;
+		tvcQuads[i].bl.vertices.x = 0.0f + i*20.0f;
+		tvcQuads[i].bl.vertices.y = 20.0f + i*20.0f;
+		tvcQuads[i].tr.vertices.x = 20.0f + i*20.0f;
+		tvcQuads[i].tr.vertices.y = 0.0f + i*20.0f;
+		tvcQuads[i].br.vertices.x = 20.0f + i*20.0f;
+		tvcQuads[i].br.vertices.y = 20.0f + i*20.0f;
 	}
 	
 }
@@ -114,7 +114,7 @@
 	
 	//get the start memory address for the tvcQuad struct.
 	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
-	int addr = (int)&quads[0];
+	int addr = (int)&tvcQuads[0];
 	//calculate the memory location offset, should be 0. Since there is nothing before texCoords property of TVCQuad.
 	int offset = offsetof(TVCPoint, texCoords);
 	//set the texture coordinates we what to render from. (positions on the Texture2D generated image)

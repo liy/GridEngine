@@ -9,6 +9,8 @@
 #import <Foundation/Foundation.h>
 #import <OpenGLES/ES1/gl.h>
 #import "Texture2D.h"
+#import "geTypes.h"
+#import "geCommon.h"
 
 @interface GETexManager : NSObject {
 	GLuint boundedTex;

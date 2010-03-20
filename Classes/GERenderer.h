@@ -12,7 +12,7 @@
 #import <OpenGLES/ES1/glext.h>
 #import "GETexManager.h"
 #import "GEScene.h"
-#import "GECommon.h"
+#import "geTypes.h"
 
 @interface GERenderer : NSObject
 {

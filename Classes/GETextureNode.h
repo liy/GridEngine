@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "GETexManager.h"
 #import "GENode.h"
-#import "GECommon.h"
+#import "geTypes.h"
 
 @interface GETextureNode : GENode {
 	//Specify the area and position to draw from the texture.
@@ -20,8 +20,9 @@
 	Texture2D* texRef;
 	
 	//Define an array of TVCQuad contains texture, vertices, color information
-	//TVCQuad* tvcQuad;
-	TVCQuad tvcQuad;
+	TVCQuad* tvcQuads;
+	int numOfQuads;
+	//TVCQuad tvcQuad;
 	
 	//1 texel will represents how many actual pixels in the picture width. will be 1/textureWidth
 	//since texture u & v range from 0-1, so if we draw the texture use u v, we need to
@@ -42,6 +43,10 @@
 	Color4b trColor;
 	//bottom-right
 	Color4b brColor;
+	
+	BOOL immediateMode;
+	
+	BlendFunc blendFunc;
 }
 
 /**
@@ -70,6 +75,11 @@
 //can manually change texture. But remember to update the rect as well.
 @property (nonatomic, assign)Texture2D* texRef;
 
-@property (nonatomic, readonly)TVCQuad tvcQuad;
+@property (nonatomic, readonly)int numOfQuads;
+@property (nonatomic, readonly)TVCQuad* tvcQuads;
+//@property (nonatomic, readonly)TVCQuad tvcQuad;
+
+@property (nonatomic, assign)BOOL immediateMode;
+@property (nonatomic, assign, readwrite)BlendFunc blendFunc;
 
 @end

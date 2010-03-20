@@ -29,6 +29,7 @@ static GETexManager* instance;
 - (id) init{
 	if (self = [super init]) {
 		texCache = [[NSMutableDictionary alloc] initWithCapacity:10];
+		
 	}
 	return self;
 }
@@ -42,6 +43,10 @@ static GETexManager* instance;
 	Texture2D* tex = [texCache objectForKey:fileName];
 	if (tex == nil) {
 		tex = [[Texture2D alloc] initWithImage:[UIImage imageNamed:fileName]];
+		if (tex == nil) {
+			NSLog(@"Image creation error, Texture2D is nil.");
+			return nil;
+		}
 		[texCache setObject:tex forKey:fileName];
 	}
 	//never auto release here.... I don't know why I did it before.

@@ -1,7 +1,11 @@
-//
+//  Snipped from cocos2d for iPhone.
+//  http://www.cocos2d-iphone.org
+//  
+//  Made some changes as well.
+//  
 //  GEScheduler.h
 //  GridEngine
-//
+//  
 //  Created by Liy on 10-3-3.
 //  Copyright 2010 Bangboo. All rights reserved.
 //
@@ -56,6 +60,7 @@ typedef void (*GE_IMP)(id, SEL, float);
 
 /**
  * A scheduler manages all the selectors.
+ * Snipped from cocos2d iphone
  */
 @interface GEScheduler : NSObject {
 	NSMutableArray* timers;
