@@ -241,76 +241,75 @@
 	[super traverse];
 }
 
-- (void)draw{
+- (BOOL)draw{
 	//super class will decide whether to draw this node.
-	[super draw];
-	
-	//NSLog(@"currentFrameIndex: %i",currentFrameIndex);
-	//rendering
-	//set the draw rect to the new frame rect
-	GEFrame* frame = [frames objectAtIndex:currentFrameIndex];
-	self.rect = [frame rect];
-	
-	if (immediateMode) {
-		[[GESpriteBatch sharedSpriteBatch] batchNode:self];
-		return;
+	if ([super draw]) {
+		//set the draw rect to the new frame rect
+		GEFrame* frame = [frames objectAtIndex:currentFrameIndex];
+		//update the rect with current frame's rect
+		self.rect = [frame rect];
+		
+		if (immediateMode) {
+			[[GESpriteBatch sharedSpriteBatch] batchNode:self];
+			return YES;
+		}
+		
+		//save the current matrix
+		glPushMatrix();
+		
+		//enable to use coords array as a source texture
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+		glEnableClientState(GL_COLOR_ARRAY);
+		
+		//enable texture 2d
+		glEnable(GL_TEXTURE_2D);
+		
+		//bind the texture.
+		//The texture we are using here is loaded using Texture2D, which is texture size always be n^2.
+		if (texManager.boundedTex != frame.texName) {
+			glBindTexture(GL_TEXTURE_2D, frame.texName);
+			texManager.boundedTex = frame.texName;
+		}
+		else {
+			//NSLog(@"Image already binded");
+		}
+		
+		//get the start memory address for the tvcQuad struct.
+		//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
+		//int addr = (int)&tvcQuad[0];
+		int addr = (int)&tvcQuads[0];
+		//calculate the memory location offset, should be 0. Since there is nothing before texCoords property of TVCQuad.
+		int offset = offsetof(TVCPoint, texCoords);
+		//set the texture coordinates we what to render from. (positions on the Texture2D generated image)
+		glTexCoordPointer(2, GL_FLOAT, sizeof(TVCPoint), (void*) (addr));
+		
+		//memory offset to define the start of vertices. Should be sizeof(texCoords) which is 8 bytes(2 GLfloat each for 4 bytes).
+		offset = offsetof(TVCPoint, vertices);
+		//set the target vertices which define the area we what to draw the texture.
+		glVertexPointer(2, GL_FLOAT, sizeof(TVCPoint), (void*) (addr + offset));
+		
+		//offset to define the start of color array. Before this property we have texCoords(u & v GLfloat) 
+		//and vertices(x & y GLfloat) which are 16 bytes.
+		offset = offsetof(TVCPoint, color);
+		//set the color tint array for the texture.
+		glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(TVCPoint), (void*)(addr + offset));
+		
+		//enable blend
+		glEnable(GL_BLEND);
+		
+		//draw the image
+		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+		
+		//disable
+		glDisable(GL_BLEND);
+		glDisable(GL_TEXTURE_2D);
+		glDisableClientState(GL_COLOR_ARRAY);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+		
+		glPopMatrix();
+		return YES;
 	}
-	
-	//save the current matrix
-	glPushMatrix();
-	
-	//enable to use coords array as a source texture
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-	
-	//enable texture 2d
-	glEnable(GL_TEXTURE_2D);
-	
-	//bind the texture.
-	//The texture we are using here is loaded using Texture2D, which is texture size always be n^2.
-	if (texManager.boundedTex != frame.texName) {
-		glBindTexture(GL_TEXTURE_2D, frame.texName);
-		texManager.boundedTex = frame.texName;
-	}
-	else {
-		//NSLog(@"Image already binded");
-	}
-	
-	//get the start memory address for the tvcQuad struct.
-	//Note that tvcQuad is defined as array, we need to access the actual tvcQuad memory address using normal square bracket.
-	//int addr = (int)&tvcQuad[0];
-	int addr = (int)&tvcQuads[0];
-	//calculate the memory location offset, should be 0. Since there is nothing before texCoords property of TVCQuad.
-	int offset = offsetof(TVCPoint, texCoords);
-	//set the texture coordinates we what to render from. (positions on the Texture2D generated image)
-	glTexCoordPointer(2, GL_FLOAT, sizeof(TVCPoint), (void*) (addr));
-	
-	//memory offset to define the start of vertices. Should be sizeof(texCoords) which is 8 bytes(2 GLfloat each for 4 bytes).
-	offset = offsetof(TVCPoint, vertices);
-	//set the target vertices which define the area we what to draw the texture.
-	glVertexPointer(2, GL_FLOAT, sizeof(TVCPoint), (void*) (addr + offset));
-	
-	//offset to define the start of color array. Before this property we have texCoords(u & v GLfloat) 
-	//and vertices(x & y GLfloat) which are 16 bytes.
-	offset = offsetof(TVCPoint, color);
-	//set the color tint array for the texture.
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(TVCPoint), (void*)(addr + offset));
-	
-	//enable blend
-	glEnable(GL_BLEND);
-	
-	//draw the image
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	
-	//disable
-	glDisable(GL_BLEND);
-	glDisable(GL_TEXTURE_2D);
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	
-	glPopMatrix();
-	
-	//NSLog(@"%@", [self description]);
+	return NO;
 }
 
 - (NSString*) description

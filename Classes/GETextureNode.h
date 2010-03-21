@@ -24,6 +24,11 @@
 	int numOfQuads;
 	//TVCQuad tvcQuad;
 	
+	//Define a mask to mask the this texture node.
+	//Note, the mask GETextureNode should have same size as this node.
+	//otherwise if the background image has transparent pixels will cause wired blend result.
+	GETextureNode* mask;
+	
 	//1 texel will represents how many actual pixels in the picture width. will be 1/textureWidth
 	//since texture u & v range from 0-1, so if we draw the texture use u v, we need to
 	//translate normal texture size and position into 0-1 range.
@@ -44,8 +49,10 @@
 	//bottom-right
 	Color4b brColor;
 	
+	//immediate mode means immediately draw the texture without using GESpriteBatch.
 	BOOL immediateMode;
 	
+	//The belnd function used by this node.
 	BlendFunc blendFunc;
 }
 
@@ -79,7 +86,13 @@
 @property (nonatomic, readonly)TVCQuad* tvcQuads;
 //@property (nonatomic, readonly)TVCQuad tvcQuad;
 
+//indicate whether this node is drawn without using GESpriteBatch batching.
 @property (nonatomic, assign)BOOL immediateMode;
+
+//the blend function for this node.
 @property (nonatomic, assign, readwrite)BlendFunc blendFunc;
+
+//The texture node as a mask applied to this node.
+@property (nonatomic, assign)GETextureNode* mask;
 
 @end

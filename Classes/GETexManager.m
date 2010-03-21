@@ -58,10 +58,12 @@ static GETexManager* instance;
 - (Texture2D*)removeTexture2D:(NSString*)fileName{
 	Texture2D* tex = [texCache objectForKey:fileName];
 	if (tex != nil) {
-		//ensure the retain count is not 0
+		//ensure the retain count is not 0, one you retain the retain count will be 2.
 		[tex retain];
+		//after you remove the Texture2D, its retain count will be 1.
 		[texCache removeObjectForKey:fileName];
 	}
+	//After autorelease is triggered the texture reatain count will be 0, memory will be free.
 	return [tex autorelease];
 }
 

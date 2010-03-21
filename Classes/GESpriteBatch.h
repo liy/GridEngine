@@ -17,7 +17,7 @@
 	//All the quad vertices, color and texture coords information is stored here.
 	TVCQuad* batchedQuads;
 	//number of quads batched by now.
-	uint numOfQuads;
+	uint numOfBatchedQuads;
 	
 	//The texture manager manages the textures. We need to check the currently bounded texture.
 	//If the node which wants to be batched has a different texture from the currently bounded texture.
@@ -30,7 +30,7 @@
 	BlendFunc blendFunc;
 }
 
-@property (nonatomic, readonly)uint numOfQuads;
+@property (nonatomic, readonly)uint numOfBatchedQuads;
 
 /**
  * Get the shared GESpriteBatch. The instance should be already initialized when GEDirector is created.

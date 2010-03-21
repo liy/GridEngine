@@ -35,7 +35,7 @@
 		screenBounds = [[UIScreen mainScreen] bounds];
 		
 		//the clear color.
-		clearColor = Color4fMake(0.3f, 0.1f, 0.6f, 1.0f);
+		clearColor = Color4fMake(0.5f, 0.5f, 0.5f, 1.0f);
 		
 		//clear colour
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);

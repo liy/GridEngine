@@ -61,15 +61,16 @@
 	[super dealloc];
 }
 
-- (void)draw{
+- (BOOL)draw{
 	//if it is not visible then do not draw.
-	if (!visible)
-		return;
+	return visible;
 }
 
+/*
 - (void)directDraw{
 	[self traverse];
 }
+ */
 
 - (void)traverse{
 	//always draw current node

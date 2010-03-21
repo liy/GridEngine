@@ -22,6 +22,7 @@
 @synthesize numOfQuads;
 @synthesize immediateMode;
 @synthesize blendFunc;
+@synthesize mask;
 
 - (id)initWithFile:(NSString*)aName{
 	if (self = [super init]) {
@@ -34,7 +35,7 @@
 		blendFunc.dst = DEFAULT_BLEND_DST;
 		blendFunc.src = DEFAULT_BLEND_SRC;
 		
-		//NSLog(@"numOfQuads: %i", numOfQuads);
+		mask = nil;
 		
 		texManager = [GETexManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
@@ -60,6 +61,8 @@
 		
 		blendFunc.dst = DEFAULT_BLEND_DST;
 		blendFunc.src = DEFAULT_BLEND_SRC;
+		
+		mask = nil;
 		
 		texManager = [GETexManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
@@ -152,6 +155,35 @@
 	[super traverse];
 }
 
+- (BOOL)draw{
+	if ([super draw]) {
+		//draw mask first if there is mask
+		if (mask != nil) {
+			//Draw mask first with the correct blend function.
+			//Make source image(the mask itself) all zero, that is black and tranparent.
+			//The destination image(the pixels under this mask) colour will be multiplied by the source image's corresponding pixel's alpha value. 
+			//The area covered by mask's 0 alpha pixels will remains the same(srcA is 0, 1-srcA will be 1); and the area
+			//covered by source image's none zero alpha pixels, their RGBA channels will be bring down depends on the source alpha value.
+			//The final equation for this blend function is:
+			//{0 + dstR*(1-srcA), 0 + dstG*(1-srcA), 0 + dstB*(1-srcB), A*(1-srcA)}
+			//1. dst means desination image which is the pixel values under the mask.
+			//2. src means source image which is actually the mask's pixel values.
+			//3. R,G,B,A are the red, green, blue and alpha channel's values.
+			mask.blendFunc = (BlendFunc){GL_ZERO, GL_ONE_MINUS_SRC_ALPHA};
+			//Draw the mask, can not directly call draw. We need to update the transformation as well.
+			[mask traverse];
+			
+			//set this actual texture's blend func, ready to draw the actual texture
+			//This blend function's main purpose is retain the source image's pixels above destination transparent pixels(the mask's solid pixels are turned into
+			//transparent pixels), if the destination image pixels has solid, none tranparent pixels their colour will be retianed. 
+			//The final equation is:
+			//{srcR*(1-dstA) + dstR*dstA, srcG*(1-dstA) + dstG*dstA, srcB*(1-dstA) + dstB*dstA, srcA*(1-dstA) + dstA*dstA}
+			self.blendFunc = (BlendFunc){GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA};
+		}
+		return YES;
+	}
+	return NO;
+}
 
 - (void)setRect:(CGRect)aRect{
 	rect = aRect;

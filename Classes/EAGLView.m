@@ -39,54 +39,41 @@
 		[director addScene:scene];
 		director.currentScene = scene;
 		
-		
 		GEContainer* container = [[GEContainer alloc] init];
 		[scene addChild:container];
 		//container.rotation = 10;
 		
-		GESprite* q1 = [[GESprite alloc] initWithFile:@"grey.jpg"];
-		q1.pos = CGPointMake(10, 10);
+		GESprite* q0 = [[GESprite alloc] initWithFile:@"grass.png"];
+		q0.pos = CGPointMake(5, 5);
+		[container addChild:q0];
+		
+		GESprite* q1 = [[GESprite alloc] initWithFile:@"grass.png"];
+		q1.pos = CGPointMake(25, 25);
+		q1.tintColor = Color4bMake(255, 0, 0, 255);
 		[container addChild:q1];
 		
-		
-		GESprite* q2 = [[GESprite alloc] initWithFile:@"grey.jpg"];
-		q2.pos = CGPointMake(20, 20);
-		q2.tintColor = Color4bMake(100, 255, 255, 255);
+		GESprite* q2 = [[GESprite alloc] initWithFile:@"grass.png"];
+		q2.pos = CGPointMake(45, 45);
+		q2.blColor = Color4bMake(0, 0, 255, 200);
+		q2.brColor = Color4bMake(0, 0, 255, 200);
+		q2.tlColor = Color4bMake(100, 100, 255, 200);
+		q2.trColor = Color4bMake(100, 100, 255, 200);
+		//blend
+		q2.blendFunc = (BlendFunc){GL_SRC_ALPHA, GL_ONE};
 		[container addChild:q2];
-		
-		
-		//CGRect box = [container boundingbox];
-		GESprite* walk = [[GESprite alloc] initWithFile:@"walking.png"];
-		walk.pos = CGPointMake(30.0f, 30.0f);
-		[scene addChild:walk];
 		 
+		GESprite* mask = [[GESprite alloc] initWithFile:@"maskAlpha.png"];
+		mask.pos = CGPointMake(150, 100);
+		GESprite* grass = [[GESprite alloc] initWithFile:@"grass.png"];
+		grass.pos = CGPointMake(150, 100);
+		grass.mask = mask;
+		[scene addChild:grass];
 		
-		
-		
-		GESprite* mask1 = [[GESprite alloc] initWithFile:@"maskAlpha2.png"];
-		mask1.pos = CGPointMake(40, 40);
-		mask1.blendFunc = (BlendFunc){GL_ZERO,GL_ONE_MINUS_SRC_ALPHA};
-		[scene addChild:mask1];
-		
-		
-		GESprite* one = [[GESprite alloc] initWithFile:@"grass.png"];
-		one.pos = CGPointMake(40, 40);
-		one.blendFunc = (BlendFunc){GL_ONE_MINUS_DST_ALPHA,GL_DST_ALPHA};
-		[scene addChild:one];
-		
-		
-		
-		
-		
-		
-		
-		/*
 		animation = [[GEAnimation alloc] initWithFile:@"walking.png"];
-		animation.pos = CGPointMake(40.0f, 40.0f);
+		animation.pos = CGPointMake(15, 200);
 		animation.anchor = CGPointMake(0.0, 0.0);
-		animation.scaleX = 2;
-		animation.scaleY = 2;
-
+		animation.scaleX = 3;
+		animation.scaleY = 3;
 		float trackX = 0.0f;
 		for (int i=0; i<3; ++i) {
 			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.5];
@@ -95,8 +82,14 @@
 		[animation play];
 		animation.repeat = YES;
 		animation.pingpong = YES;
-		 */
+		//should not be add to screen since it is used as a mask
 		//[scene addChild:animation];
+		GESprite* logo = [[GESprite alloc] initWithFile:@"logo.png"];
+		logo.pos = CGPointMake(15, 200);
+		//since the anmation's size is not matched with the logo size, if there is transparent pixels
+		//under the mask sprite, that will causes some wired blend results.
+		logo.mask = animation;
+		[scene addChild:logo];
     }
 	
     return self;

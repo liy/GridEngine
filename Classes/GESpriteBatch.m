@@ -11,9 +11,9 @@
 
 @implementation GESpriteBatch
 
-@synthesize numOfQuads;
-
 static GESpriteBatch* instance;
+
+@synthesize numOfBatchedQuads;
 
 + (GESpriteBatch*)sharedSpriteBatch{
 	//lock
@@ -34,7 +34,7 @@ static GESpriteBatch* instance;
 		batchedQuads = calloc(MAX_NUM_QUADS, sizeof(TVCQuad));
 		indices = calloc(MAX_NUM_QUADS*6, sizeof(GLubyte));
 		texManager = [GETexManager sharedTextureManager];
-		numOfQuads = 0;
+		numOfBatchedQuads = 0;
 	}
 	return self;
 }
@@ -55,22 +55,22 @@ static GESpriteBatch* instance;
 	//scan through all the quads in the texture node and create indices, and assign render information
 	for (uint i=0; i<aTexNode.numOfQuads; ++i) {
 		//update indices
-		indices[numOfQuads*6+0] = numOfQuads*4+0;
-		indices[numOfQuads*6+1] = numOfQuads*4+1;
-		indices[numOfQuads*6+2] = numOfQuads*4+2;
-		indices[numOfQuads*6+3] = numOfQuads*4+1;
-		indices[numOfQuads*6+4] = numOfQuads*4+2;
-		indices[numOfQuads*6+5] = numOfQuads*4+3;
+		indices[numOfBatchedQuads*6+0] = numOfBatchedQuads*4+0;
+		indices[numOfBatchedQuads*6+1] = numOfBatchedQuads*4+1;
+		indices[numOfBatchedQuads*6+2] = numOfBatchedQuads*4+2;
+		indices[numOfBatchedQuads*6+3] = numOfBatchedQuads*4+1;
+		indices[numOfBatchedQuads*6+4] = numOfBatchedQuads*4+2;
+		indices[numOfBatchedQuads*6+5] = numOfBatchedQuads*4+3;
 		
-		batchedQuads[numOfQuads] = aTexNode.tvcQuads[i];
-		++numOfQuads;
+		batchedQuads[numOfBatchedQuads] = aTexNode.tvcQuads[i];
+		++numOfBatchedQuads;
 	}
 	
 }
 
 - (void)flush{
 	//it is possible that there is nothing for draw.
-	if (numOfQuads == 0) {
+	if (numOfBatchedQuads == 0) {
 		return;
 	}
 	
@@ -112,8 +112,8 @@ static GESpriteBatch* instance;
 	glBlendFunc(blendFunc.src, blendFunc.dst);
 	
 	//draw the image
-	//glDrawArrays(GL_TRIANGLE_STRIP, 0, numOfQuads*4);
-	glDrawElements(GL_TRIANGLES, numOfQuads*6, GL_UNSIGNED_BYTE, indices);
+	//glDrawArrays(GL_TRIANGLE_STRIP, 0, numOfBatchedQuads*4);
+	glDrawElements(GL_TRIANGLES, numOfBatchedQuads*6, GL_UNSIGNED_BYTE, indices);
 	
 	//default
 	glBlendFunc(DEFAULT_BLEND_SRC, DEFAULT_BLEND_DST);
@@ -124,10 +124,10 @@ static GESpriteBatch* instance;
 	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	
-	NSLog(@"numOfQuads: %i", numOfQuads);
+	NSLog(@"numOfBatchedQuads: %i", numOfBatchedQuads);
 	
 	//reset numer of quads to 0, clear memory
-	numOfQuads = 0;
+	numOfBatchedQuads = 0;
 	bzero(batchedQuads, sizeof(TVCQuad)*MAX_NUM_QUADS);
 	bzero(indices, sizeof(GLubyte)*MAX_NUM_QUADS);
 }

@@ -19,18 +19,16 @@
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
 		6A3610B9114EB8D5009F2838 /* GESpriteBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3610B8114EB8D5009F2838 /* GESpriteBatch.m */; };
 		6A57C26B1130473D00583D6C /* pink.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A57C26A1130473D00583D6C /* pink.jpg */; };
+		6A7A82AA11554A120043A802 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A7A82A911554A120043A802 /* logo.png */; };
 		6A7AEAEB112F378900F6EBC9 /* grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A7AEAEA112F378900F6EBC9 /* grey.jpg */; };
 		6A7C6EF41131745300D4942F /* GERenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C6EF31131745300D4942F /* GERenderer.m */; };
 		6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6A7C70741131CBC800D4942F /* spritesheet16.gif */; };
-		6A8072A111440742004C9C8F /* GEDirectDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8072A011440742004C9C8F /* GEDirectDraw.m */; };
 		6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A942C5A113F0C4300326DCB /* GEScheduler.m */; };
 		6A98F1F41152B52B00CD97D8 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F1F31152B52B00CD97D8 /* mask.png */; };
 		6A98F2F11152BFE000CD97D8 /* mask2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F2F01152BFE000CD97D8 /* mask2.png */; };
 		6A98F3951152C65100CD97D8 /* mask3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F3941152C65100CD97D8 /* mask3.png */; };
 		6A98F4451152D1EF00CD97D8 /* maskAlpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F4441152D1EF00CD97D8 /* maskAlpha.png */; };
-		6A9CDD801154E8B10070AB44 /* maskAlpha2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9CDD7F1154E8B10070AB44 /* maskAlpha2.png */; };
 		6A9CDED611552C850070AB44 /* grass.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9CDED511552C850070AB44 /* grass.png */; };
-		6A9CDEFE11552D620070AB44 /* white.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9CDEFD11552D620070AB44 /* white.png */; };
 		6AA7B0BB1133254200DAE192 /* GETextureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BA1133254200DAE192 /* GETextureNode.m */; };
 		6AA7B0BE1133254D00DAE192 /* GEColorNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BD1133254D00DAE192 /* GEColorNode.m */; };
 		6ADF9D381134678F00B0E1BE /* GEVideoNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF9D371134678F00B0E1BE /* GEVideoNode.m */; };
@@ -71,13 +69,12 @@
 		6A3610B7114EB8D5009F2838 /* GESpriteBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GESpriteBatch.h; sourceTree = "<group>"; };
 		6A3610B8114EB8D5009F2838 /* GESpriteBatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GESpriteBatch.m; sourceTree = "<group>"; };
 		6A57C26A1130473D00583D6C /* pink.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pink.jpg; sourceTree = "<group>"; };
+		6A7A82A911554A120043A802 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
 		6A7AEA97112F109D00F6EBC9 /* geCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geCommon.h; sourceTree = "<group>"; };
 		6A7AEAEA112F378900F6EBC9 /* grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grey.jpg; sourceTree = "<group>"; };
 		6A7C6EF21131745300D4942F /* GERenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderer.h; sourceTree = "<group>"; };
 		6A7C6EF31131745300D4942F /* GERenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GERenderer.m; sourceTree = "<group>"; };
 		6A7C70741131CBC800D4942F /* spritesheet16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spritesheet16.gif; sourceTree = "<group>"; };
-		6A80729F11440742004C9C8F /* GEDirectDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEDirectDraw.h; sourceTree = "<group>"; };
-		6A8072A011440742004C9C8F /* GEDirectDraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEDirectDraw.m; sourceTree = "<group>"; };
 		6A82103811501683008CA90A /* geConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geConfig.h; sourceTree = "<group>"; };
 		6A942C59113F0C4300326DCB /* GEScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEScheduler.h; sourceTree = "<group>"; };
 		6A942C5A113F0C4300326DCB /* GEScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEScheduler.m; sourceTree = "<group>"; };
@@ -85,9 +82,7 @@
 		6A98F2F01152BFE000CD97D8 /* mask2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask2.png; sourceTree = "<group>"; };
 		6A98F3941152C65100CD97D8 /* mask3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask3.png; sourceTree = "<group>"; };
 		6A98F4441152D1EF00CD97D8 /* maskAlpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maskAlpha.png; sourceTree = "<group>"; };
-		6A9CDD7F1154E8B10070AB44 /* maskAlpha2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maskAlpha2.png; sourceTree = "<group>"; };
 		6A9CDED511552C850070AB44 /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass.png; sourceTree = "<group>"; };
-		6A9CDEFD11552D620070AB44 /* white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = white.png; sourceTree = "<group>"; };
 		6AA7B0B91133254200DAE192 /* GETextureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GETextureNode.h; sourceTree = "<group>"; };
 		6AA7B0BA1133254200DAE192 /* GETextureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GETextureNode.m; sourceTree = "<group>"; };
 		6AA7B0BC1133254D00DAE192 /* GEColorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEColorNode.h; sourceTree = "<group>"; };
@@ -222,9 +217,8 @@
 		6A7AEAE9112F370A00F6EBC9 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				6A9CDEFD11552D620070AB44 /* white.png */,
+				6A7A82A911554A120043A802 /* logo.png */,
 				6A9CDED511552C850070AB44 /* grass.png */,
-				6A9CDD7F1154E8B10070AB44 /* maskAlpha2.png */,
 				6A98F4441152D1EF00CD97D8 /* maskAlpha.png */,
 				6A98F3941152C65100CD97D8 /* mask3.png */,
 				6A98F2F01152BFE000CD97D8 /* mask2.png */,
@@ -245,8 +239,6 @@
 				6AF2823B11518E73001FD61C /* geTypes.h */,
 				6A3610B7114EB8D5009F2838 /* GESpriteBatch.h */,
 				6A3610B8114EB8D5009F2838 /* GESpriteBatch.m */,
-				6A80729F11440742004C9C8F /* GEDirectDraw.h */,
-				6A8072A011440742004C9C8F /* GEDirectDraw.m */,
 				6A942C59113F0C4300326DCB /* GEScheduler.h */,
 				6A942C5A113F0C4300326DCB /* GEScheduler.m */,
 				6A7C6EF21131745300D4942F /* GERenderer.h */,
@@ -384,9 +376,8 @@
 				6A98F2F11152BFE000CD97D8 /* mask2.png in Resources */,
 				6A98F3951152C65100CD97D8 /* mask3.png in Resources */,
 				6A98F4451152D1EF00CD97D8 /* maskAlpha.png in Resources */,
-				6A9CDD801154E8B10070AB44 /* maskAlpha2.png in Resources */,
 				6A9CDED611552C850070AB44 /* grass.png in Resources */,
-				6A9CDEFE11552D620070AB44 /* white.png in Resources */,
+				6A7A82AA11554A120043A802 /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,7 +411,6 @@
 				6AA7B0BE1133254D00DAE192 /* GEColorNode.m in Sources */,
 				6ADF9D381134678F00B0E1BE /* GEVideoNode.m in Sources */,
 				6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */,
-				6A8072A111440742004C9C8F /* GEDirectDraw.m in Sources */,
 				6A3610B9114EB8D5009F2838 /* GESpriteBatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

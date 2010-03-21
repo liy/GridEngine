@@ -126,6 +126,7 @@ static GEDirector* instance;
 	
 	//Once finished traversing all the nodes, we need to flush remaining batched node.
 	[spriteBatch flush];
+	NSLog(@"Batching finished");
 	
 	//swap frame buffer and display
 	[renderer end];

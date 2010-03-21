@@ -108,12 +108,12 @@
  * Override this function and do all the drawing here. Remember to call [super draw] which decide whether to process
  * draw function. If the node is invisible, this function will returned without further processing.
  */
-- (void)draw;
+- (BOOL)draw;
 
 /**
  * This is a hack method which directly draw this Node and its sub nodes
  */
-- (void)directDraw;
+//- (void)directDraw;
 
 /**
  * Add a Node to its child. 

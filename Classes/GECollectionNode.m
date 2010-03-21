@@ -39,10 +39,6 @@
 	}
 }
 
-- (void)draw{
-	//manage its children LeafNode draw.
-}
-
 - (GENode*)addChild:(GENode*)aNode{
 	//We need to make sure this node is only contained in one CollectionNode
 	//If the desire remove node has a parent which means it's already in the display
