@@ -18,13 +18,24 @@
 @synthesize blColor;
 @synthesize trColor;
 @synthesize brColor;
+@synthesize tvcQuads;
+@synthesize numOfQuads;
+@synthesize immediateMode;
+@synthesize blendFunc;
+@synthesize mask;
 
 - (id)initWithFile:(NSString*)aName{
 	if (self = [super init]) {
-		tvcQuad = calloc(1, sizeof(TVCQuad));
+		numOfQuads = 1;
+		tvcQuads = calloc(numOfQuads, sizeof(TVCQuad));
+		//bzero(&tvcQuad, sizeof(TVCQuad));
 		
-		//int numOfQuads = sizeof(*tvcQuad)/sizeof(TVCQuad);
-		//NSLog(@"numOfQuads: %i", numOfQuads);
+		immediateMode = YES;
+		
+		blendFunc.dst = DEFAULT_BLEND_DST;
+		blendFunc.src = DEFAULT_BLEND_SRC;
+		
+		mask = nil;
 		
 		texManager = [GETexManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
@@ -42,7 +53,17 @@
 
 - (id)initWithFile:(NSString *)aName rect:(CGRect)aRect{
 	if (self = [super init]) {
-		tvcQuad = calloc(1, sizeof(TVCQuad));
+		numOfQuads = 1;
+		tvcQuads = calloc(numOfQuads, sizeof(TVCQuad));
+		//bzero(&tvcQuad, sizeof(TVCQuad));
+		
+		immediateMode = YES;
+		
+		blendFunc.dst = DEFAULT_BLEND_DST;
+		blendFunc.src = DEFAULT_BLEND_SRC;
+		
+		mask = nil;
+		
 		texManager = [GETexManager sharedTextureManager];
 		texRef = [texManager getTexture2D:aName];
 		
@@ -58,7 +79,8 @@
 }
 
 - (void)dealloc{
-	free(tvcQuad);
+	free(tvcQuads);
+	//free(&tvcQuad);
 	[super dealloc];
 }
 
@@ -102,14 +124,26 @@
 	float tx = matrix.tx;
 	float ty = matrix.ty;
 	
-	tvcQuad[0].tl.vertices.x = x1*a + y2*c + tx;
-	tvcQuad[0].tl.vertices.y = x1*b + y2*d + ty;
-	tvcQuad[0].bl.vertices.x = x1*a + y1*c + tx;
-	tvcQuad[0].bl.vertices.y = x1*b + y1*d + ty;
-	tvcQuad[0].tr.vertices.x = x2*a + y2*c + tx;
-	tvcQuad[0].tr.vertices.y = x2*b + y2*d + ty;
-	tvcQuad[0].br.vertices.x = x2*a + y1*c + tx;
-	tvcQuad[0].br.vertices.y = x2*b + y1*d + ty;
+	
+	tvcQuads[0].tl.vertices.x = x1*a + y2*c + tx;
+	tvcQuads[0].tl.vertices.y = x1*b + y2*d + ty;
+	tvcQuads[0].bl.vertices.x = x1*a + y1*c + tx;
+	tvcQuads[0].bl.vertices.y = x1*b + y1*d + ty;
+	tvcQuads[0].tr.vertices.x = x2*a + y2*c + tx;
+	tvcQuads[0].tr.vertices.y = x2*b + y2*d + ty;
+	tvcQuads[0].br.vertices.x = x2*a + y1*c + tx;
+	tvcQuads[0].br.vertices.y = x2*b + y1*d + ty;
+	
+	/*
+	tvcQuad.tl.vertices.x = x1*a + y2*c + tx;
+	tvcQuad.tl.vertices.y = x1*b + y2*d + ty;
+	tvcQuad.bl.vertices.x = x1*a + y1*c + tx;
+	tvcQuad.bl.vertices.y = x1*b + y1*d + ty;
+	tvcQuad.tr.vertices.x = x2*a + y2*c + tx;
+	tvcQuad.tr.vertices.y = x2*b + y2*d + ty;
+	tvcQuad.br.vertices.x = x2*a + y1*c + tx;
+	tvcQuad.br.vertices.y = x2*b + y1*d + ty;
+	 */
 	
 	
 }
@@ -121,6 +155,35 @@
 	[super traverse];
 }
 
+- (BOOL)draw{
+	if ([super draw]) {
+		//draw mask first if there is mask
+		if (mask != nil) {
+			//Draw mask first with the correct blend function.
+			//Make source image(the mask itself) all zero, that is black and tranparent.
+			//The destination image(the pixels under this mask) colour will be multiplied by the source image's corresponding pixel's alpha value. 
+			//The area covered by mask's 0 alpha pixels will remains the same(srcA is 0, 1-srcA will be 1); and the area
+			//covered by source image's none zero alpha pixels, their RGBA channels will be bring down depends on the source alpha value.
+			//The final equation for this blend function is:
+			//{0 + dstR*(1-srcA), 0 + dstG*(1-srcA), 0 + dstB*(1-srcB), A*(1-srcA)}
+			//1. dst means desination image which is the pixel values under the mask.
+			//2. src means source image which is actually the mask's pixel values.
+			//3. R,G,B,A are the red, green, blue and alpha channel's values.
+			mask.blendFunc = (BlendFunc){GL_ZERO, GL_ONE_MINUS_SRC_ALPHA};
+			//Draw the mask, can not directly call draw. We need to update the transformation as well.
+			[mask traverse];
+			
+			//set this actual texture's blend func, ready to draw the actual texture
+			//This blend function's main purpose is retain the source image's pixels above destination transparent pixels(the mask's solid pixels are turned into
+			//transparent pixels), if the destination image pixels has solid, none tranparent pixels their colour will be retianed. 
+			//The final equation is:
+			//{srcR*(1-dstA) + dstR*dstA, srcG*(1-dstA) + dstG*dstA, srcB*(1-dstA) + dstB*dstA, srcA*(1-dstA) + dstA*dstA}
+			self.blendFunc = (BlendFunc){GL_ONE_MINUS_DST_ALPHA, GL_DST_ALPHA};
+		}
+		return YES;
+	}
+	return NO;
+}
 
 - (void)setRect:(CGRect)aRect{
 	rect = aRect;
@@ -133,14 +196,26 @@
 	GLfloat offsetY = texHeightRatio*rect.origin.y;
 	
 	
-	tvcQuad[0].tl.texCoords.u = offsetX;
-	tvcQuad[0].tl.texCoords.v = offsetY + texHeight;
-	tvcQuad[0].bl.texCoords.u = offsetX;
-	tvcQuad[0].bl.texCoords.v = offsetY;
-	tvcQuad[0].tr.texCoords.u = offsetX + texWidth;
-	tvcQuad[0].tr.texCoords.v = offsetY + texHeight;
-	tvcQuad[0].br.texCoords.u = offsetX + texWidth;
-	tvcQuad[0].br.texCoords.v = offsetY;
+	tvcQuads[0].tl.texCoords.u = offsetX;
+	tvcQuads[0].tl.texCoords.v = offsetY + texHeight;
+	tvcQuads[0].bl.texCoords.u = offsetX;
+	tvcQuads[0].bl.texCoords.v = offsetY;
+	tvcQuads[0].tr.texCoords.u = offsetX + texWidth;
+	tvcQuads[0].tr.texCoords.v = offsetY + texHeight;
+	tvcQuads[0].br.texCoords.u = offsetX + texWidth;
+	tvcQuads[0].br.texCoords.v = offsetY;
+	
+	
+	/*
+	tvcQuad.tl.texCoords.u = offsetX;
+	tvcQuad.tl.texCoords.v = offsetY + texHeight;
+	tvcQuad.bl.texCoords.u = offsetX;
+	tvcQuad.bl.texCoords.v = offsetY;
+	tvcQuad.tr.texCoords.u = offsetX + texWidth;
+	tvcQuad.tr.texCoords.v = offsetY + texHeight;
+	tvcQuad.br.texCoords.u = offsetX + texWidth;
+	tvcQuad.br.texCoords.v = offsetY;
+	 */
 }
 
 - (void)setTintColor:(Color4b)aColor{
@@ -168,21 +243,25 @@
  */
 - (void)setTlColor:(Color4b)aColor{
 	blColor = aColor;
-	tvcQuad[0].bl.color = blColor;
+	tvcQuads[0].bl.color = blColor;
+	//tvcQuad.bl.color = blColor;
 }
 
 - (void)setBlColor:(Color4b)aColor{
 	tlColor = aColor;
-	tvcQuad[0].tl.color = tlColor;
+	tvcQuads[0].tl.color = tlColor;
+	//tvcQuad.tl.color = tlColor;
 }
 
 - (void)setTrColor:(Color4b)aColor{
 	brColor = aColor;
-	tvcQuad[0].br.color = brColor;
+	tvcQuads[0].br.color = brColor;
+	//tvcQuad.br.color = brColor;
 }
 
 - (void)setBrColor:(Color4b)aColor{
 	trColor = aColor;
-	tvcQuad[0].tr.color = trColor;
+	tvcQuads[0].tr.color = trColor;
+	//tvcQuad.tr.color = trColor;
 }
 @end

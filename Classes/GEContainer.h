@@ -1,5 +1,5 @@
 //
-//  Graphic.h
+//  Sprite.h
 //  GridEngine
 //
 //  Created by Liy on 10-2-18.
@@ -7,17 +7,17 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GETextureNode.h"
+#import "GECollectionNode.h"
 #import "GETexManager.h"
-#import "GECommon.h"
 
 @class Texture2D;
 
-/**
- * Graphic represents a pure image, without any frames or children.
- */
-@interface GEGraphic : GETextureNode {
-	
+@interface GEContainer : GECollectionNode {
 }
+
+/**
+ *Create a Graphic inside this Sprite automatically.
+ */
+- (id)initWithFile:(NSString*)aName;
 
 @end

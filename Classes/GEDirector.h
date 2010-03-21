@@ -10,6 +10,7 @@
 #import "GERenderer.h"
 #import "GEScheduler.h"
 #import "GECommon.h"
+#import "GESpriteBatch.h"
 
 @interface GEDirector : NSObject {
 	//contains all scenes
@@ -38,6 +39,8 @@
 	
 	//Manage all the selectors ready to trigger
 	GEScheduler* scheduler;
+	
+	GESpriteBatch* spriteBatch;
 	
 	Color4b bgColor;
 }

@@ -47,6 +47,9 @@ static GEDirector* instance;
 		//renderer to render the whole sence.
 		renderer = [[GERenderer alloc] init];
 		
+		//sprite batch
+		spriteBatch = [[GESpriteBatch sharedSpriteBatch] init];
+		
 		scenes = [[NSMutableDictionary alloc] initWithCapacity:2];
 	}
 	return self;
@@ -106,16 +109,26 @@ static GEDirector* instance;
 }
 
 - (void)mainLoop{
+	//this line of code delay the loop for a little bit ensures the user interaction touch event can be properly handled.
 	while(CFRunLoopRunInMode(kCFRunLoopDefaultMode, 0.002, TRUE) == kCFRunLoopRunHandledSource);
 	
 	[self calculateDeltaTime];
 	
-	//Fire upate method before drawing.
+	//Fire upate method before drawing. Tick method will trigger other selectors you added which will
+	//process all the game logic.
 	[scheduler tick:delta];
 	
-	
+	//begin to render and bind frame buffer
 	[renderer begin];
+	
+	//traverse and draw the nodes.
 	[currentScene traverse];
+	
+	//Once finished traversing all the nodes, we need to flush remaining batched node.
+	[spriteBatch flush];
+	NSLog(@"Batching finished");
+	
+	//swap frame buffer and display
 	[renderer end];
 }
 

@@ -7,9 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "GESprite.h"
+#import "GEContainer.h"
 
-@interface GETileMapLayer : GESprite {
+@interface GETileMapLayer : GEContainer {
 
 }
 

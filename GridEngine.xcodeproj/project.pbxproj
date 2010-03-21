@@ -17,12 +17,18 @@
 		28FD14FE0DC6FC130079059D /* EAGLView.m in Sources */ = {isa = PBXBuildFile; fileRef = 28FD14FD0DC6FC130079059D /* EAGLView.m */; };
 		28FD15000DC6FC520079059D /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD14FF0DC6FC520079059D /* OpenGLES.framework */; };
 		28FD15080DC6FC5B0079059D /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28FD15070DC6FC5B0079059D /* QuartzCore.framework */; };
+		6A3610B9114EB8D5009F2838 /* GESpriteBatch.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A3610B8114EB8D5009F2838 /* GESpriteBatch.m */; };
 		6A57C26B1130473D00583D6C /* pink.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A57C26A1130473D00583D6C /* pink.jpg */; };
+		6A7A82AA11554A120043A802 /* logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A7A82A911554A120043A802 /* logo.png */; };
 		6A7AEAEB112F378900F6EBC9 /* grey.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 6A7AEAEA112F378900F6EBC9 /* grey.jpg */; };
 		6A7C6EF41131745300D4942F /* GERenderer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A7C6EF31131745300D4942F /* GERenderer.m */; };
 		6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */ = {isa = PBXBuildFile; fileRef = 6A7C70741131CBC800D4942F /* spritesheet16.gif */; };
-		6A8072A111440742004C9C8F /* GEDirectDraw.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A8072A011440742004C9C8F /* GEDirectDraw.m */; };
 		6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */ = {isa = PBXBuildFile; fileRef = 6A942C5A113F0C4300326DCB /* GEScheduler.m */; };
+		6A98F1F41152B52B00CD97D8 /* mask.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F1F31152B52B00CD97D8 /* mask.png */; };
+		6A98F2F11152BFE000CD97D8 /* mask2.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F2F01152BFE000CD97D8 /* mask2.png */; };
+		6A98F3951152C65100CD97D8 /* mask3.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F3941152C65100CD97D8 /* mask3.png */; };
+		6A98F4451152D1EF00CD97D8 /* maskAlpha.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A98F4441152D1EF00CD97D8 /* maskAlpha.png */; };
+		6A9CDED611552C850070AB44 /* grass.png in Resources */ = {isa = PBXBuildFile; fileRef = 6A9CDED511552C850070AB44 /* grass.png */; };
 		6AA7B0BB1133254200DAE192 /* GETextureNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BA1133254200DAE192 /* GETextureNode.m */; };
 		6AA7B0BE1133254D00DAE192 /* GEColorNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AA7B0BD1133254D00DAE192 /* GEColorNode.m */; };
 		6ADF9D381134678F00B0E1BE /* GEVideoNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6ADF9D371134678F00B0E1BE /* GEVideoNode.m */; };
@@ -30,8 +36,8 @@
 		6AEEE77B112D73F5002ABFB0 /* GENode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE77A112D73F5002ABFB0 /* GENode.m */; };
 		6AEEE77E112D7402002ABFB0 /* GECollectionNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE77D112D7402002ABFB0 /* GECollectionNode.m */; };
 		6AEEE784112D7419002ABFB0 /* GEAnimation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE783112D7419002ABFB0 /* GEAnimation.m */; };
-		6AEEE787112D7422002ABFB0 /* GESprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE786112D7422002ABFB0 /* GESprite.m */; };
-		6AEEE78A112D7434002ABFB0 /* GEGraphic.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE789112D7434002ABFB0 /* GEGraphic.m */; };
+		6AEEE787112D7422002ABFB0 /* GEContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE786112D7422002ABFB0 /* GEContainer.m */; };
+		6AEEE78A112D7434002ABFB0 /* GESprite.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE789112D7434002ABFB0 /* GESprite.m */; };
 		6AEEE78E112D749A002ABFB0 /* GETile.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE78D112D749A002ABFB0 /* GETile.m */; };
 		6AEEE794112D74DB002ABFB0 /* GETileMapLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE793112D74DB002ABFB0 /* GETileMapLayer.m */; };
 		6AEEE7A2112D7594002ABFB0 /* GETileMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 6AEEE7A1112D7594002ABFB0 /* GETileMap.m */; };
@@ -60,16 +66,23 @@
 		28FD15070DC6FC5B0079059D /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* GridEngine_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GridEngine_Prefix.pch; sourceTree = "<group>"; };
+		6A3610B7114EB8D5009F2838 /* GESpriteBatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GESpriteBatch.h; sourceTree = "<group>"; };
+		6A3610B8114EB8D5009F2838 /* GESpriteBatch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GESpriteBatch.m; sourceTree = "<group>"; };
 		6A57C26A1130473D00583D6C /* pink.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = pink.jpg; sourceTree = "<group>"; };
-		6A7AEA97112F109D00F6EBC9 /* GECommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GECommon.h; sourceTree = "<group>"; };
+		6A7A82A911554A120043A802 /* logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = logo.png; sourceTree = "<group>"; };
+		6A7AEA97112F109D00F6EBC9 /* geCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geCommon.h; sourceTree = "<group>"; };
 		6A7AEAEA112F378900F6EBC9 /* grey.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = grey.jpg; sourceTree = "<group>"; };
 		6A7C6EF21131745300D4942F /* GERenderer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GERenderer.h; sourceTree = "<group>"; };
 		6A7C6EF31131745300D4942F /* GERenderer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GERenderer.m; sourceTree = "<group>"; };
 		6A7C70741131CBC800D4942F /* spritesheet16.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = spritesheet16.gif; sourceTree = "<group>"; };
-		6A80729F11440742004C9C8F /* GEDirectDraw.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEDirectDraw.h; sourceTree = "<group>"; };
-		6A8072A011440742004C9C8F /* GEDirectDraw.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEDirectDraw.m; sourceTree = "<group>"; };
+		6A82103811501683008CA90A /* geConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geConfig.h; sourceTree = "<group>"; };
 		6A942C59113F0C4300326DCB /* GEScheduler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEScheduler.h; sourceTree = "<group>"; };
 		6A942C5A113F0C4300326DCB /* GEScheduler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEScheduler.m; sourceTree = "<group>"; };
+		6A98F1F31152B52B00CD97D8 /* mask.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask.png; sourceTree = "<group>"; };
+		6A98F2F01152BFE000CD97D8 /* mask2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask2.png; sourceTree = "<group>"; };
+		6A98F3941152C65100CD97D8 /* mask3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mask3.png; sourceTree = "<group>"; };
+		6A98F4441152D1EF00CD97D8 /* maskAlpha.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = maskAlpha.png; sourceTree = "<group>"; };
+		6A9CDED511552C850070AB44 /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass.png; sourceTree = "<group>"; };
 		6AA7B0B91133254200DAE192 /* GETextureNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GETextureNode.h; sourceTree = "<group>"; };
 		6AA7B0BA1133254200DAE192 /* GETextureNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GETextureNode.m; sourceTree = "<group>"; };
 		6AA7B0BC1133254D00DAE192 /* GEColorNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEColorNode.h; sourceTree = "<group>"; };
@@ -83,10 +96,10 @@
 		6AEEE77D112D7402002ABFB0 /* GECollectionNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GECollectionNode.m; sourceTree = "<group>"; };
 		6AEEE782112D7419002ABFB0 /* GEAnimation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEAnimation.h; sourceTree = "<group>"; };
 		6AEEE783112D7419002ABFB0 /* GEAnimation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEAnimation.m; sourceTree = "<group>"; };
-		6AEEE785112D7422002ABFB0 /* GESprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GESprite.h; sourceTree = "<group>"; };
-		6AEEE786112D7422002ABFB0 /* GESprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GESprite.m; sourceTree = "<group>"; };
-		6AEEE788112D7434002ABFB0 /* GEGraphic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEGraphic.h; sourceTree = "<group>"; };
-		6AEEE789112D7434002ABFB0 /* GEGraphic.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEGraphic.m; sourceTree = "<group>"; };
+		6AEEE785112D7422002ABFB0 /* GEContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GEContainer.h; sourceTree = "<group>"; };
+		6AEEE786112D7422002ABFB0 /* GEContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GEContainer.m; sourceTree = "<group>"; };
+		6AEEE788112D7434002ABFB0 /* GESprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GESprite.h; sourceTree = "<group>"; };
+		6AEEE789112D7434002ABFB0 /* GESprite.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GESprite.m; sourceTree = "<group>"; };
 		6AEEE78C112D749A002ABFB0 /* GETile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GETile.h; sourceTree = "<group>"; };
 		6AEEE78D112D749A002ABFB0 /* GETile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GETile.m; sourceTree = "<group>"; };
 		6AEEE792112D74DB002ABFB0 /* GETileMapLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GETileMapLayer.h; sourceTree = "<group>"; };
@@ -108,6 +121,7 @@
 		6AEEE81A112D78C0002ABFB0 /* GESpriteSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GESpriteSheet.m; sourceTree = "<group>"; };
 		6AEEE90B112DBFFD002ABFB0 /* GECamera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GECamera.h; sourceTree = "<group>"; };
 		6AEEE90C112DBFFD002ABFB0 /* GECamera.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GECamera.m; sourceTree = "<group>"; };
+		6AF2823B11518E73001FD61C /* geTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = geTypes.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* GridEngine-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GridEngine-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -203,6 +217,12 @@
 		6A7AEAE9112F370A00F6EBC9 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				6A7A82A911554A120043A802 /* logo.png */,
+				6A9CDED511552C850070AB44 /* grass.png */,
+				6A98F4441152D1EF00CD97D8 /* maskAlpha.png */,
+				6A98F3941152C65100CD97D8 /* mask3.png */,
+				6A98F2F01152BFE000CD97D8 /* mask2.png */,
+				6A98F1F31152B52B00CD97D8 /* mask.png */,
 				6AEBBE551131ED1500312A6F /* walking.png */,
 				6A7C70741131CBC800D4942F /* spritesheet16.gif */,
 				6A57C26A1130473D00583D6C /* pink.jpg */,
@@ -214,8 +234,11 @@
 		6AEEE742112D72B7002ABFB0 /* GridEngine */ = {
 			isa = PBXGroup;
 			children = (
-				6A80729F11440742004C9C8F /* GEDirectDraw.h */,
-				6A8072A011440742004C9C8F /* GEDirectDraw.m */,
+				6A7AEA97112F109D00F6EBC9 /* geCommon.h */,
+				6A82103811501683008CA90A /* geConfig.h */,
+				6AF2823B11518E73001FD61C /* geTypes.h */,
+				6A3610B7114EB8D5009F2838 /* GESpriteBatch.h */,
+				6A3610B8114EB8D5009F2838 /* GESpriteBatch.m */,
 				6A942C59113F0C4300326DCB /* GEScheduler.h */,
 				6A942C5A113F0C4300326DCB /* GEScheduler.m */,
 				6A7C6EF21131745300D4942F /* GERenderer.h */,
@@ -240,7 +263,6 @@
 		6AEEE76F112D7304002ABFB0 /* Support */ = {
 			isa = PBXGroup;
 			children = (
-				6A7AEA97112F109D00F6EBC9 /* GECommon.h */,
 				6AEEE7A6112D7658002ABFB0 /* Texture2D.h */,
 				6AEEE7A7112D7658002ABFB0 /* Texture2D.m */,
 			);
@@ -269,10 +291,10 @@
 			children = (
 				6AEEE782112D7419002ABFB0 /* GEAnimation.h */,
 				6AEEE783112D7419002ABFB0 /* GEAnimation.m */,
-				6AEEE785112D7422002ABFB0 /* GESprite.h */,
-				6AEEE786112D7422002ABFB0 /* GESprite.m */,
-				6AEEE788112D7434002ABFB0 /* GEGraphic.h */,
-				6AEEE789112D7434002ABFB0 /* GEGraphic.m */,
+				6AEEE785112D7422002ABFB0 /* GEContainer.h */,
+				6AEEE786112D7422002ABFB0 /* GEContainer.m */,
+				6AEEE788112D7434002ABFB0 /* GESprite.h */,
+				6AEEE789112D7434002ABFB0 /* GESprite.m */,
 				6AEEE80A112D77F3002ABFB0 /* GEScene.h */,
 				6AEEE80B112D77F3002ABFB0 /* GEScene.m */,
 			);
@@ -350,6 +372,12 @@
 				6A57C26B1130473D00583D6C /* pink.jpg in Resources */,
 				6A7C70751131CBC800D4942F /* spritesheet16.gif in Resources */,
 				6AEBBE561131ED1500312A6F /* walking.png in Resources */,
+				6A98F1F41152B52B00CD97D8 /* mask.png in Resources */,
+				6A98F2F11152BFE000CD97D8 /* mask2.png in Resources */,
+				6A98F3951152C65100CD97D8 /* mask3.png in Resources */,
+				6A98F4451152D1EF00CD97D8 /* maskAlpha.png in Resources */,
+				6A9CDED611552C850070AB44 /* grass.png in Resources */,
+				6A7A82AA11554A120043A802 /* logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -366,8 +394,8 @@
 				6AEEE77B112D73F5002ABFB0 /* GENode.m in Sources */,
 				6AEEE77E112D7402002ABFB0 /* GECollectionNode.m in Sources */,
 				6AEEE784112D7419002ABFB0 /* GEAnimation.m in Sources */,
-				6AEEE787112D7422002ABFB0 /* GESprite.m in Sources */,
-				6AEEE78A112D7434002ABFB0 /* GEGraphic.m in Sources */,
+				6AEEE787112D7422002ABFB0 /* GEContainer.m in Sources */,
+				6AEEE78A112D7434002ABFB0 /* GESprite.m in Sources */,
 				6AEEE78E112D749A002ABFB0 /* GETile.m in Sources */,
 				6AEEE794112D74DB002ABFB0 /* GETileMapLayer.m in Sources */,
 				6AEEE7A2112D7594002ABFB0 /* GETileMap.m in Sources */,
@@ -383,7 +411,7 @@
 				6AA7B0BE1133254D00DAE192 /* GEColorNode.m in Sources */,
 				6ADF9D381134678F00B0E1BE /* GEVideoNode.m in Sources */,
 				6A942C5B113F0C4300326DCB /* GEScheduler.m in Sources */,
-				6A8072A111440742004C9C8F /* GEDirectDraw.m in Sources */,
+				6A3610B9114EB8D5009F2838 /* GESpriteBatch.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

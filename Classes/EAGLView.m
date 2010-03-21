@@ -9,9 +9,9 @@
 #import "EAGLView.h"
 #import "GEAnimation.h"
 #import "GEDirector.h"
-#import "GESprite.h"
+#import "GEContainer.h"
 #import "GECommon.h"
-#import "GEGraphic.h"
+#import "GESprite.h"
 
 @implementation EAGLView
 
@@ -39,113 +39,57 @@
 		[director addScene:scene];
 		director.currentScene = scene;
 		
-		
-		GESprite* container = [[GESprite alloc] init];
+		GEContainer* container = [[GEContainer alloc] init];
 		[scene addChild:container];
+		//container.rotation = 10;
 		
-		GEGraphic* q1 = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
-		q1.pos = CGPointMake(120, 120);
-		q1.scaleX = 0.5;
-		q1.scaleY = 0.5;
-		q1.rotation = 45;
+		GESprite* q0 = [[GESprite alloc] initWithFile:@"grass.png"];
+		q0.pos = CGPointMake(5, 5);
+		[container addChild:q0];
 		
-		//q1.transform = matrix;
+		GESprite* q1 = [[GESprite alloc] initWithFile:@"grass.png"];
+		q1.pos = CGPointMake(25, 25);
+		q1.tintColor = Color4bMake(255, 0, 0, 255);
 		[container addChild:q1];
 		
-		
-		GEGraphic* q2 = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
+		GESprite* q2 = [[GESprite alloc] initWithFile:@"grass.png"];
+		q2.pos = CGPointMake(45, 45);
+		q2.blColor = Color4bMake(0, 0, 255, 200);
+		q2.brColor = Color4bMake(0, 0, 255, 200);
+		q2.tlColor = Color4bMake(100, 100, 255, 200);
+		q2.trColor = Color4bMake(100, 100, 255, 200);
+		//blend
+		q2.blendFunc = (BlendFunc){GL_SRC_ALPHA, GL_ONE};
 		[container addChild:q2];
-		container.scaleX = 0.5;
-		container.scaleY = 0.5;
-		container.size = CGSizeMake(90, 90);
-		
-		
-		NSLog(@"container contentSize width:%.2f height:%.2f", container.contentSize.width, container.contentSize.height);
-		
-		CGRect box = [container boundingbox];
-		NSLog(@"container bouding box width:%.2f height:%.2f", box.size.width, box.size.height);
-		GEGraphic* walk = [[GEGraphic alloc] initWithFile:@"walking.png"];
-		walk.pos = CGPointMake(box.origin.x+box.size.width, box.origin.y+box.size.height);
-		//walk.rect = CGRectMake(0.0, 0.0, 17, 31);
-		[scene addChild:walk];
-		
-		
-		GEGraphic* indicator = [[GEGraphic alloc] initWithFile:@"grey.jpg"];
-		indicator.size = CGSizeMake(5, 5);
-		indicator.pos = CGPointMake(90, 90);
-		[scene addChild:indicator];
-		
+		 
+		GESprite* mask = [[GESprite alloc] initWithFile:@"maskAlpha.png"];
+		mask.pos = CGPointMake(150, 100);
+		GESprite* grass = [[GESprite alloc] initWithFile:@"grass.png"];
+		grass.pos = CGPointMake(150, 100);
+		grass.mask = mask;
+		[scene addChild:grass];
 		
 		animation = [[GEAnimation alloc] initWithFile:@"walking.png"];
-		animation.pos = CGPointMake(121.0f, 121.0f);
-		animation.anchor = CGPointMake(0.0, 1.0);
-		animation.scaleX = -1.0;
+		animation.pos = CGPointMake(15, 200);
+		animation.anchor = CGPointMake(0.0, 0.0);
+		animation.scaleX = 3;
+		animation.scaleY = 3;
 		float trackX = 0.0f;
 		for (int i=0; i<3; ++i) {
-			if (i == 2) {
-				[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 21.0f) withDelay:0.5];
-			}
-			else {
-				[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.5];
-			}
-
-			
+			[animation addFrame:CGRectMake(trackX, 0.0f, 17.0f, 31.0f) withDelay:0.5];
 			trackX+=18.0f;
 		}
 		[animation play];
 		animation.repeat = YES;
 		animation.pingpong = YES;
-		animation.tlColor = Color4bMake(255, 0, 0, 255);
-		[scene addChild:animation];
-		
-		
-		/*
-		 NSLog(@"Origianl===================================");
-		 CGAffineTransform t = CGAffineTransformMakeTranslation(1.0, 1.0f);
-		 CGAffineTransform r = CGAffineTransformMakeRotation(M_PI/2);
-		 
-		 NSLog(@"| %.1f  %.1f  0.0 |", t.a, t.b);
-		 NSLog(@"| %.1f  %.1f  0.0 |", t.c, t.d);
-		 NSLog(@"| %.1f  %.1f  1.0 |", t.tx, t.ty);
-		 
-		 NSLog(@"Rotation===================================");
-		 
-		 NSLog(@"| %.1f  %.1f  0.0 |", r.a, r.b);
-		 NSLog(@"| %.1f  %.1f  0.0 |", r.c, r.d);
-		 NSLog(@"| %.1f  %.1f  1.0 |", r.tx, r.ty);
-		 
-		 NSLog(@"Concated===================================");
-		 CGAffineTransform n = CGAffineTransformRotate(t, M_PI/2);
-		 
-		 NSLog(@"| %.1f  %.1f  0.0 |", n.a, n.b);
-		 NSLog(@"| %.1f  %.1f  0.0 |", n.c, n.d);
-		 NSLog(@"| %.1f  %.1f  1.0 |", n.tx, n.ty);
-		 
-		 NSLog(@"TR ===========================================");
-		 CGAffineTransform tr = CGAffineTransformConcat(t, r);
-		 
-		 CGPoint trp = CGPointApplyAffineTransform(CGPointMake(1.0, 1.0), tr);
-		 NSLog(@"tr x' = %.1f", trp.x);
-		 NSLog(@"tr y' = %.1f", trp.y);
-		 
-		 NSLog(@"RT ===========================================");
-		 CGAffineTransform rt = CGAffineTransformConcat(r, t);
-		 
-		 CGPoint rtp = CGPointApplyAffineTransform(CGPointMake(1.0, 1.0), rt);
-		 NSLog(@"rt x' = %.1f", rtp.x);
-		 NSLog(@"rt y' = %.1f", rtp.y);
-		 
-		 NSLog(@"TR matrix ============================================");
-		 NSLog(@"| %.1f  %.1f  0.0 |", tr.a, tr.b);
-		 NSLog(@"| %.1f  %.1f  0.0 |", tr.c, tr.d);
-		 NSLog(@"| %.1f  %.1f  1.0 |", tr.tx, tr.ty);
-		 
-		 NSLog(@"RT matrix ============================================");
-		 NSLog(@"| %.1f  %.1f  0.0 |", rt.a, rt.b);
-		 NSLog(@"| %.1f  %.1f  0.0 |", rt.c, rt.d);
-		 NSLog(@"| %.1f  %.1f  1.0 |", rt.tx, rt.ty);
-		 */
-		//[[GEScheduler sharedScheduler] addTarget:self sel:@selector(intervalCall:) interval:0.001];
+		//should not be add to screen since it is used as a mask
+		//[scene addChild:animation];
+		GESprite* logo = [[GESprite alloc] initWithFile:@"logo.png"];
+		logo.pos = CGPointMake(15, 200);
+		//since the anmation's size is not matched with the logo size, if there is transparent pixels
+		//under the mask sprite, that will causes some wired blend results.
+		logo.mask = animation;
+		[scene addChild:logo];
     }
 	
     return self;
